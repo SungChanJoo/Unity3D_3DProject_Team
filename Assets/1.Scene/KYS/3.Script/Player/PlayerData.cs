@@ -74,7 +74,7 @@ public class PlayerData : MonoBehaviour, IDamageable
         stamina -= 0.1f;
         tempStaminaSlider.value = stamina;
 
-        Debug.Log($"hp:{CurrentHealth}\nmp:{mana}\nstamina:{stamina}");
+        //Debug.Log($"hp:{CurrentHealth}\nmp:{mana}\nstamina:{stamina}");
     }
 
     /// <summary>
