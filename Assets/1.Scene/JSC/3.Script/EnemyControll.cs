@@ -121,7 +121,12 @@ public class EnemyControll : MonoBehaviour, IDamageable
         if (isAttack)
         {
             agent.SetDestination(transform.position);
-            transform.LookAt(player);
+            for(int i = 0; i < 10; i++)
+            {
+
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(player.transform.position), 0.2f);
+                yield return null;
+            }
             yield return new WaitForSeconds(0.4f);
             sword.GetComponent<BoxCollider>().enabled = true;
 
@@ -131,16 +136,27 @@ public class EnemyControll : MonoBehaviour, IDamageable
 
         yield return new WaitForSeconds(0.9f);
         isAttack = false;
-
+        agent.isStopped = false;
+        enemyAni.SetBool("isMove", true);
     }
 
     private IEnumerator UpdataTargetPosition()
     {
-        while(!IsDead)
+
+        while (!IsDead)
         {
-            if(isTarget)
+            if(isTarget )
             {
-                agent.isStopped = false;
+                if(isAttack)
+                {
+                    agent.isStopped = true;
+
+                }
+                else
+                {
+                    agent.isStopped = false;
+
+                }
 
                 agent.SetDestination(targetEntity.transform.position + Vector3.forward * attackDistane);
 
@@ -176,7 +192,7 @@ public class EnemyControll : MonoBehaviour, IDamageable
     private void Start()
     {
         if(isAI)
-        StartCoroutine(UpdataTargetPosition());
+            StartCoroutine(UpdataTargetPosition());
     }
     private void Update()
     {
@@ -188,6 +204,7 @@ public class EnemyControll : MonoBehaviour, IDamageable
                 float distance = Vector3.Distance(targetEntity.transform.position, transform.position);
                 if (distance <= attackDistane + 0.2f && !isAttack)
                 {
+
                     isAttack = true;
                     enemyAni.SetTrigger("Attack");
 
