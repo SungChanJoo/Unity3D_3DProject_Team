@@ -26,6 +26,7 @@ public class PlayerData : MonoBehaviour, IDamageable
             tempHpSlider.value = CurrentHealth;
         }
     }
+
     public float MoveSpeed { get; private set; } 
     public float Damage { get; private set; }
     public float AttackRate { get; private set; }
@@ -80,11 +81,11 @@ public class PlayerData : MonoBehaviour, IDamageable
     /// <summary>
     /// 마나 사용이 됐을 경우 true, 마나가 부족할 경우 false을 반환
     /// </summary>
-    public bool UseMana(float manaToUse)
+    public bool UseMana(float amount)
     {
-        if (mana - manaToUse < 0) return false;
+        if (mana - amount < 0) return false;
 
-        mana -= manaToUse;
+        mana -= amount;
         tempMpSlider.value = mana;
 
         return true;
@@ -93,11 +94,11 @@ public class PlayerData : MonoBehaviour, IDamageable
     /// <summary>
     /// 스태미나 사용이 됐을 경우 true, 스태미나가 부족할 경우 false을 반환
     /// </summary>
-    public bool UseStamina(float staminaToUse)
+    public bool UseStamina(float amount)
     {
-        if (stamina - staminaToUse < 0) return false;
+        if (stamina - amount < 0) return false;
 
-        stamina -= staminaToUse;
+        stamina -= amount;
         tempStaminaSlider.value = stamina;
 
         return true;
