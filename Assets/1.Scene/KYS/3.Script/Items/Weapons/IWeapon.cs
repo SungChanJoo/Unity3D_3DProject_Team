@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-public interface IWeapon
+public interface IWeapon : IItem
 {
     public void Attack();
 
