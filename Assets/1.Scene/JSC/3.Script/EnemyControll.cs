@@ -23,16 +23,19 @@ public class EnemyControll : MonoBehaviour, IDamageable
 
     [SerializeField] private float damage = 20f;
     [SerializeField] private float force = 0f; // 미는힘
-    [SerializeField] private float attackDistane = 3f; //공격범위
-                                                       //  private float lastAttackTimebet;
-                                                       //    [SerializeField] private float timebetAttack = 2.15f; // 공격속도
+    [SerializeField] private float attackDistane = 2f; //공격범위
+    [SerializeField] private float timebetAttack = 2.267f; // 공격속도
+    [SerializeField] private float startAttackTime = 0.3f; // 공격속도
+    private float lastAttackTimebet;
     [SerializeField] private Slider hpSlider;
     private Animator enemyAni;
     private Rigidbody enemyRigid;
     public event Action OnDead;
     private bool isAttack = false;
     private bool isAttackTime = false; //칼이 내리칠 때 데미지를 받게 만듬
-    [SerializeField] private GameObject sword;
+    [SerializeField] private GameObject weapon;
+
+
     private bool isTarget
     {
         get
@@ -56,7 +59,7 @@ public class EnemyControll : MonoBehaviour, IDamageable
         TryGetComponent(out agent);
         TryGetComponent(out enemyAni);
         TryGetComponent(out enemyRigid);
-        sword.GetComponent<BoxCollider>().enabled = false;
+        weapon.GetComponent<BoxCollider>().enabled = false;
         hpSlider.value = MaxHeath;
     }
 
@@ -98,9 +101,12 @@ public class EnemyControll : MonoBehaviour, IDamageable
 
     protected void OnTriggerEnter(Collider other)
     {
-        if (!IsDead)
+        if (!IsDead && Time.time + startAttackTime >= lastAttackTimebet + timebetAttack)
         {
+            lastAttackTimebet = Time.time;
+
             if (other.TryGetComponent(out Entity e))
+
             {
                 if (targetEntity.Equals(e))
                 {
@@ -112,58 +118,72 @@ public class EnemyControll : MonoBehaviour, IDamageable
                     e.TakeDamage(damage, force, hitPoint, hitNormal);
                 }
             }
+
         }
 
     }
     
     IEnumerator DelayAttack_co()
     {
-        if (isAttack)
-        {
-            agent.SetDestination(transform.position);
-            for(int i = 0; i < 10; i++)
-            {
+        /*        if (isAttack)
+                {
+                    agent.SetDestination(transform.position);
 
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(player.transform.position), 0.2f);
-                yield return null;
-            }
-            yield return new WaitForSeconds(0.4f);
-            sword.GetComponent<BoxCollider>().enabled = true;
+                    yield return new WaitForSeconds(0.4f);
 
-        }
-        yield return new WaitForSeconds(1.10f-0.4f);
-        sword.GetComponent<BoxCollider>().enabled = false;
+                }
+                yield return new WaitForSeconds(1.10f-0.4f);
 
-        yield return new WaitForSeconds(0.9f);
+                yield return new WaitForSeconds(0.9f);*/
+        weapon.GetComponent<BoxCollider>().enabled = true;
+
+        yield return new WaitForSeconds(timebetAttack - startAttackTime);
+        weapon.GetComponent<BoxCollider>().enabled = false;
+
         isAttack = false;
-        agent.isStopped = false;
-        enemyAni.SetBool("isMove", true);
+        enemyAni.SetBool("isAttack", false);
+
     }
 
     private IEnumerator UpdataTargetPosition()
     {
-
+        RaycastHit raycastHit;
+        Ray ray;
         while (!IsDead)
         {
-            if(isTarget )
+            if(isTarget)
             {
-                if(isAttack)
+                ray = new Ray(transform.position + new Vector3(0, 1f, 0), transform.forward );
+
+                Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * attackDistane, Color.red);
+                //float distance = Vector3.Distance(targetEntity.transform.position, transform.position);
+                //거리가 공격범위보다 가깝고 공격중이 아닐때 //, 10f, LayerMask.NameToLayer("Player")
+                if (Physics.Raycast(ray, out raycastHit, attackDistane, TargetLayer) && !isAttack )
                 {
+
+                    Debug.Log(raycastHit.transform.gameObject);
+
+                    isAttack = true;
                     agent.isStopped = true;
 
+                    enemyAni.SetTrigger("Attack");
+                    enemyAni.SetBool("isAttack", true);
+
+                    StartCoroutine(DelayAttack_co());
+                }
+                else if(!isAttack)
+                {
+
+                    agent.isStopped = false;
+                    agent.SetDestination(targetEntity.transform.position);
                 }
                 else
                 {
-                    agent.isStopped = false;
 
                 }
-
-                agent.SetDestination(targetEntity.transform.position + Vector3.forward * attackDistane);
-
             }
             else
             {
-                
                 agent.isStopped = true;
                 //현재 위치에서 20 반지름으로 가상의 원을 만들어 TargetLayer를 가진 콜라이더 추출
                 Collider[] coll = Physics.OverlapSphere(transform.position, 20f, TargetLayer);
@@ -199,22 +219,6 @@ public class EnemyControll : MonoBehaviour, IDamageable
         if(isAI)
         {
             enemyAni.SetBool("HasTarget", isTarget);
-            if (isTarget)
-            {
-                float distance = Vector3.Distance(targetEntity.transform.position, transform.position);
-                if (distance <= attackDistane + 0.2f && !isAttack)
-                {
-
-                    isAttack = true;
-                    enemyAni.SetTrigger("Attack");
-
-                    StartCoroutine(DelayAttack_co());
-                }
-                else
-                {
-                    enemyAni.SetBool("isMove", false);
-                }
-            }
         }
 
 

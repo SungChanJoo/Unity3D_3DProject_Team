@@ -1777,6 +1777,7 @@ GameObject:
   - component: {fileID: 473055588}
   - component: {fileID: 473055587}
   - component: {fileID: 473055589}
+  - component: {fileID: 473055590}
   m_Layer: 6
   m_Name: Knight_01_01
   m_TagString: Untagged
@@ -1891,6 +1892,19 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &473055590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473055585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51c154b00f3767745aa1f6520ebce7ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsDead: 0
 --- !u!1 &484332103
 GameObject:
   m_ObjectHideFlags: 0
@@ -12211,7 +12225,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2144118421}
   - component: {fileID: 2144118420}
-  - component: {fileID: 2144118419}
   m_Layer: 6
   m_Name: Character (1)
   m_TagString: Untagged
@@ -12219,19 +12232,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2144118419
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2144118418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51c154b00f3767745aa1f6520ebce7ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsDead: 0
 --- !u!114 &2144118420
 MonoBehaviour:
   m_ObjectHideFlags: 0
