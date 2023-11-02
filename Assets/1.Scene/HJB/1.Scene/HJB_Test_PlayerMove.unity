@@ -666,9 +666,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 3
-  runSpeed: 7
+  isRunSpeed: 10
   finalSpeed: 0
-  vCamera: {fileID: 2036724385}
+  vCamera: {fileID: 938421652}
   cameraPoint: {fileID: 234469315}
   virtualCamera: {fileID: 2036724386}
   player: {fileID: 5826158343638129406}
