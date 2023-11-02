@@ -9,10 +9,9 @@ public class PlayerData : MonoBehaviour, IDamageable
     [SerializeField] private Slider tempHpSlider;
     [SerializeField] private Slider tempStaminaSlider;
     [SerializeField] private Slider tempMpSlider;
-
-    // ¾Æ·¡ÀÇ ¼¼ º¯¼öµéµµ setÇÏ´Â °æ¿ì°¡ ¸¹¾ÆÁö¸é currentHealthÃ³·³ private set ºÎºĞ¿¡¼­ slider °ª ¾÷µ¥ÀÌÆ® ÇÏ°ÚÀ½
+    // ì•„ë˜ì˜ ì„¸ ë³€ìˆ˜ë“¤ë„ setí•˜ëŠ” ê²½ìš°ê°€ ë§ì•„ì§€ë©´ currentHealthì²˜ëŸ¼ private set ë¶€ë¶„ì—ì„œ slider ê°’ ì—…ë°ì´íŠ¸ í•˜ê² ìŒ
     private float maxHealth;
-    // ¾ÆÀÌÅÛ »óÈ²¿¡ µû¶ó maxMana, maxStamina ±¸ÇöÇØ¾ß ÇÒ ¼öµµ ÀÖÀ½. ±Ùµ¥ ±×Á¤µµ·Î ½ºÄÉÀÏ ¾È Å« µí.
+    // ì•„ì´í…œ ìƒí™©ì— ë”°ë¼ maxMana, maxStamina êµ¬í˜„í•´ì•¼ í•  ìˆ˜ë„ ìˆìŒ. ê·¼ë° ê·¸ì •ë„ë¡œ ìŠ¤ì¼€ì¼ ì•ˆ í° ë“¯.
     private float mana;
     private float stamina;
 
@@ -33,20 +32,20 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     //public bool IsDead { get; private set; }
 
-    // °ü·Ã ¸Ş¼Òµå ±¸ÇöÀº ÃßÈÄ¿¡ ÇÒ °Í
+    // ê´€ë ¨ ë©”ì†Œë“œ êµ¬í˜„ì€ ì¶”í›„ì— í•  ê²ƒ
     private List<StatusEffect> statusEffects;
 
     private IWeapon currentWeapon;
-    // CurrentArmorµµ ³Ö¾î¾ß ÇÏ´Â Aromor´Â ±¸Çö ¹æ½ÄÀ» Á» ´õ °í¹ÎÇØ º» µÚ ³ÖÀ» °Í
+    // CurrentArmorë„ ë„£ì–´ì•¼ í•˜ëŠ” AromorëŠ” êµ¬í˜„ ë°©ì‹ì„ ì¢€ ë” ê³ ë¯¼í•´ ë³¸ ë’¤ ë„£ì„ ê²ƒ
 
-    // StatusEffect °ª º¯°æÇÏ±â ½±Áö ¾Êµµ·Ï List°¡ ¾Æ´Ñ Array¸¦ ÇÒ´ç
+    // StatusEffect ê°’ ë³€ê²½í•˜ê¸° ì‰½ì§€ ì•Šë„ë¡ Listê°€ ì•„ë‹Œ Arrayë¥¼ í• ë‹¹
     public Action<StatusEffect[]> StatusEffectChangedEvent;
     public Action PlayerDiedEvent;
 
 
     private void Awake()
     {
-        // ÇÒ´çÇÏ´Â °ªÀº ³ªÁß¿¡ ¹Ù²Ü °Í
+        // í• ë‹¹í•˜ëŠ” ê°’ì€ ë‚˜ì¤‘ì— ë°”ê¿€ ê²ƒ
         maxHealth = 100;
         mana = 100;
         stamina = 100;
@@ -79,7 +78,7 @@ public class PlayerData : MonoBehaviour, IDamageable
     }
 
     /// <summary>
-    /// ½ºÅÂ¹Ì³ª »ç¿ëÀÌ µÆÀ» °æ¿ì true, ½ºÅÂ¹Ì³ª°¡ ºÎÁ·ÇÒ °æ¿ì falseÀ» ¹İÈ¯
+    /// ìŠ¤íƒœë¯¸ë‚˜ ì‚¬ìš©ì´ ëì„ ê²½ìš° true, ìŠ¤íƒœë¯¸ë‚˜ê°€ ë¶€ì¡±í•  ê²½ìš° falseì„ ë°˜í™˜
     /// </summary>
     public bool UseStamina(float amount)
     {
@@ -92,7 +91,7 @@ public class PlayerData : MonoBehaviour, IDamageable
     }
 
     /// <summary>
-    /// ¸¶³ª »ç¿ëÀÌ µÆÀ» °æ¿ì true, ¸¶³ª°¡ ºÎÁ·ÇÒ °æ¿ì falseÀ» ¹İÈ¯
+    /// ë§ˆë‚˜ ì‚¬ìš©ì´ ëì„ ê²½ìš° true, ë§ˆë‚˜ê°€ ë¶€ì¡±í•  ê²½ìš° falseì„ ë°˜í™˜
     /// </summary>
     public bool UseMana(float amount)
     {
@@ -106,17 +105,17 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     public bool ChangeCurrentWeapon(IWeapon weapon)
     {
-        // Á÷Á¢ ºñ±³ÇÏ´Â °Ô ¾Æ´Ï¶ó ¾ÈÀÇ WeaponÀÌ¶ó´Â enumÀ¸·Î ¹«±â Å¸ÀÔ ºñ±³ÇÏµçÁö ÇÏ±â
+        // ì§ì ‘ ë¹„êµí•˜ëŠ” ê²Œ ì•„ë‹ˆë¼ ì•ˆì˜ Weaponì´ë¼ëŠ” enumìœ¼ë¡œ ë¬´ê¸° íƒ€ì… ë¹„êµí•˜ë“ ì§€ í•˜ê¸°
         if (weapon.Equals(currentWeapon))
             return false;
 
         return true;
     }
 
-    // knockback °ü·Ã ÀÌº¥Æ®¸¦ ¸¸µé¾î¼­ playermovement°¡ subÇÏ°Ô ÇÒ±î ¸»±î
+    // knockback ê´€ë ¨ ì´ë²¤íŠ¸ë¥¼ ë§Œë“¤ì–´ì„œ playermovementê°€ subí•˜ê²Œ í• ê¹Œ ë§ê¹Œ
     public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)
     {
-        // IsParrying µîÀÇ State¿¡ µû¸¥ Ã³¸® ¿ä±¸
+        // IsParrying ë“±ì˜ Stateì— ë”°ë¥¸ ì²˜ë¦¬ ìš”êµ¬
         CurrentHealth -= damage;
 
         if (CurrentHealth < 0)
@@ -128,8 +127,8 @@ public class PlayerData : MonoBehaviour, IDamageable
         PlayerDiedEvent.Invoke();
     }
 
-    #region ¾ÆÀÌÅÛÀÌ »ç¿ëµÉ ¶§ ¾ÆÀÌÅÛ ÂÊ¿¡¼­ Á¢±ÙÇÒ ¸Ş¼Òµå
-    // ÃÖ´ë Ã¼·Â ´Ã·ÁÁÖ´Â ¾ÆÀÌÅÛ
+    #region ì•„ì´í…œì´ ì‚¬ìš©ë  ë•Œ ì•„ì´í…œ ìª½ì—ì„œ ì ‘ê·¼í•  ë©”ì†Œë“œ
+    // ìµœëŒ€ ì²´ë ¥ ëŠ˜ë ¤ì£¼ëŠ” ì•„ì´í…œ
     public void IncreaseMaxHealth(float modifier)
     {
         maxHealth += modifier;
@@ -140,8 +139,8 @@ public class PlayerData : MonoBehaviour, IDamageable
         Damage += modifier;
     }
 
-    // Ã¼·Â È¸º¹ ¾ÆÀÌÅÛ
-    // ÀÌ¹Ì Ç®ÇÇÀÏ ¶§ È¸º¹ÇÏ´Â °Å ¹æÁöÇÏ°í ½ÍÀ¸¸é bool°ª ¸®ÅÏÇÏ±â
+    // ì²´ë ¥ íšŒë³µ ì•„ì´í…œ
+    // ì´ë¯¸ í’€í”¼ì¼ ë•Œ íšŒë³µí•˜ëŠ” ê±° ë°©ì§€í•˜ê³  ì‹¶ìœ¼ë©´ boolê°’ ë¦¬í„´í•˜ê¸°
     public void RestoreHealth(float modifier)
     {
         if (modifier + CurrentHealth > maxHealth)
