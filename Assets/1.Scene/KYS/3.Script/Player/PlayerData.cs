@@ -9,11 +9,21 @@ public class PlayerData : MonoBehaviour, IDamageable
     [SerializeField] private Slider tempHpSlider;
     [SerializeField] private Slider tempStaminaSlider;
     [SerializeField] private Slider tempMpSlider;
+
+    [SerializeField] private Animator tempAnimator;
+
+    [SerializeField] private WeaponBase tempWeapon;
+    [SerializeField] private Sword tempSword;
+
+
     // 아래의 세 변수들도 set하는 경우가 많아지면 currentHealth처럼 private set 부분에서 slider 값 업데이트 하겠음
     private float maxHealth;
     // 아이템 상황에 따라 maxMana, maxStamina 구현해야 할 수도 있음. 근데 그정도로 스케일 안 큰 듯.
     private float mana;
     private float stamina;
+
+    private float walkSpeed;
+    private float runSpeed;
 
     private float currentHealth;
     public float CurrentHealth
@@ -26,16 +36,23 @@ public class PlayerData : MonoBehaviour, IDamageable
         }
     }
 
-    public float MoveSpeed { get; private set; } 
-    public float Damage { get; private set; }
-    public float AttackRate { get; private set; }
-
     //public bool IsDead { get; private set; }
 
     // 관련 메소드 구현은 추후에 할 것
     private List<StatusEffect> statusEffects;
 
-    private IWeapon currentWeapon;
+    private WeaponBase currentWeapon;
+    public WeaponBase CurrentWeapon
+    {
+        get => currentWeapon;
+        set
+        {
+            // 직접 비교하는 게 아니라 안의 Weapon이라는 enum으로 무기 타입 비교하든지 하기
+            if (currentWeapon.Equals(value)) return;
+
+            currentWeapon = value;
+        }
+    }
     // CurrentArmor도 넣어야 하는 Aromor는 구현 방식을 좀 더 고민해 본 뒤 넣을 것
 
     // StatusEffect 값 변경하기 쉽지 않도록 List가 아닌 Array를 할당
@@ -51,11 +68,11 @@ public class PlayerData : MonoBehaviour, IDamageable
         stamina = 100;
 
         CurrentHealth = maxHealth;
-        MoveSpeed = 5;
-        Damage = 10;
-        AttackRate = 1;
+        walkSpeed = 5;
+        runSpeed = 10;
 
-        currentWeapon = null;
+        //
+        currentWeapon = tempSword;
 
         tempHpSlider.maxValue = maxHealth;
         tempMpSlider.maxValue = mana;
@@ -67,12 +84,16 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     private void Update()
     {
-        // test
-        CurrentHealth -= 0.02f;
-        mana -= 0.01f;
-        tempMpSlider.value = mana;
-        stamina -= 0.1f;
-        tempStaminaSlider.value = stamina;
+        // slider test
+        //CurrentHealth -= 0.02f;
+        //mana -= 0.01f;
+        //tempMpSlider.value = mana;
+        //stamina -= 0.1f;
+        //tempStaminaSlider.value = stamina;
+
+        if (Input.GetKeyDown(KeyCode.J))
+            TakeDamage(5, 1, Vector3.zero, Vector3.zero);
+
 
         //Debug.Log($"hp:{CurrentHealth}\nmp:{mana}\nstamina:{stamina}");
     }
@@ -103,20 +124,30 @@ public class PlayerData : MonoBehaviour, IDamageable
         return true;
     }
 
-    public bool ChangeCurrentWeapon(IWeapon weapon)
+    // 추후 State 패턴을 사용한다면 CameraController 쪽에서 bool 값을 파라미터로 넘겨주는 게 아니라
+    // PlayerData에서 알아서 State에 따라 speed 값 넘겨주는 것으로 수정하는 것이 좋을 듯
+    public float GetCurrentPlayerSpeed(bool isRunning = false)
     {
-        // 직접 비교하는 게 아니라 안의 Weapon이라는 enum으로 무기 타입 비교하든지 하기
-        if (weapon.Equals(currentWeapon))
-            return false;
-
-        return true;
+        return isRunning ? runSpeed : walkSpeed;
     }
+
+    //public bool ChangeCurrentWeapon(IWeapon weapon) // WeaponBase
+    //{
+    //    // 직접 비교하는 게 아니라 안의 Weapon이라는 enum으로 무기 타입 비교하든지 하기
+    //    if (weapon.Equals(currentWeapon))
+    //        return false;
+
+    //    return true;
+    //}
 
     // knockback 관련 이벤트를 만들어서 playermovement가 sub하게 할까 말까
     public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)
     {
         // IsParrying 등의 State에 따른 처리 요구
         CurrentHealth -= damage;
+
+        tempAnimator.SetTrigger("Hit");
+
 
         if (CurrentHealth < 0)
             Die();
@@ -132,11 +163,6 @@ public class PlayerData : MonoBehaviour, IDamageable
     public void IncreaseMaxHealth(float modifier)
     {
         maxHealth += modifier;
-    }
-
-    public void IncreaseDamage(float modifier)
-    {
-        Damage += modifier;
     }
 
     // 체력 회복 아이템
