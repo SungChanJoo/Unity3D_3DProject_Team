@@ -11,7 +11,6 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnAttackingAnimationCompleted()
     {
-        Debug.Log("OnAttackingAnimationCompleted called");
         data.CurrentWeapon.DisableDamaging();
     }
 
