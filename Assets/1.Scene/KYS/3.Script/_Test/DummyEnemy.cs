@@ -17,7 +17,7 @@ public class DummyEnemy : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage, float knockBack, Vector3 hitposition, Vector3 hitNomal)
     {
-        Debug.Log("Dummy Enemy Took Damage");
+        Debug.Log($"Dummy Enemy Took Damage : {damage}");
         hp -= damage;
         hpSlider.value = hp;
 

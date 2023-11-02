@@ -36,9 +36,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         }
     }
 
-    public float Damage { get; private set; }
-    public float AttackRate { get; private set; }
-
     //public bool IsDead { get; private set; }
 
     // 관련 메소드 구현은 추후에 할 것
@@ -73,8 +70,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         CurrentHealth = maxHealth;
         walkSpeed = 5;
         runSpeed = 10;
-        Damage = 10;
-        AttackRate = 1;
 
         //
         currentWeapon = tempSword;
@@ -168,11 +163,6 @@ public class PlayerData : MonoBehaviour, IDamageable
     public void IncreaseMaxHealth(float modifier)
     {
         maxHealth += modifier;
-    }
-
-    public void IncreaseDamage(float modifier)
-    {
-        Damage += modifier;
     }
 
     // 체력 회복 아이템

@@ -5,32 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+// Scriptable Object로 만드는 것도 좋아보임
 class Sword : WeaponBase
 {
-    public override void Attack()
-    {
-        Debug.Log("Attacked");
-    }
+    protected override float AttackDamage => 10;
 
-    public override void ChargeAttack()
-    {
-        Debug.Log("ChargeAttacked");
-    }
+    protected override float ChargeAttackDamage => 20;
 
-    public override void Parry()
-    {
-        throw new NotImplementedException();
-    }
+    protected override float Skill1Damage => throw new NotImplementedException();
 
-    public override void Skill1()
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Skill2()
-    {
-        throw new NotImplementedException();
-    }
+    protected override float Skill2Damage => throw new NotImplementedException();
 }
 
 //class Sword : MonoBehaviour, IWeapon
