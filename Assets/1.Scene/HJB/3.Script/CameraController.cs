@@ -6,12 +6,16 @@ using Cinemachine;
 public class CameraController : MonoBehaviour
 {
 
+    [SerializeField] private float Speed = 5f;
+    [SerializeField] private float runSpeed = 10f;
+    [SerializeField] private float finalSpeed;
     [SerializeField] private Transform vCamera;
     [SerializeField] private Transform cameraPoint;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     
         
     private bool haveTarget = false;
+    private bool run = false;
     
 
     public Transform player;
@@ -26,6 +30,18 @@ public class CameraController : MonoBehaviour
     private void Update()
     {
         LockOnTarget();
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            run = true;
+        }
+        else
+        {
+            run = false;
+        }
+
+        move();
+
         if (haveTarget)
         {
             CheckEnemy();
@@ -33,7 +49,6 @@ public class CameraController : MonoBehaviour
         else
         {
             RotateCamera();
-            move();
             virtualCamera.LookAt = null;
         }
     }
@@ -48,10 +63,11 @@ public class CameraController : MonoBehaviour
     }
     private void move()
     {
-        Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        bool isMove = moveInput.magnitude != 0;
-        animator.SetBool("walk", isMove);
+        finalSpeed = run ? runSpeed : Speed;
 
+        Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        bool isMove = moveInput.magnitude != 0;
+        
         if (isMove)
         {
             Vector3 lookForward = new Vector3(cameraPoint.forward.x, 0f, cameraPoint.forward.z).normalized;
@@ -59,12 +75,25 @@ public class CameraController : MonoBehaviour
             Vector3 moveDir = lookForward * moveInput.y + lookRight * moveInput.x;
 
             player.forward = lookForward;
-            transform.position += moveDir * Time.deltaTime * 5f;
-
-            
+            transform.position += moveDir * Time.deltaTime * finalSpeed;
+                        
             //transform.rotation = Quaternion.LookRotation(moveInput);
-
         }
+        //player.forward = moveInput;
+        //float percet = ((run) ? 1f : -1f) * moveInput.magnitude;
+
+        
+
+        
+            float _percent =  1f * moveInput.x;
+            Debug.Log(moveInput.y);
+            animator.SetFloat("x", _percent, 0.1f, Time.deltaTime);
+        
+        
+            float percent =  1f * moveInput.y;
+            animator.SetFloat("y", percent, 0.1f, Time.deltaTime);
+        
+        
     }
     private void RotateCamera()
     {
