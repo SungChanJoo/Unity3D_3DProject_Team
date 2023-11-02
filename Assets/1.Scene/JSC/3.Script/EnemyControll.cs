@@ -7,6 +7,7 @@ using UnityEngine.AI;
 
 public class EnemyControll : MonoBehaviour, IDamageable
 {
+    [Header("AI 활성화")]
     public bool isAI = true;
     [Header("추적할 대상 레이어")]
     public LayerMask TargetLayer;
@@ -26,15 +27,16 @@ public class EnemyControll : MonoBehaviour, IDamageable
     [SerializeField] private float attackDistane = 2f; //공격범위
     [SerializeField] private float timebetAttack = 2.267f; // 공격속도
     [SerializeField] private float startAttackTime = 0.3f; // 공격속도
+    [SerializeField] private float endAttackTime = 1.5f; // 공격속도
     private float lastAttackTimebet;
     [SerializeField] private Slider hpSlider;
     private Animator enemyAni;
     private Rigidbody enemyRigid;
-    public event Action OnDead;
     private bool isAttack = false;
     private bool isAttackTime = false; //칼이 내리칠 때 데미지를 받게 만듬
     [SerializeField] private GameObject weapon;
 
+    public event Action OnDead;
 
     private bool isTarget
     {
@@ -67,7 +69,8 @@ public class EnemyControll : MonoBehaviour, IDamageable
 
     public virtual void TakeDamage(float damage, float knockBack, Vector3 hitposition, Vector3 hitNomal)
     {
-        //맞는 애니메이션 추가해줘 성찬아 todo 1031
+        enemyAni.SetTrigger("TakeDamage");
+        transform.LookAt(targetEntity.transform.position);
         Health -= damage;
         hpSlider.value = Health;
         Debug.Log("나 아프다..");
@@ -76,7 +79,7 @@ public class EnemyControll : MonoBehaviour, IDamageable
             Die();
         }
     }
-
+    
     public virtual void Die()
     {
         Debug.Log("깨꼬닭");
@@ -94,14 +97,15 @@ public class EnemyControll : MonoBehaviour, IDamageable
         {
             c.enabled = false;
         }
+
         agent.isStopped = true;
         agent.enabled = false;
-        //죽는 애니메이션 추가해줘 성찬아 todo 1031
+        enemyAni.SetTrigger("Death");
     }
 
     protected void OnTriggerEnter(Collider other)
     {
-        if (!IsDead && Time.time + startAttackTime >= lastAttackTimebet + timebetAttack)
+        if (!IsDead && Time.time >= lastAttackTimebet + timebetAttack)
         {
             lastAttackTimebet = Time.time;
 
@@ -110,7 +114,6 @@ public class EnemyControll : MonoBehaviour, IDamageable
             {
                 if (targetEntity.Equals(e))
                 {
-                    //공격 애니메이션 추가해줘 todo 1031
                     //ClosestPoint -> 닿는 위치
                     //상대방 피격 위치와 피격 방향 근사값을 계산
                     Vector3 hitPoint = other.ClosestPoint(transform.position);
@@ -125,20 +128,15 @@ public class EnemyControll : MonoBehaviour, IDamageable
     
     IEnumerator DelayAttack_co()
     {
-        /*        if (isAttack)
-                {
-                    agent.SetDestination(transform.position);
-
-                    yield return new WaitForSeconds(0.4f);
-
-                }
-                yield return new WaitForSeconds(1.10f-0.4f);
-
-                yield return new WaitForSeconds(0.9f);*/
+        float aniTime = timebetAttack;
+        yield return new WaitForSeconds(startAttackTime); //공격 시작시 무기 콜라이더 활성화
+        aniTime -= startAttackTime;
         weapon.GetComponent<BoxCollider>().enabled = true;
 
-        yield return new WaitForSeconds(timebetAttack - startAttackTime);
+        yield return new WaitForSeconds(timebetAttack - endAttackTime); //공격 끝나면 무기 콜라이더 비활성화
+        aniTime -= endAttackTime;
         weapon.GetComponent<BoxCollider>().enabled = false;
+        yield return new WaitForSeconds(aniTime); //남은 애니메이션 재생
 
         isAttack = false;
         enemyAni.SetBool("isAttack", false);
@@ -161,7 +159,7 @@ public class EnemyControll : MonoBehaviour, IDamageable
                 if (Physics.Raycast(ray, out raycastHit, attackDistane, TargetLayer) && !isAttack )
                 {
 
-                    Debug.Log(raycastHit.transform.gameObject);
+                    //Debug.Log(raycastHit.transform.gameObject);
 
                     isAttack = true;
                     agent.isStopped = true;
@@ -176,10 +174,6 @@ public class EnemyControll : MonoBehaviour, IDamageable
 
                     agent.isStopped = false;
                     agent.SetDestination(targetEntity.transform.position);
-                }
-                else
-                {
-
                 }
             }
             else
