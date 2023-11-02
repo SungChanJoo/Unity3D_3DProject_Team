@@ -12,6 +12,8 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     [SerializeField] private Animator tempAnimator;
 
+    [SerializeField] private IWeapon tempWeapon;
+    [SerializeField] private Sword tempSword;
 
 
     // 아래의 세 변수들도 set하는 경우가 많아지면 currentHealth처럼 private set 부분에서 slider 값 업데이트 하겠음
@@ -43,6 +45,17 @@ public class PlayerData : MonoBehaviour, IDamageable
     private List<StatusEffect> statusEffects;
 
     private IWeapon currentWeapon;
+    public IWeapon CurrentWeapon
+    {
+        get => currentWeapon;
+        set
+        {
+            // 직접 비교하는 게 아니라 안의 Weapon이라는 enum으로 무기 타입 비교하든지 하기
+            if (currentWeapon.Equals(value)) return;
+
+            currentWeapon = value;
+        }
+    }
     // CurrentArmor도 넣어야 하는 Aromor는 구현 방식을 좀 더 고민해 본 뒤 넣을 것
 
     // StatusEffect 값 변경하기 쉽지 않도록 List가 아닌 Array를 할당
@@ -63,7 +76,8 @@ public class PlayerData : MonoBehaviour, IDamageable
         Damage = 10;
         AttackRate = 1;
 
-        currentWeapon = null;
+        //
+        currentWeapon = tempSword;
 
         tempHpSlider.maxValue = maxHealth;
         tempMpSlider.maxValue = mana;
@@ -122,14 +136,14 @@ public class PlayerData : MonoBehaviour, IDamageable
         return isRunning ? runSpeed : walkSpeed;
     }
 
-    public bool ChangeCurrentWeapon(IWeapon weapon)
-    {
-        // 직접 비교하는 게 아니라 안의 Weapon이라는 enum으로 무기 타입 비교하든지 하기
-        if (weapon.Equals(currentWeapon))
-            return false;
+    //public bool ChangeCurrentWeapon(IWeapon weapon)
+    //{
+    //    // 직접 비교하는 게 아니라 안의 Weapon이라는 enum으로 무기 타입 비교하든지 하기
+    //    if (weapon.Equals(currentWeapon))
+    //        return false;
 
-        return true;
-    }
+    //    return true;
+    //}
 
     // knockback 관련 이벤트를 만들어서 playermovement가 sub하게 할까 말까
     public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)

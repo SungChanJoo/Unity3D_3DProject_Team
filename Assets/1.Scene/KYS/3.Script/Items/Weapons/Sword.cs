@@ -9,12 +9,12 @@ class Sword : MonoBehaviour, IWeapon
 {
     public void Attack()
     {
-
+        Debug.Log("Attacked");
     }
 
     public void ChargeAttack()
     {
-
+        Debug.Log("Charge Attacked");
     }
 
     public void Drop()

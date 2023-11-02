@@ -5,6 +5,11 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private Animator tempAnimator;
+    
+    // AttackRate, CurrentWeapon 등의 정보 받아와서 사용
+    [SerializeField] private PlayerData data;
+
+
 
     void Update()
     {
@@ -18,10 +23,12 @@ public class PlayerAttack : MonoBehaviour
     public void Attack()
     {
         tempAnimator.SetTrigger("Attack");
+        data.CurrentWeapon.Attack();
     }
 
     public void ChargeAttack()
     {
         tempAnimator.SetTrigger("ChargeAttack");
+        data.CurrentWeapon.ChargeAttack();
     }
 }
