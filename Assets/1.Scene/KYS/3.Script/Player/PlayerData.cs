@@ -9,11 +9,19 @@ public class PlayerData : MonoBehaviour, IDamageable
     [SerializeField] private Slider tempHpSlider;
     [SerializeField] private Slider tempStaminaSlider;
     [SerializeField] private Slider tempMpSlider;
+
+    [SerializeField] private Animator tempAnimator;
+
+
+
     // 아래의 세 변수들도 set하는 경우가 많아지면 currentHealth처럼 private set 부분에서 slider 값 업데이트 하겠음
     private float maxHealth;
     // 아이템 상황에 따라 maxMana, maxStamina 구현해야 할 수도 있음. 근데 그정도로 스케일 안 큰 듯.
     private float mana;
     private float stamina;
+
+    private float walkSpeed;
+    private float runSpeed;
 
     private float currentHealth;
     public float CurrentHealth
@@ -26,7 +34,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         }
     }
 
-    public float MoveSpeed { get; private set; } 
     public float Damage { get; private set; }
     public float AttackRate { get; private set; }
 
@@ -51,7 +58,8 @@ public class PlayerData : MonoBehaviour, IDamageable
         stamina = 100;
 
         CurrentHealth = maxHealth;
-        MoveSpeed = 5;
+        walkSpeed = 5;
+        runSpeed = 10;
         Damage = 10;
         AttackRate = 1;
 
@@ -67,12 +75,16 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     private void Update()
     {
-        // test
-        CurrentHealth -= 0.02f;
-        mana -= 0.01f;
-        tempMpSlider.value = mana;
-        stamina -= 0.1f;
-        tempStaminaSlider.value = stamina;
+        // slider test
+        //CurrentHealth -= 0.02f;
+        //mana -= 0.01f;
+        //tempMpSlider.value = mana;
+        //stamina -= 0.1f;
+        //tempStaminaSlider.value = stamina;
+
+        if (Input.GetKeyDown(KeyCode.J))
+            TakeDamage(5, 1, Vector3.zero, Vector3.zero);
+
 
         //Debug.Log($"hp:{CurrentHealth}\nmp:{mana}\nstamina:{stamina}");
     }
@@ -103,6 +115,13 @@ public class PlayerData : MonoBehaviour, IDamageable
         return true;
     }
 
+    // 추후 State 패턴을 사용한다면 CameraController 쪽에서 bool 값을 파라미터로 넘겨주는 게 아니라
+    // PlayerData에서 알아서 State에 따라 speed 값 넘겨주는 것으로 수정하는 것이 좋을 듯
+    public float GetCurrentPlayerSpeed(bool isRunning = false)
+    {
+        return isRunning ? runSpeed : walkSpeed;
+    }
+
     public bool ChangeCurrentWeapon(IWeapon weapon)
     {
         // 직접 비교하는 게 아니라 안의 Weapon이라는 enum으로 무기 타입 비교하든지 하기
@@ -117,6 +136,9 @@ public class PlayerData : MonoBehaviour, IDamageable
     {
         // IsParrying 등의 State에 따른 처리 요구
         CurrentHealth -= damage;
+
+        tempAnimator.SetTrigger("Hit");
+
 
         if (CurrentHealth < 0)
             Die();
