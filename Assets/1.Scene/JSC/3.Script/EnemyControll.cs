@@ -26,27 +26,37 @@ public class EnemyControll : MonoBehaviour, IDamageable
     [SerializeField] private float force = 0f; // 미는힘
     [SerializeField] private float attackDistane = 2f; //공격범위
     [SerializeField] private float timebetAttack = 2.267f; // 공격속도
-    [SerializeField] private float startAttackTime = 0.3f; // 공격속도
-    [SerializeField] private float endAttackTime = 1.5f; // 공격속도
+    [SerializeField] private float startAttackTime = 0.3f; // 공격시작시간
+    [SerializeField] private float endAttackTime = 1.5f; // 공격종료시간
+    [SerializeField] private float detectPlayerRange = 5f; // 플레이어 탐지 범위
     private float lastAttackTimebet;
+
+    [Header("ETC")]
     [SerializeField] private Slider hpSlider;
+    [SerializeField] private GameObject weapon;
+    [SerializeField] private GameObject[] wayPoint;
     private Animator enemyAni;
     private Rigidbody enemyRigid;
     private bool isAttack = false;
     private bool isAttackTime = false; //칼이 내리칠 때 데미지를 받게 만듬
-    [SerializeField] private GameObject weapon;
-
+    private bool isPatroll = true;
+    private bool isMiss = false;
     public event Action OnDead;
 
     private bool isTarget
     {
         get
         {
-            if (targetEntity != null && !targetEntity.IsDead)
+            if (targetEntity != null && !targetEntity.IsDead && 
+                Vector3.SqrMagnitude(targetEntity.transform.position - transform.position) < 150f) // 플레이어 거리가 탐지 범위안에 있을 때  
             {
+                isPatroll = false;
                 return true;
             }
+            targetEntity = null;
+            isPatroll = true;
             return false;
+
         }
     }
 
@@ -139,6 +149,7 @@ public class EnemyControll : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(aniTime); //남은 애니메이션 재생
 
         isAttack = false;
+        agent.isStopped = false;
         enemyAni.SetBool("isAttack", false);
 
     }
@@ -150,7 +161,7 @@ public class EnemyControll : MonoBehaviour, IDamageable
         while (!IsDead)
         {
             if(isTarget)
-            {
+            {           
                 ray = new Ray(transform.position + new Vector3(0, 1f, 0), transform.forward );
 
                 Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * attackDistane, Color.red);
@@ -165,23 +176,25 @@ public class EnemyControll : MonoBehaviour, IDamageable
                     agent.isStopped = true;
 
                     enemyAni.SetTrigger("Attack");
-                    enemyAni.SetBool("isAttack", true);
+                    enemyAni.SetBool("isAttack", isAttack);
 
                     StartCoroutine(DelayAttack_co());
                 }
                 else if(!isAttack)
                 {
 
-                    agent.isStopped = false;
                     agent.SetDestination(targetEntity.transform.position);
                 }
+                isMiss = true;
             }
             else
             {
-                agent.isStopped = true;
+
+                //agent.isStopped = true;
                 //현재 위치에서 20 반지름으로 가상의 원을 만들어 TargetLayer를 가진 콜라이더 추출
-                Collider[] coll = Physics.OverlapSphere(transform.position, 20f, TargetLayer);
-                for(int i = 0; i < coll.Length; i++)
+                Collider[] coll = Physics.OverlapSphere(transform.position + transform.forward * (detectPlayerRange-1f), detectPlayerRange, TargetLayer);
+
+                for (int i = 0; i < coll.Length; i++)
                 {
                     if(coll[i].TryGetComponent(out Entity e))
                     {
@@ -196,13 +209,37 @@ public class EnemyControll : MonoBehaviour, IDamageable
             yield return null;
         }
     }
-/*    void FreezeVelocity()
+    void Patroll()
     {
-        enemyRigid.velocity = Vector3.zero;
-        enemyRigid.angularVelocity = Vector3.zero;
+        enemyAni.SetBool("isPatrolling", isPatroll);
+
+        //플레이어를 놓치면 바로 순찰 아니면 플레이어의 마지막 위치까지 이동한 뒤에 순찰..
+/*        if (isMiss)
+        {
+            agent.SetDestination(wayPoint[UnityEngine.Random.Range(0, wayPoint.Length)].transform.position);
+            isMiss = false;
+        }*/
+            
+        if (agent.remainingDistance <= agent.stoppingDistance)
+        {
+                agent.SetDestination(wayPoint[UnityEngine.Random.Range(0, wayPoint.Length)].transform.position);
+
+        }
+
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position + transform.forward * (detectPlayerRange - 1f), detectPlayerRange);
+    }
+    /*    void FreezeVelocity()
+        {
+            enemyRigid.velocity = Vector3.zero;
+            enemyRigid.angularVelocity = Vector3.zero;
 
 
-    }*/
+        }*/
     private void Start()
     {
         if(isAI)
@@ -213,6 +250,11 @@ public class EnemyControll : MonoBehaviour, IDamageable
         if(isAI)
         {
             enemyAni.SetBool("HasTarget", isTarget);
+            if(isPatroll)
+            {
+                Patroll();
+            }
+
         }
 
 
