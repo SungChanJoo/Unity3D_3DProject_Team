@@ -1554,6 +1554,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bba024c1966535b4ab1d543268d39466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Speed: 5
+  runSpeed: 10
+  finalSpeed: 0
   vCamera: {fileID: 0}
   cameraPoint: {fileID: 234469315}
   virtualCamera: {fileID: 2036724386}

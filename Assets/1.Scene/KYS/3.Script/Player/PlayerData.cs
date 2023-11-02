@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class PlayerData : MonoBehaviour, IDamageable
 {
     [SerializeField] private Slider tempHpSlider;
-    [SerializeField] private Slider tempMpSlider;
     [SerializeField] private Slider tempStaminaSlider;
+    [SerializeField] private Slider tempMpSlider;
 
     // 아래의 세 변수들도 set하는 경우가 많아지면 currentHealth처럼 private set 부분에서 slider 값 업데이트 하겠음
     private float maxHealth;
@@ -79,19 +79,6 @@ public class PlayerData : MonoBehaviour, IDamageable
     }
 
     /// <summary>
-    /// 마나 사용이 됐을 경우 true, 마나가 부족할 경우 false을 반환
-    /// </summary>
-    public bool UseMana(float amount)
-    {
-        if (mana - amount < 0) return false;
-
-        mana -= amount;
-        tempMpSlider.value = mana;
-
-        return true;
-    }
-
-    /// <summary>
     /// 스태미나 사용이 됐을 경우 true, 스태미나가 부족할 경우 false을 반환
     /// </summary>
     public bool UseStamina(float amount)
@@ -100,6 +87,19 @@ public class PlayerData : MonoBehaviour, IDamageable
 
         stamina -= amount;
         tempStaminaSlider.value = stamina;
+
+        return true;
+    }
+
+    /// <summary>
+    /// 마나 사용이 됐을 경우 true, 마나가 부족할 경우 false을 반환
+    /// </summary>
+    public bool UseMana(float amount)
+    {
+        if (mana - amount < 0) return false;
+
+        mana -= amount;
+        tempMpSlider.value = mana;
 
         return true;
     }
