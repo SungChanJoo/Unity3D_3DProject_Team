@@ -12,7 +12,7 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     [SerializeField] private Animator tempAnimator;
 
-    [SerializeField] private IWeapon tempWeapon;
+    [SerializeField] private WeaponBase tempWeapon;
     [SerializeField] private Sword tempSword;
 
 
@@ -44,8 +44,8 @@ public class PlayerData : MonoBehaviour, IDamageable
     // 관련 메소드 구현은 추후에 할 것
     private List<StatusEffect> statusEffects;
 
-    private IWeapon currentWeapon;
-    public IWeapon CurrentWeapon
+    private WeaponBase currentWeapon;
+    public WeaponBase CurrentWeapon
     {
         get => currentWeapon;
         set
@@ -136,7 +136,7 @@ public class PlayerData : MonoBehaviour, IDamageable
         return isRunning ? runSpeed : walkSpeed;
     }
 
-    //public bool ChangeCurrentWeapon(IWeapon weapon)
+    //public bool ChangeCurrentWeapon(IWeapon weapon) // WeaponBase
     //{
     //    // 직접 비교하는 게 아니라 안의 Weapon이라는 enum으로 무기 타입 비교하든지 하기
     //    if (weapon.Equals(currentWeapon))
