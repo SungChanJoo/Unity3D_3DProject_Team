@@ -20,4 +20,6 @@ public class Inventory : MonoBehaviour
         items.Remove(item);
         // Destroy(item);
     }
+
+    // 선택한 무기 성장 시킬 수 있는 메소드 구현할 수도 있음.
 }
