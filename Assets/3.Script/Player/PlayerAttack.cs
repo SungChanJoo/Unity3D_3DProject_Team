@@ -9,7 +9,11 @@ public class PlayerAttack : MonoBehaviour
     // AttackRate, CurrentWeapon 등의 정보 받아와서 사용
     [SerializeField] private PlayerData data;
 
-
+    public void OnAttackingAnimationCompleted()
+    {
+        Debug.Log("OnAttackingAnimationCompleted called");
+        data.CurrentWeapon.DisableDamaging();
+    }
 
     void Update()
     {
