@@ -60,21 +60,21 @@ ModelImporter:
       curves: []
       events:
       - time: 0.38950098
-        functionName: StartAttack
+        functionName: OnStartAttack
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.6632047
-        functionName: EndAttack
+        functionName: OnEndAttack
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.9897959
-        functionName: EndAni
+        functionName: OnEndAni
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

@@ -92,12 +92,10 @@ public class AnyMonster : Enemy
     void OnStartAttack()
     {
         weapon.GetComponent<BoxCollider>().enabled = true;
-        Debug.Log("공격시작");
     }
     void OnEndAttack()
     {
         weapon.GetComponent<BoxCollider>().enabled = false;
-        Debug.Log("공격끝");
     }
     void OnEndAni()
     {
