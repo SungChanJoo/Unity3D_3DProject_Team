@@ -89,27 +89,23 @@ public class AnyMonster : Enemy
             }
     }
     
-    IEnumerator DelayAttack_co()
+    void OnStartAttack()
     {
-        float aniTime = timebetAttack;
-        yield return new WaitForSeconds(startAttackTime); //공격 시작시 무기 콜라이더 활성화
-        aniTime -= startAttackTime;
         weapon.GetComponent<BoxCollider>().enabled = true;
-
-        yield return new WaitForSeconds(timebetAttack - endAttackTime); //공격 끝나면 무기 콜라이더 비활성화
-        aniTime -= endAttackTime;
+        Debug.Log("공격시작");
+    }
+    void OnEndAttack()
+    {
         weapon.GetComponent<BoxCollider>().enabled = false;
-        yield return new WaitForSeconds(aniTime); //남은 애니메이션 재생
-
-        yield return new WaitForSeconds(aniTime); //남은 애니메이션 재생
+        Debug.Log("공격끝");
+    }
+    void OnEndAni()
+    {
         isAttack = false;
         agent.isStopped = false;
         enemyAni.SetBool("isAttack", false);
         enemyAni.SetBool("isMove", !isAttack);
-
-
     }
-
     private IEnumerator UpdataTargetPosition()
     {
         RaycastHit raycastHit;
@@ -134,8 +130,6 @@ public class AnyMonster : Enemy
                         isAttack = true;
                         enemyAni.SetBool("isMove", !isAttack);
                         enemyAni.SetTrigger("Attack");
-
-                        StartCoroutine(DelayAttack_co());
                     }
                     //Debug.Log(raycastHit.transform.gameObject);
                 }

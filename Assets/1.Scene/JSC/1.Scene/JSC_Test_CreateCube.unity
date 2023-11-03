@@ -3886,6 +3886,7 @@ MonoBehaviour:
   vCamera: {fileID: 1601620311}
   virtualCamera: {fileID: 1601620311}
   cameraPoint: {fileID: 536409082}
+  lockOnCamera: {fileID: 0}
   player: {fileID: 630257849}
   enemy: {fileID: 17740421123320132}
 --- !u!1 &1024590113
