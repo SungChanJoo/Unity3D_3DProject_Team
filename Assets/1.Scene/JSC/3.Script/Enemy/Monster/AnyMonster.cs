@@ -19,6 +19,8 @@ public class AnyMonster : Enemy
     [SerializeField] private float startAttackTime = 0.3f; // 공격시작시간
     [SerializeField] private float endAttackTime = 1.5f; // 공격종료시간
 
+    [SerializeField] private MonsterData monsterData;
+
     private bool isPatroll = true;
     private bool isMiss = false;
     //protected State state;
@@ -39,10 +41,20 @@ public class AnyMonster : Enemy
         }
     }
 
-
+    private void SetUp()
+    {
+        MaxHealth = monsterData.MaxHealth;
+        damage = monsterData.Damage;
+        force = monsterData.Force;
+        speed = monsterData.Speed;
+        attackDistance = monsterData.AttackDistance;
+        timebetAttack = monsterData.TimegetAttack;
+        detectRange = monsterData.DetectRange;
+    }
     protected override void Awake()
     {
         base.Awake();
+        SetUp();
         weapon.GetComponent<BoxCollider>().enabled = false;
     }
 
@@ -108,10 +120,10 @@ public class AnyMonster : Enemy
             {           
                 ray = new Ray(transform.position + new Vector3(0, 1f, 0), transform.forward );
 
-                Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * attackDistane, Color.red);
+                Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * attackDistance, Color.red);
                 //float distance = Vector3.Distance(targetEntity.transform.position, transform.position);
                 //거리가 공격범위보다 가깝고 공격중이 아닐때 //, 10f, LayerMask.NameToLayer("Player")
-                if (Physics.Raycast(ray, out raycastHit, attackDistane, TargetLayer)  )
+                if (Physics.Raycast(ray, out raycastHit, attackDistance, TargetLayer)  )
                 {
                     if (!IsDead && Time.time >= lastAttackTimebet && !isAttack)
                     {
@@ -121,9 +133,7 @@ public class AnyMonster : Enemy
 
                         isAttack = true;
                         enemyAni.SetBool("isMove", !isAttack);
-
                         enemyAni.SetTrigger("Attack");
-                        enemyAni.SetBool("isAttack", isAttack);
 
                         StartCoroutine(DelayAttack_co());
                     }
@@ -141,7 +151,7 @@ public class AnyMonster : Enemy
 
                 //agent.isStopped = true;
                 //현재 위치에서 20 반지름으로 가상의 원을 만들어 TargetLayer를 가진 콜라이더 추출
-                Collider[] coll = Physics.OverlapSphere(transform.position + transform.forward * (detectPlayerRange-1f), detectPlayerRange, TargetLayer);
+                Collider[] coll = Physics.OverlapSphere(transform.position + transform.forward * (detectRange-1f), detectRange, TargetLayer);
 
                 for (int i = 0; i < coll.Length; i++)
                 {
@@ -188,7 +198,7 @@ public class AnyMonster : Enemy
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position + transform.forward * (detectPlayerRange - 1f), detectPlayerRange);
+        Gizmos.DrawWireSphere(transform.position + transform.forward * (detectRange - 1f), detectRange);
     }
     /*    void FreezeVelocity()
         {

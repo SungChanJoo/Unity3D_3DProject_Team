@@ -18255,12 +18255,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   player: {fileID: 630257849}
-  MaxHeath: 100
+  MaxHealth: 100
   damage: 20
   force: 0
-  attackDistane: 2
+  speed: 2
+  attackDistance: 2
   timebetAttack: 2.267
-  detectPlayerRange: 5
+  detectRange: 5
   hpSlider: {fileID: 1669909673}
   weapon: {fileID: 3305297624065483184}
   wayPoint:
@@ -18269,6 +18270,7 @@ MonoBehaviour:
   - {fileID: 817517303}
   startAttackTime: 0.3
   endAttackTime: 1.5
+  monsterData: {fileID: 11400000, guid: 557a73e8de0e1f34fb0ade84170c2680, type: 2}
 --- !u!54 &825520464905958402
 Rigidbody:
   m_ObjectHideFlags: 0

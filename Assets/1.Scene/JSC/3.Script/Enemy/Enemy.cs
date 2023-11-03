@@ -18,15 +18,16 @@ public class Enemy : MonoBehaviour, IDamageable
     protected NavMeshAgent agent;
 
     [Header("적 세팅")]
-    public float MaxHeath = 100f;
+    public float MaxHealth = 100f;
     public float Health { get; protected set; }
     public bool IsDead { get; protected set; }
 
     [SerializeField] protected float damage = 20f;
     [SerializeField] protected float force = 0f; // 미는힘
-    [SerializeField] protected float attackDistane = 2f; //공격범위
+    [SerializeField] protected float speed = 2f;
+    [SerializeField] protected float attackDistance = 2f; //공격범위
     [SerializeField] protected float timebetAttack = 2.267f; // 공격속도
-    [SerializeField] protected float detectPlayerRange = 5f; // 플레이어 탐지 범위
+    [SerializeField] protected float detectRange = 5f; // 플레이어 탐지 범위
     protected float lastAttackTimebet;
 
     [Header("ETC")]
@@ -43,7 +44,7 @@ public class Enemy : MonoBehaviour, IDamageable
     protected virtual void OnEnable()
     {
         IsDead = false;
-        Health = MaxHeath;
+        Health = MaxHealth;
     }
 
     protected virtual void Awake()
@@ -51,7 +52,7 @@ public class Enemy : MonoBehaviour, IDamageable
         TryGetComponent(out agent);
         TryGetComponent(out enemyAni);
         TryGetComponent(out enemyRigid);
-        hpSlider.value = MaxHeath;
+        hpSlider.value = MaxHealth;
     }
 
 
