@@ -1,0 +1,221 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.AI;
+
+/*public enum State
+{
+    Idle = 0,
+    Chase,
+    Attack,
+    Patroll,
+    Die
+}*/
+
+public class AnyMonster : Enemy
+{
+    [SerializeField] private float startAttackTime = 0.3f; // 공격시작시간
+    [SerializeField] private float endAttackTime = 1.5f; // 공격종료시간
+
+    [SerializeField] private MonsterData monsterData;
+
+    private bool isPatroll = true;
+    private bool isMiss = false;
+    //protected State state;
+    private bool isTarget
+    {
+        get
+        {
+            if (targetEntity != null && !targetEntity.IsDead && 
+                Vector3.SqrMagnitude(targetEntity.transform.position - transform.position) < 150f) // 플레이어 거리가 탐지 범위안에 있을 때  
+            {
+                isPatroll = false;
+                return true;
+            }
+            targetEntity = null;
+            isPatroll = true;
+            return false;
+
+        }
+    }
+
+    private void SetUp()
+    {
+        MaxHealth = monsterData.MaxHealth;
+        damage = monsterData.Damage;
+        force = monsterData.Force;
+        speed = monsterData.Speed;
+        attackDistance = monsterData.AttackDistance;
+        timebetAttack = monsterData.TimegetAttack;
+        detectRange = monsterData.DetectRange;
+    }
+    protected override void Awake()
+    {
+        base.Awake();
+        SetUp();
+        weapon.GetComponent<BoxCollider>().enabled = false;
+    }
+
+
+
+    public override void TakeDamage(float damage, float knockBack, Vector3 hitposition, Vector3 hitNomal)
+    {
+        enemyAni.SetTrigger("TakeDamage");
+        transform.LookAt(targetEntity.transform.position);
+        base.TakeDamage(damage, knockBack, hitposition, hitNomal);
+    }
+    
+    public override void Die()
+    {
+        base.Die();
+        //나중에 해줘..!
+    }
+
+    protected void OnTriggerEnter(Collider other)
+    {
+            if (other.TryGetComponent(out Entity e))
+
+            {
+                if (targetEntity.Equals(e))
+                {
+                    //ClosestPoint -> 닿는 위치
+                    //상대방 피격 위치와 피격 방향 근사값을 계산
+                    Vector3 hitPoint = other.ClosestPoint(transform.position);
+                    Vector3 hitNormal = transform.position - other.transform.position;
+                    e.TakeDamage(damage, force, hitPoint, hitNormal);
+                }
+            }
+    }
+    
+    void OnStartAttack()
+    {
+        weapon.GetComponent<BoxCollider>().enabled = true;
+    }
+    void OnEndAttack()
+    {
+        weapon.GetComponent<BoxCollider>().enabled = false;
+    }
+    void OnEndAni()
+    {
+        isAttack = false;
+        agent.isStopped = false;
+        enemyAni.SetBool("isAttack", false);
+        enemyAni.SetBool("isMove", !isAttack);
+    }
+    private IEnumerator UpdataTargetPosition()
+    {
+        RaycastHit raycastHit;
+        Ray ray;
+        while (!IsDead)
+        {
+            if(isTarget)
+            {           
+                ray = new Ray(transform.position + new Vector3(0, 1f, 0), transform.forward );
+
+                Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * attackDistance, Color.red);
+                //float distance = Vector3.Distance(targetEntity.transform.position, transform.position);
+                //거리가 공격범위보다 가깝고 공격중이 아닐때 //, 10f, LayerMask.NameToLayer("Player")
+                if (Physics.Raycast(ray, out raycastHit, attackDistance, TargetLayer)  )
+                {
+                    if (!IsDead && Time.time >= lastAttackTimebet && !isAttack)
+                    {
+                        lastAttackTimebet = Time.time;
+                        lastAttackTimebet += timebetAttack;
+                        agent.isStopped = true;
+
+                        isAttack = true;
+                        enemyAni.SetBool("isMove", !isAttack);
+                        enemyAni.SetTrigger("Attack");
+                    }
+                    //Debug.Log(raycastHit.transform.gameObject);
+                }
+                else if(!isAttack)
+                {
+                    agent.SetDestination(targetEntity.transform.position);
+
+                }
+                isMiss = true;
+            }
+            else
+            {
+
+                //agent.isStopped = true;
+                //현재 위치에서 20 반지름으로 가상의 원을 만들어 TargetLayer를 가진 콜라이더 추출
+                Collider[] coll = Physics.OverlapSphere(transform.position + transform.forward * (detectRange-1f), detectRange, TargetLayer);
+
+                for (int i = 0; i < coll.Length; i++)
+                {
+                    if(coll[i].TryGetComponent(out Entity e))
+                    {
+                        if(!e.IsDead)
+                        {
+                            targetEntity = e;
+                            break;
+                        }
+                    }
+                }
+            }
+            yield return null;
+        }
+    }
+
+    void Patroll()
+    {
+        enemyAni.SetBool("isPatrolling", isPatroll);
+
+        //플레이어를 놓치면 바로 순찰 아니면 플레이어의 마지막 위치까지 이동한 뒤에 순찰..
+/*        if (isMiss)
+        {
+            agent.SetDestination(wayPoint[UnityEngine.Random.Range(0, wayPoint.Length)].transform.position);
+            isMiss = false;
+        }*/
+            
+        if (agent.remainingDistance <= agent.stoppingDistance)
+        {
+                agent.SetDestination(wayPoint[UnityEngine.Random.Range(0, wayPoint.Length)].transform.position);
+
+        }
+
+    }
+/*    void Chase()
+    {
+
+    }
+    void ActionState(State state)
+    {
+
+    }*/
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position + transform.forward * (detectRange - 1f), detectRange);
+    }
+    /*    void FreezeVelocity()
+        {
+            enemyRigid.velocity = Vector3.zero;
+            enemyRigid.angularVelocity = Vector3.zero;
+
+
+        }*/
+    private void Start()
+    {
+        if(isAI)
+            StartCoroutine(UpdataTargetPosition());
+    }
+    private void Update()
+    {
+        if(isAI)
+        {
+            enemyAni.SetBool("HasTarget", isTarget);
+            if(isPatroll)
+            {
+                Patroll();
+            }
+
+        }
+
+
+    }
+}
