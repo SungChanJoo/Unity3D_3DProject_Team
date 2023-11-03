@@ -949,11 +949,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 3
-  isRunSpeed: 10
+  runSpeed: 10
   vCamera: {fileID: 2036724386}
   virtualCamera: {fileID: 2036724386}
   cameraPoint: {fileID: 234469315}
   lockOnCamera: {fileID: 1152960290}
+  moveCamera: {fileID: 2036724385}
   player: {fileID: 5826158343638129406}
   enemy: {fileID: 1872135106}
 --- !u!54 &1790688982
