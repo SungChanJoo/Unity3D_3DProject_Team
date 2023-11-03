@@ -17,7 +17,10 @@ public class CameraController : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     [Header("카메라 방향")]
     [SerializeField] private Transform cameraPoint;
-    
+
+    [Header("lockOn 카메라")]
+    [SerializeField] private Transform lockOnCamera;
+
     private bool haveTarget = false;
     private bool isRun = false;
     private bool isRolling = false;
@@ -50,17 +53,18 @@ public class CameraController : MonoBehaviour
         CheckEnemy();
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            haveTarget = !haveTarget;            
-            Vector3 directionEneny = (enemy.position - player.position).normalized;
-            transform.forward = directionEneny;        
+            haveTarget = !haveTarget;
+            Debug.Log(haveTarget);
         }
 
         if (haveTarget)
-        {   //락온이 활성화 상태이면 적을 찾기
+        {
+            //락온이 활성화 상태이면 적을 찾기            
             vCamera.Priority = 5;
         }
         else
         {   //락온이 비활성화면 카메라 회전이 가능하고 카메라의 고정기능을 null로 반환
+            
             RotateCamera();
             vCamera.Priority = 20;
         }
@@ -86,8 +90,9 @@ public class CameraController : MonoBehaviour
         Vector3 lookForward = new Vector3(cameraPoint.forward.x, 0f, cameraPoint.forward.z).normalized;
         Vector3 lookRight = new Vector3(cameraPoint.right.x, 0f, cameraPoint.right.z).normalized;
         Vector3 moveDir = lookForward * moveInput.y + lookRight * moveInput.x;
-        if (move)
+        if (move&&!haveTarget)
         {
+            Debug.Log("진입");
             player.forward = lookForward;
 
         }
@@ -96,6 +101,7 @@ public class CameraController : MonoBehaviour
         {                
             //플레이어 이동
             transform.position += moveDir * Time.deltaTime * finalSpeed;
+            
             //애니메이션의 Blend값 처리
             if (!isRolling&& isRun)
             {
@@ -131,7 +137,8 @@ public class CameraController : MonoBehaviour
         {            
             StartCoroutine(Rolling());
         }
-        
+
+        //cameraPoint.position = player.position + new Vector3(0, 1f, 0);
     }
     private void RotateCamera()
     {
@@ -149,28 +156,35 @@ public class CameraController : MonoBehaviour
             x = Mathf.Clamp(x, 335f, 361f);
         }
 
-        cameraPoint.rotation = Quaternion.Euler(x, camAngle.y + mouseDelta.x, camAngle.z);
+        cameraPoint.rotation = Quaternion.Euler(x, camAngle.y + mouseDelta.x, 0f);
         
     }
     private void CheckEnemy()
     {
-        //float distance = 5f;
+        float distance = 5f;
         //나중에 적의 position 받아올 것.
         //플레이어와 적의 위치 계산 후 위치에 따른 카메라 위치 조정
-        //Vector3 directionEneny = (enemy.position - player.position).normalized;
-        //Vector3 DirectionEnemy = -directionEneny;
-        //Vector3 cameraPosition = vCamera.position + (DirectionEnemy * distance) + Vector3.up *6f;
-        //Debug.DrawRay(transform.position, DirectionEnemy * 5f, Color.red);
-        //vCamera.position = cameraPosition;
+        Vector3 directionEnemy = (enemy.position - transform.position).normalized;
+        directionEnemy.y = 0;
+        Vector3 cameraPosition = player.position + (directionEnemy * -distance) + Vector3.up *3f;
+        Debug.DrawRay(player.position, directionEnemy * 5f, Color.red);
+        lockOnCamera.position = cameraPosition;
+        lockOnCamera.forward = directionEnemy;               
+        
         //적방향으로 플레이어의 foward고정
-        //transform.forward = directionEneny * transform.position.y;
+        if (haveTarget)
+        {
+            transform.forward = directionEnemy;
+            player.forward = directionEnemy;
+        }
+        
     }
 
     private IEnumerator Rolling()
     {
         isRolling = true;
 
-        float rollSpeed = 10f; 
+        float rollSpeed = 5f; 
 
         animator.SetFloat("x", _percent, 0.1f, Time.deltaTime);
         animator.SetFloat("y", percent, 0.1f, Time.deltaTime);
@@ -182,8 +196,7 @@ public class CameraController : MonoBehaviour
         if (Mathf.Abs(_percent) > Mathf.Abs(percent))
         {
             if (_percent > 0)
-            {
-                
+            {                
                 Debug.Log("위");
                 rollDirection = cameraPoint.right.normalized;
             }
@@ -213,7 +226,7 @@ public class CameraController : MonoBehaviour
         while (timer < 1f) 
         {
             timer += Time.deltaTime;
-            if (timer>0.2f)
+            if (timer>0.2f && timer<0.9f)
             {
             
             
@@ -225,7 +238,7 @@ public class CameraController : MonoBehaviour
             //timer += Time.deltaTime;
             //transform.position += rollDirection * rollSpeed * Time.deltaTime;
             //transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-                yield return null;
+            yield return null;
         }
         isRolling = false;                
     }
