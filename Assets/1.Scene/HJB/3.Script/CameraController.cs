@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
 {
     [Header("플레이어 속도")]
     [SerializeField] private float Speed = 5f;
-    [SerializeField] private float runSpeed = 10f;
+    [SerializeField] private float runSpeed = 8f;
      private float finalSpeed;
 
     [Header("카메라 우선순위변경")]
@@ -21,18 +21,29 @@ public class CameraController : MonoBehaviour
     [Header("lockOn 카메라")]
     [SerializeField] private Transform lockOnCamera;
 
-    [Header("플레이어 방향 수정 카메라")]
+    [Header("평시 카메라")]
     [SerializeField] private Transform moveCamera;
 
+    //플레이어의 현재 상태
     private bool haveTarget = false;
     private bool isRun = false;
     private bool isRolling = false;
-    
-    
+
+    //플레이어 forward를 정하기위한 카메라 방향값
+    private Vector3 lookForward;
+    private Vector3 lookRight;
+    private Vector3 moveDir;
+
+    //담아야 할 적
+    private float detectionAngle =90f;
+    [SerializeField]private float detectionDistance = 50f;
+    public List<GameObject> targetList = new List<GameObject>();
 
     [Header("대상")]
     public Transform player;
     public Transform enemy;
+
+    
 
     Animator animator;
     //애니메이션 Blend값 저장할 변수
@@ -45,11 +56,20 @@ public class CameraController : MonoBehaviour
     {
         animator = player.GetComponent<Animator>();
     }
+    private void Start()
+    {
+        
+    }
     private void Update()
     {
+        //transform.Rotate(Vector3.up * 10f, Time.deltaTime);
+        Debug.DrawRay(transform.position, EulerToVector(detectionAngle / 2) * detectionDistance, Color.green);
+        Debug.DrawRay(transform.position, EulerToVector(-detectionAngle / 2) * detectionDistance, Color.green);
+        TargetDetection();
+
         LockOnTarget();
         move();
-        
+        //DrawLine();
     }    
 
     private void LockOnTarget()
@@ -60,7 +80,7 @@ public class CameraController : MonoBehaviour
             Debug.Log(haveTarget);
         }
         //적체크카메라
-        CheckEnemy();
+        CheckEnemyCamera();
 
         if (haveTarget)
         {
@@ -77,8 +97,7 @@ public class CameraController : MonoBehaviour
     }
     
     private void move()
-    {
-        
+    {        
         if (Input.GetKey(KeyCode.LeftShift))
         {
             isRun = true;
@@ -86,71 +105,84 @@ public class CameraController : MonoBehaviour
         else
         {
             isRun = false;
-        }
-        Debug.Log(isRun);
+        }        
         finalSpeed = isRun ? runSpeed : Speed;
         
         Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
                     
-        bool move = moveInput.magnitude != 0;        
+        bool move = moveInput.magnitude != 0;
+
+        //플레이어의 forward값을 카메라의 forward와 일치
         
-        //플레이어의 forward값을 카메라의 foward와 일치
-        Vector3 lookForward = new Vector3(cameraPoint.forward.x, 0f, cameraPoint.forward.z).normalized;
-        Vector3 lookRight = new Vector3(cameraPoint.right.x, 0f, cameraPoint.right.z).normalized;
-        Vector3 moveDir = lookForward * moveInput.y + lookRight * moveInput.x;
-        if (move&&!haveTarget)
-        {            
+        if (!haveTarget&&move)
+        {
+            lookForward = new Vector3(cameraPoint.forward.x, 0f, cameraPoint.forward.z).normalized;
+            lookRight = new Vector3(cameraPoint.right.x, 0f, cameraPoint.right.z).normalized;
             player.forward = lookForward;
         }
+        else if (haveTarget)
+        {
+            lookForward= new Vector3(lockOnCamera.forward.x, 0f, lockOnCamera.forward.z).normalized;
+            lookRight = new Vector3(lockOnCamera.right.x, 0f, lockOnCamera.right.z).normalized;
+            Debug.DrawRay(player.position, moveDir * 5f, Color.black);
+            player.forward = lookForward;
+
+        }
+            moveDir = lookForward * moveInput.y + lookRight * moveInput.x;
+            
+
+       
+        
         //락온이 아닐 때 이동
         if (!haveTarget&&!isRolling)
         {
-            animator.SetBool("lockOn", haveTarget);
-
-            Vector3 cameraForward = moveCamera.forward; // 카메라의 forward 방향
-            Vector3 moveDirection = Vector3.zero; // 이동할 방향
-
-            if (Input.GetKey(KeyCode.W))
-            {
-                moveDirection += cameraForward;
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                moveDirection -= cameraForward;
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                moveDirection -= moveCamera.right; // 좌측 방향
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                moveDirection += moveCamera.right; // 우측 방향
-            }
-            // 정규화된 이동 방향 벡터로 설정
-            moveDirection = moveDirection.normalized;
-            moveDirection.y = 0;
-            
-            transform.position += moveDirection * finalSpeed * Time.deltaTime;
-            // 이동 방향을 시각적으로 표시
-            Debug.DrawRay(player.position, moveDirection * 4f, Color.black);
+            //animator.SetBool("lockOn", haveTarget);
+            //
+            //Vector3 cameraForward = moveCamera.forward; // 카메라의 forward 방향
+            //Vector3 moveDirection = Vector3.zero; // 이동할 방향
+            //
+            //if (Input.GetKey(KeyCode.W))
+            //{
+            //    moveDirection += cameraForward;
+            //}
+            //if (Input.GetKey(KeyCode.S))
+            //{
+            //    moveDirection -= cameraForward;
+            //}
+            //if (Input.GetKey(KeyCode.A))
+            //{
+            //    moveDirection -= moveCamera.right; // 좌측 방향
+            //}
+            //if (Input.GetKey(KeyCode.D))
+            //{
+            //    moveDirection += moveCamera.right; // 우측 방향
+            //}
+            //// 정규화된 이동 방향 벡터로 설정
+            //moveDirection = moveDirection.normalized;
+            //moveDirection.y = 0;
+            //
+            //transform.position += moveDirection * finalSpeed * Time.deltaTime;
+            //// 이동 방향을 시각적으로 표시
+            //Debug.DrawRay(player.position, moveDirection * 4f, Color.black);
 
             //_percent = Mathf.Clamp01(Speed);
             //animator.SetFloat("a", _percent, 0.1f, Time.deltaTime);
             
-            //var playerGroundPos = new Vector3(player.position.x, 0, transform.position.z);
-            //var cameraGroundPos = new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z);
-            //
-            //var cameraToPlayer = (playerGroundPos - cameraGroundPos);
-            //
-            //var forward = cameraToPlayer.normalized;
-            //var right = Vector3.Cross(Vector3.up, forward);
-            //
-            //Debug.DrawLine(transform.position, transform.position + forward * moveInput.y, Color.red);
-            //Debug.DrawLine(transform.position, transform.position + right * moveInput.x, Color.blue);
-            //
-            //transform.Translate(forward * moveInput.y*Time.deltaTime*Speed);
-            //transform.Translate(right * moveInput.x * Time.deltaTime * Speed);
+            var playerGroundPos = new Vector3(player.position.x, 0, transform.position.z);
+            var cameraGroundPos = new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z);
+            
+            var cameraToPlayer = (playerGroundPos - cameraGroundPos);
+            
+            var forward = cameraToPlayer.normalized;
+            var right = Vector3.Cross(Vector3.up, forward);
+            
+            Debug.DrawLine(transform.position, transform.position + forward * moveInput.y, Color.red);
+            Debug.DrawLine(transform.position, transform.position + right * moveInput.x, Color.blue);
+            
+            transform.Translate(forward * moveInput.y*Time.deltaTime*finalSpeed);
+            transform.Translate(right * moveInput.x * Time.deltaTime * finalSpeed);
 
+            
             percent = moveInput.x;
             animator.SetFloat("x", percent,0.01f, Time.deltaTime); 
             percent = moveInput.y;
@@ -160,7 +192,7 @@ public class CameraController : MonoBehaviour
         //락온에 따른 이동
         if (move&&!isRolling&&haveTarget)
         {
-            animator.SetBool("lockOn", haveTarget);
+           
             //플레이어 이동
             transform.Translate(moveDir * Time.deltaTime * finalSpeed);
                 //+= moveDir * Time.deltaTime * finalSpeed;
@@ -191,13 +223,13 @@ public class CameraController : MonoBehaviour
             animator.SetFloat("x", _percent, 0.1f, Time.deltaTime);
             animator.SetFloat("y", percent, 0.1f, Time.deltaTime);
         }
+        animator.SetBool("lockOn", haveTarget);
         animator.SetBool("runing", isRun);
         //구르기        
         if (!isRolling &&Input.GetKeyDown(KeyCode.Space))
         {            
             StartCoroutine(Rolling());
-        }
-        //cameraPoint.position = player.position + new Vector3(0, 1f, 0);
+        }        
     }
     
 
@@ -218,103 +250,89 @@ public class CameraController : MonoBehaviour
         }
         cameraPoint.rotation = Quaternion.Euler(x, camAngle.y + mouseDelta.x, 0f);        
     }
-    private void CheckEnemy()
+    private void CheckEnemyCamera()
     {
-        float distance = 5f;
-        //나중에 적의 position 받아올 것.
+
+        //나중에 적의 position 인자로 받아올 것.
+        CheckEnemy();
         //플레이어와 적의 위치 계산 후 위치에 따른 카메라 위치 조정
+        float distance = 5f;
         Vector3 directionEnemy = (enemy.position - transform.position).normalized;
         directionEnemy.y = 0;
-        Vector3 cameraPosition = player.position + (directionEnemy * -distance) + Vector3.up *3f;
-        Debug.DrawRay(player.position, directionEnemy * 5f, Color.red);
+        Vector3 cameraPosition = player.position + (directionEnemy * -distance) + Vector3.up *2.5f;
+        Debug.DrawRay(player.position, directionEnemy * 40f, Color.red);
         lockOnCamera.position = cameraPosition;
-        lockOnCamera.forward = directionEnemy;               
-        
-        //적방향으로 플레이어의 foward고정
-        if (haveTarget)
-        {
-            transform.forward = directionEnemy;
-            player.forward = directionEnemy;
-        }
+        lockOnCamera.forward = directionEnemy;      
         
     }
+    private void CheckEnemy()
+    {
+        
+       
+        
+    }
+   
+    
 
     private IEnumerator Rolling()
     {
         Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        isRolling = true;
+        
+        isRolling = true;        
 
-        float rollSpeed = 5f; 
-
-
-        // 구르는 방향 설정 빡시네
-        Vector3 rollDirection= Vector3.zero;
-        //if (Mathf.Abs(_percent) > Mathf.Abs(percent))
-        //{
-        //    if (_percent > 0)
-        //    {                
-        //        Debug.Log("위");
-        //        rollDirection = cameraPoint.right.normalized;
-        //    }
-        //    else
-        //    {
-        //        Debug.Log("아래");                
-        //        rollDirection = -cameraPoint.right.normalized;
-        //    }
-        //}
-        //else
-        //{
-        //    if (percent > 0)
-        //    {
-        //        Debug.Log("앞");                
-        //        rollDirection = cameraPoint.forward.normalized;
-        //
-        //    }
-        //    else
-        //    {
-        //        Debug.Log("뒤");                
-        //        rollDirection = -cameraPoint.forward.normalized;
-        //    }
-        //}
-        //Vector3 cameraForward = moveCamera.forward; // 카메라의 forward 방향
-
-        Vector3 cameraForward = moveCamera.forward;
-        if (Input.GetKey(KeyCode.W))
-        {
-            rollDirection += cameraForward;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            rollDirection -= cameraForward;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            rollDirection -= moveCamera.right; // 좌측 방향
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            rollDirection += moveCamera.right; // 우측 방향
-        }
-        // 정규화된 이동 방향 벡터로 설정
-        rollDirection = rollDirection.normalized;
-        rollDirection.y = 0;
+        float rollSpeed = 5f;     
         float timer = 0f;
+
+        _percent = moveInput.x;
+        percent = moveInput.y;
+
         animator.SetFloat("x", _percent, 0.1f, Time.deltaTime);
         animator.SetFloat("y", percent, 0.1f, Time.deltaTime);
-        animator.SetTrigger("rolling");        
+        animator.SetTrigger("rolling");
+
+        Vector3 directionRoll = moveDir;
 
         // 구르기 지속 시간
         while (timer < 1f) 
         {
             timer += Time.deltaTime;
-            if (timer>0.2f && timer<0.9f)
-            {                       
+            if (timer>0.1f&& timer<0.9f)
+            {
                 // 구르는 방향으로 순간적으로 이동
-                transform.position +=  rollDirection * rollSpeed * Time.deltaTime;
+                transform.position +=  directionRoll.normalized * rollSpeed * Time.deltaTime;
                 transform.position = new Vector3(transform.position.x, 0, transform.position.z);             
             }            
-            yield return null;        
+            yield return null;
         }
+        yield return new WaitForSeconds(0.2f);
         isRolling = false;                
-    }   
+    }
+
+    Vector3 EulerToVector(float _in)
+    {
+        _in += moveCamera.eulerAngles.y;
+        _in *= Mathf.Deg2Rad;
+        return new Vector3(Mathf.Sin(_in), 0, Mathf.Cos(_in));
+    }
+    private void TargetDetection()
+    {
+        Collider[] objs = Physics.OverlapSphere(transform.position, detectionDistance);
+        targetList.Clear();
+
+        float radianRange = Mathf.Cos((detectionAngle / 2) * Mathf.Deg2Rad);
+
+        for (int i = 0; i < objs.Length; i++)
+        {
+            float targetRadian = Vector3.Dot(player.forward,
+                (objs[i].transform.position - player.position).normalized);
+            if (targetRadian > radianRange)
+            {
+                targetList.Add(objs[i].gameObject);
+                Debug.Log(targetList);
+                Debug.DrawLine(player.position, objs[i].transform.position, Color.black);
+            }
+        }
+        Debug.Log("Detected targets: " + targetList.Count);
+    }
+
 }
