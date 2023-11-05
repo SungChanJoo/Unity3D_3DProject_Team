@@ -17,6 +17,6 @@ public class EnemyTest : MonoBehaviour
         float x = Mathf.Sin(lerpTime);
         
 
-        transform.position = new Vector3(x*distance, 3, transform.position.z); ;
+        transform.position = new Vector3( x*distance, 3, transform.position.z); ;
     }
 }
