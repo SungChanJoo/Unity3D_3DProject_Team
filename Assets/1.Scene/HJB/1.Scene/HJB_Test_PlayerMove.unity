@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3823135, g: 0.46900892, b: 0.6139051, a: 1}
+  m_IndirectSpecularColor: {r: 0.3823135, g: 0.46900892, b: 0.6139065, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1389,6 +1389,7 @@ MonoBehaviour:
   detectionDistance: 50
   targetList: []
   player: {fileID: 5826158343638129406}
+  targetEnemy: {fileID: 0}
 --- !u!54 &1790688982
 Rigidbody:
   m_ObjectHideFlags: 0
