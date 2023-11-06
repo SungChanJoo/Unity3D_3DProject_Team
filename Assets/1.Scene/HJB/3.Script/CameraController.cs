@@ -34,7 +34,7 @@ public class CameraController : MonoBehaviour
     private Vector3 lookRight;
     private Vector3 moveDir;
 
-    //담아야 할 적
+    //담아야 할 적의 정보
     private float detectionAngle = 90f;
     [SerializeField] private float detectionDistance = 50f;
     public List<GameObject> targetList = new List<GameObject>();
@@ -75,8 +75,7 @@ public class CameraController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab)&&targetList.Count!=0)
         {
-            haveTarget = !haveTarget;
-            Debug.Log(haveTarget);
+            haveTarget = !haveTarget;            
         }
         //적체크카메라
         CheckEnemyCamera(GetClosestEnemyInFront());
@@ -88,8 +87,7 @@ public class CameraController : MonoBehaviour
             if (distance>detectionDistance)
             {
                 haveTarget = false;
-            }
-            Debug.Log(distance);            
+            }                  
         }
 
         if (haveTarget)
@@ -314,10 +312,7 @@ public class CameraController : MonoBehaviour
 
                 }
             }
-        }
-        
-        Debug.Log("감지된 적의 수: " + targetList.Count);
-        
+        }        
     }
     //카메라 정면 기준 가장 가까운 적을 찾는 메서드
     private GameObject GetClosestEnemyInFront()
@@ -335,6 +330,7 @@ public class CameraController : MonoBehaviour
     }
     private IEnumerator GetclosersetInFrontDelay()
     {
+        
         yield return new WaitForSeconds(2f);
         GameObject closestEnemy = null;
         float closestDistanceSqr = Mathf.Infinity;
