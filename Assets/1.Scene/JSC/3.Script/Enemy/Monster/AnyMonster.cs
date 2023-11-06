@@ -16,13 +16,10 @@ using UnityEngine.AI;
 
 public class AnyMonster : Enemy
 {
-    [SerializeField] private float startAttackTime = 0.3f; // 공격시작시간
-    [SerializeField] private float endAttackTime = 1.5f; // 공격종료시간
-
+    public List<GameObject> wayPoint;
     [SerializeField] private MonsterData monsterData;
-
     private bool isPatroll = true;
-    private bool isMiss = false;
+    //private bool isMiss = false;
     //protected State state;
     private bool isTarget
     {
@@ -53,8 +50,9 @@ public class AnyMonster : Enemy
     }
     protected override void Awake()
     {
-        base.Awake();
         SetUp();
+        base.Awake();
+        agent.avoidancePriority = UnityEngine.Random.Range(0, 100);
         weapon.GetComponent<BoxCollider>().enabled = false;
     }
 
@@ -99,9 +97,13 @@ public class AnyMonster : Enemy
     }
     void OnEndAni()
     {
+        StartCoroutine(DelayAttack_co());
+    }
+    IEnumerator DelayAttack_co()
+    {
+        yield return new WaitForSeconds(timebetAttack);
         isAttack = false;
         agent.isStopped = false;
-        enemyAni.SetBool("isAttack", false);
         enemyAni.SetBool("isMove", !isAttack);
     }
     private IEnumerator UpdataTargetPosition()
@@ -110,14 +112,16 @@ public class AnyMonster : Enemy
         Ray ray;
         while (!IsDead)
         {
-            if(isTarget)
+            hpSlider.value = Health; // 왜 슬라이더 값이 변하는 지 모르겠네...
+
+            if (isTarget)
             {           
                 ray = new Ray(transform.position + new Vector3(0, 1f, 0), transform.forward );
 
                 Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * attackDistance, Color.red);
                 //float distance = Vector3.Distance(targetEntity.transform.position, transform.position);
                 //거리가 공격범위보다 가깝고 공격중이 아닐때 //, 10f, LayerMask.NameToLayer("Player")
-                if (Physics.Raycast(ray, out raycastHit, attackDistance, TargetLayer)  )
+                if (Physics.Raycast(ray, out raycastHit, attackDistance, TargetLayer))
                 {
                     if (!IsDead && Time.time >= lastAttackTimebet && !isAttack)
                     {
@@ -131,12 +135,12 @@ public class AnyMonster : Enemy
                     }
                     //Debug.Log(raycastHit.transform.gameObject);
                 }
-                else if(!isAttack)
+                else if(!isAttack )
                 {
                     agent.SetDestination(targetEntity.transform.position);
 
                 }
-                isMiss = true;
+                //isMiss = true;
             }
             else
             {
@@ -174,19 +178,29 @@ public class AnyMonster : Enemy
             
         if (agent.remainingDistance <= agent.stoppingDistance)
         {
-                agent.SetDestination(wayPoint[UnityEngine.Random.Range(0, wayPoint.Length)].transform.position);
+            StartCoroutine(PatrollDelay_co());
+            //StartCoroutine(PatrollDelay_co());
 
         }
 
     }
-/*    void Chase()
+    IEnumerator PatrollDelay_co()
     {
+        enemyAni.SetBool("isPatrolling", false);
+
+        yield return new WaitForSeconds(3f);
+        agent.SetDestination(wayPoint[UnityEngine.Random.Range(0, wayPoint.Count)].transform.position);
+
 
     }
-    void ActionState(State state)
-    {
+    /*    void Chase()
+        {
 
-    }*/
+        }
+        void ActionState(State state)
+        {
+
+        }*/
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
@@ -209,7 +223,8 @@ public class AnyMonster : Enemy
         if(isAI)
         {
             enemyAni.SetBool("HasTarget", isTarget);
-            if(isPatroll)
+
+            if (isPatroll)
             {
                 Patroll();
             }

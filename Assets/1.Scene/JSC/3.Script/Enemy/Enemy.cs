@@ -33,7 +33,6 @@ public class Enemy : MonoBehaviour, IDamageable
     [Header("ETC")]
     [SerializeField] protected Slider hpSlider;
     [SerializeField] protected GameObject weapon;
-    [SerializeField] protected GameObject[] wayPoint;
     protected Animator enemyAni;
     protected Rigidbody enemyRigid;
     protected bool isAttack = false;
@@ -45,6 +44,8 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         IsDead = false;
         Health = MaxHealth;
+        hpSlider.maxValue = MaxHealth;
+        hpSlider.value = Health;
     }
 
     protected virtual void Awake()
@@ -52,7 +53,6 @@ public class Enemy : MonoBehaviour, IDamageable
         TryGetComponent(out agent);
         TryGetComponent(out enemyAni);
         TryGetComponent(out enemyRigid);
-        hpSlider.value = MaxHealth;
     }
 
 
@@ -62,7 +62,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
         Health -= damage;
         hpSlider.value = Health;
-        Debug.Log("나 아프다..");
+        Debug.Log(damage+"받음 나 아프다..");
         if (Health <= 0 && !IsDead)
         {
             Die();

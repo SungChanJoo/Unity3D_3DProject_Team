@@ -4,9 +4,19 @@ using UnityEngine;
 
 public class HpLookPlayer : MonoBehaviour
 {
-    public Transform Cam;
+    private Transform Cam;
+
+    private void Awake()
+    {
+        Cam = GameObject.FindGameObjectWithTag("Cam").GetComponent<Transform>();
+    }
+
     private void LateUpdate()
     {
-        transform.LookAt(Cam);
+        transform.LookAt(Cam.position);
+/*        Vector3 target = (transform.position - Cam.position).normalized;
+
+        transform.forward = target;
+        Debug.Log(transform.position);*/
     }
 }
