@@ -21,5 +21,13 @@ public class Inventory : MonoBehaviour
         // Destroy(item);
     }
 
+    // Item이 가지고 있는 정보 (string name, string desc 등)을 Item이 가지고 있는 Canvas에 보이게 하는 함수가 IItem 내에!! 있고
+    // (-> 이걸 위해서는 IItem이 아니라 ItemBase가 되어야겠는디)
+    // Item 클래스 내 ShowDescTooltip() 이라고 하면 그 캔버스가 보이게 하기
+    public void ShowItemInfo()
+    {
+        // 마우스/선택이 해당 아이템에 올라갔나 안 올라갔나 확인하고 위의 행동을 하기.
+    }
+
     // 선택한 무기 성장 시킬 수 있는 메소드 구현할 수도 있음.
 }

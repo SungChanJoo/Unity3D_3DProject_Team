@@ -61,8 +61,8 @@ public abstract class WeaponBase : MonoBehaviour, IItem
     public virtual void Parry()
     {
         // 패링은 아래 메소드 + 로직을 쓸라나 안 쓸라나 모르겠다.
-        //EnableDamaging();
-        //currentDamage = attackDamage;
+        // EnableDamaging();
+        // currentDamage = attackDamage;
     }
 
     public virtual void Skill1()
