@@ -24,10 +24,14 @@ public class CameraController : MonoBehaviour
     [Header("평시 카메라")]
     [SerializeField] private Transform moveCamera;
 
+    [Header("Player Data")]
+    [SerializeField] private PlayerData playerData;
+    [SerializeField] private WeaponBase weaponBase;
     //플레이어의 현재 상태
     private bool haveTarget = false;
     private bool isRun = false;
     private bool isRolling = false;
+    private bool state = false;
 
     //플레이어 forward를 정하기위한 카메라 방향값
     private Vector3 lookForward;
@@ -39,8 +43,8 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float detectionDistance = 50f;
     public List<GameObject> targetList = new List<GameObject>();
 
-    [Header("대상")]
-    public Transform player;   
+    [Header("플레이어")]
+    public Transform player;
 
     //락온 타겟이 될 오브젝트 변수
     [SerializeField]private GameObject targetEnemy = null;
@@ -58,7 +62,7 @@ public class CameraController : MonoBehaviour
     }
     private void Start()
     {
-
+        Cursor.lockState = CursorLockMode.Locked;
     }
     private void Update()
     {
@@ -71,9 +75,23 @@ public class CameraController : MonoBehaviour
         move();
     }
 
+    //여기서 모든 상태를 하나로 묶어서 관리를 해야하나
+    public void StateCheck()
+    {
+        
+        if (isRolling)  
+        {
+            state = false;
+        }
+        else
+        {
+            state = true;
+        }
+    }
+
     private void LockOnTargetCheck()
     {
-        if (Input.GetKeyDown(KeyCode.Tab)&&targetList.Count!=0)
+        if (Input.GetMouseButtonDown(2)&&targetList.Count!=0)
         {
             haveTarget = !haveTarget;            
         }
@@ -330,7 +348,7 @@ public class CameraController : MonoBehaviour
     }
     private IEnumerator GetclosersetInFrontDelay()
     {
-        
+        //카메라 전환중에 다른타겟을 보지않도록 하기위해 딜레이
         yield return new WaitForSeconds(2f);
         GameObject closestEnemy = null;
         float closestDistanceSqr = Mathf.Infinity;
