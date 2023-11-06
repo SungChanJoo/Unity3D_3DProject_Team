@@ -21,7 +21,9 @@ public class OrcSpawner : MonoBehaviour
             Vector3 pPosition = transform.position;
             for(int j =0; j < wayPointCount; j++)
             {
-                if(j == 0)
+                float temp = Time.time * 100f;
+                Random.InitState((int)temp);
+                if (j == 0)
                 {
                     pPosition = RandomPosition();
                     orc.GetComponent<AnyMonster>().wayPoint.Add(Instantiate(wayPoint, pPosition, Quaternion.identity));  
@@ -36,8 +38,9 @@ public class OrcSpawner : MonoBehaviour
     }
     Vector3 RandomPosition()
     {
-        Vector3 originPosition = transform.position;
 
+
+        Vector3 originPosition = transform.position;
 
         rangeX = Random.Range((rangeX / 2) * -1, rangeX / 2);
         rangeZ = Random.Range((rangeZ / 2) * -1, rangeZ / 2);
@@ -48,12 +51,13 @@ public class OrcSpawner : MonoBehaviour
     }
     Vector3 RandomPosition(Vector3 pPosition)
     {
+
         Vector3 originPosition = transform.position;
         Vector3 randomPostion = pPosition;
-        while (Vector3.SqrMagnitude(pPosition - randomPostion)<70f)
+        while (Vector3.SqrMagnitude(pPosition - randomPostion)>70f)
         {
-            rangeX = Random.Range((rangeX / 2) * -1, rangeX / 2);
             rangeZ = Random.Range((rangeZ / 2) * -1, rangeZ / 2);
+            rangeX = Random.Range((rangeX / 2) * -1, rangeX / 2);
             randomPostion = new Vector3(rangeX, 0f, rangeZ);
         }
 

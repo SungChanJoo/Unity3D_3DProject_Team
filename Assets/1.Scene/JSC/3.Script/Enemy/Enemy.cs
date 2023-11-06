@@ -62,7 +62,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
         Health -= damage;
         hpSlider.value = Health;
-        Debug.Log("나 아프다..");
+        Debug.Log(damage+"받음 나 아프다..");
         if (Health <= 0 && !IsDead)
         {
             Die();

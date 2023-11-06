@@ -18,8 +18,6 @@ public class AnyMonster : Enemy
 {
     public List<GameObject> wayPoint;
     [SerializeField] private MonsterData monsterData;
-    [SerializeField] private float patrollTime = 20f;
-    private float lastPatrollTime;
     private bool isPatroll = true;
     //private bool isMiss = false;
     //protected State state;
