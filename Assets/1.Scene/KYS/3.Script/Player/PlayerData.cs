@@ -133,6 +133,15 @@ public class PlayerData : MonoBehaviour, IDamageable
     //    return true;
     //}
 
+    // 임시방편
+    public void TakeDamage(float damage)
+    {
+        CurrentHealth -= damage;
+
+        if (CurrentHealth < 0)
+            Die();
+    }
+
     // knockback 관련 이벤트를 만들어서 playermovement가 sub하게 할까 말까
     public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)
     {
@@ -140,7 +149,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         CurrentHealth -= damage;
 
         tempAnimator.SetTrigger("Hit");
-
 
         if (CurrentHealth < 0)
             Die();

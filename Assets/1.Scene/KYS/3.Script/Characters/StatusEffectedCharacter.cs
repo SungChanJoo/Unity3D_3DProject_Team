@@ -22,6 +22,10 @@ public class StatusEffectedCharacter : MonoBehaviour
     {
         statusEffects = new ObservableCollection<StatusEffect>();
         statusEffects.CollectionChanged += StatusEffects_CollectionChanged;
+
+        ParticleSystem ps = GetComponentInChildren<ParticleSystem>();
+        if (ps != null)
+            ps.Stop();
     }
 
     private void Update()
@@ -71,7 +75,6 @@ public class StatusEffectedCharacter : MonoBehaviour
 
     public void RemoveStatusEffect(StatusEffect se)
     {
-        Debug.LogWarning("Removed Status Effect: " + se.Type);
         statusEffects.Remove(se);
     }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 class BlurryVisionEffect : StatusEffect
 {
-    public BlurryVisionEffect(StatusEffectedCharacter target) : base(StatusEffectType.BlurryVision, target, "Hold") { }
+    public BlurryVisionEffect(StatusEffectedCharacter target) : base(StatusEffectType.BlurryVision, target) { }
 
     public override void ApplyEffect()
     {

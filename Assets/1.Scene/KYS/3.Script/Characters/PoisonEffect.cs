@@ -8,10 +8,16 @@ using UnityEngine;
 
 class PoisonEffect : StatusEffect
 {
+    private ParticleSystem particleSystem;
+
     private float damage = 5;
     private float effectTimer = 1;
 
-    public PoisonEffect(StatusEffectedCharacter target) : base(StatusEffectType.Poisoned, target, "Attack") { }
+    public PoisonEffect(StatusEffectedCharacter target) : base(StatusEffectType.Poisoned, target)
+    {
+        particleSystem = target.gameObject.GetComponentInChildren<ParticleSystem>();
+        particleSystem?.Stop();
+    }
 
     public override void ApplyEffect()
     {
@@ -22,11 +28,20 @@ class PoisonEffect : StatusEffect
     {
         while (IsOnGoing)
         {
-            // IDamageable의 TakeDamage 메소드가 범용성이 떨어진다.
-            target.TargetData.TakeDamage(damage, 0, Vector3.zero, Vector3.zero);
+            target.TargetData.TakeDamage(damage);
 
             // 1초마다 타이머 다 끝났나 체크
             yield return new WaitForSeconds(effectTimer);
         }
+    }
+
+    public override void CustomStartEffect()
+    {
+        particleSystem?.Play();
+    }
+
+    public override void CustomEndEffect()
+    {
+        particleSystem?.Stop();
     }
 }
