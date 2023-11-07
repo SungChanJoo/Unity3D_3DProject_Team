@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,9 +40,6 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     //public bool IsDead { get; private set; }
 
-    // 관련 메소드 구현은 추후에 할 것
-    private List<StatusEffect> statusEffects;
-
     private WeaponBase currentWeapon;
     public WeaponBase CurrentWeapon
     {
@@ -55,10 +54,7 @@ public class PlayerData : MonoBehaviour, IDamageable
     }
     // CurrentArmor도 넣어야 하는 Aromor는 구현 방식을 좀 더 고민해 본 뒤 넣을 것
 
-    // StatusEffect 값 변경하기 쉽지 않도록 List가 아닌 Array를 할당
-    public Action<StatusEffect[]> StatusEffectChangedEvent;
     public Action PlayerDiedEvent;
-
 
     private void Awake()
     {
@@ -93,9 +89,6 @@ public class PlayerData : MonoBehaviour, IDamageable
 
         if (Input.GetKeyDown(KeyCode.J))
             TakeDamage(5, 1, Vector3.zero, Vector3.zero);
-
-
-        //Debug.Log($"hp:{CurrentHealth}\nmp:{mana}\nstamina:{stamina}");
     }
 
     /// <summary>
