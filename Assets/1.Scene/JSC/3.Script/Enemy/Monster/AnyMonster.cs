@@ -17,7 +17,7 @@ using UnityEngine.AI;
 public class AnyMonster : Enemy
 {
     public List<GameObject> wayPoint;
-    [SerializeField] private MonsterData monsterData;
+    [SerializeField] private EnemyData enemyData;
     private bool isPatroll = true;
     //private bool isMiss = false;
     //protected State state;
@@ -40,13 +40,13 @@ public class AnyMonster : Enemy
 
     private void SetUp()
     {
-        MaxHealth = monsterData.MaxHealth;
-        damage = monsterData.Damage;
-        force = monsterData.Force;
-        speed = monsterData.Speed;
-        attackDistance = monsterData.AttackDistance;
-        timebetAttack = monsterData.TimegetAttack;
-        detectRange = monsterData.DetectRange;
+        MaxHealth = enemyData.MaxHealth;
+        damage = enemyData.Damage;
+        force = enemyData.Force;
+        speed = enemyData.Speed;
+        attackDistance = enemyData.AttackDistance;
+        timebetAttack = enemyData.TimegetAttack;
+        detectRange = enemyData.DetectRange;
     }
     protected override void Awake()
     {
@@ -105,6 +105,7 @@ public class AnyMonster : Enemy
         isAttack = false;
         agent.isStopped = false;
         enemyAni.SetBool("isMove", !isAttack);
+        Debug.Log("move´Â " + !isAttack);
     }
     private IEnumerator UpdataTargetPosition()
     {
