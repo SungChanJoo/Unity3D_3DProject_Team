@@ -23553,7 +23553,7 @@ MonoBehaviour:
   - {fileID: 641312649}
   - {fileID: 919147456}
   - {fileID: 2020938168}
-  monsterData: {fileID: 11400000, guid: 557a73e8de0e1f34fb0ade84170c2680, type: 2}
+  enemyData: {fileID: 0}
 --- !u!1 &7264051648123593205
 GameObject:
   m_ObjectHideFlags: 0
