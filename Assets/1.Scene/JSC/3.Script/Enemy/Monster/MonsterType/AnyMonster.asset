@@ -18,7 +18,4 @@ MonoBehaviour:
   Speed: 2
   AttackDistance: 2
   TimegetAttack: 2.267
-  DetectRange: 5
-  Weapon: {fileID: 0}
-  WayPoints: []
-  EnemyAni: {fileID: 0}
+  DetectRange: 20
