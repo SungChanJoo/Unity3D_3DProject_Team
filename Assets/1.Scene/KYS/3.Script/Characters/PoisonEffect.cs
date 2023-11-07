@@ -11,7 +11,7 @@ class PoisonEffect : StatusEffect
     private float damage = 5;
     private float effectTimer = 1;
 
-    public PoisonEffect(StatusEffectedCharacter target) : base(StatusEffectType.Poisoned, target) { }
+    public PoisonEffect(StatusEffectedCharacter target) : base(StatusEffectType.Poisoned, target, "Attack") { }
 
     public override void ApplyEffect()
     {

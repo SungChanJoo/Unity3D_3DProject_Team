@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 class ParalyseEffect : StatusEffect
 {
-    public ParalyseEffect(StatusEffectedCharacter target) : base(StatusEffectType.Paralysed, target) { }
+    public ParalyseEffect(StatusEffectedCharacter target) : base(StatusEffectType.Paralysed, target, "ChargeAttack") { }
 
     public override void ApplyEffect()
     {

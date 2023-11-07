@@ -19,24 +19,27 @@ public abstract class StatusEffect : IDisposable
     // PlayerData 사용이 좋은 방법이 아니긴 한데 일단 적용
     protected StatusEffectedCharacter target;
 
+    protected ParticleSystem particleSystem;
+
     // UI 쪽에서 icon 고르고 할당해주기
     private Sprite icon;
-    
-    // effect
+
+    private string animationTriggerName;
 
     private float removeTimer = 5;
     private float remainingTime = 0;
     private float checkTime = 1;
 
-    public StatusEffect(StatusEffectType type, StatusEffectedCharacter target)
+    public StatusEffect(StatusEffectType type, StatusEffectedCharacter target, string animationTriggerName)
     {
         Type = type;
         this.target = target;
+        this.animationTriggerName = animationTriggerName;
     }
 
     public IEnumerator StartEffectRoutine()
     {
-        IsOnGoing = true;
+        StartEffect();
 
         ApplyEffect();
 
@@ -48,8 +51,31 @@ public abstract class StatusEffect : IDisposable
             yield return new WaitForSeconds(checkTime);
         }
 
+        EndEffect();
+    }
+
+    private void StartEffect()
+    {
+        IsOnGoing = true;
+        particleSystem?.Play();
+
+        Animator animator = target.gameObject.GetComponentInChildren<Animator>();
+        if (animator != null)
+        {
+            animator.SetTrigger(animationTriggerName);
+        }
+    }
+
+    private void EndEffect()
+    {
         RemoveEffect();
-        
+        particleSystem?.Stop();
+
+        //Animator animator = target.gameObject.GetComponentInChildren<Animator>();
+        //if (animator != null)
+        //{
+        //    animator.Play("Walk Tree");
+        //}
     }
 
     public abstract void ApplyEffect();
