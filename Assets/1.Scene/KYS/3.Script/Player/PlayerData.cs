@@ -69,7 +69,7 @@ public class PlayerData : MonoBehaviour, IDamageable
 
         CurrentHealth = maxHealth;
         walkSpeed = 5;
-        runSpeed = 10;
+        runSpeed = 8;
 
         //
         currentWeapon = tempSword;
