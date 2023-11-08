@@ -89,38 +89,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         RestoreStamina(0.1f);
     }
 
-    /// <summary>
-    /// 스태미나 사용이 됐을 경우 true, 스태미나가 부족할 경우 false을 반환
-    /// </summary>
-    public bool UseStamina(float amount)
-    {
-        if (currentStamina - amount < 0) return false;
-
-        currentStamina -= amount;
-        tempStaminaSlider.value = currentStamina;
-
-        return true;
-    }
-
-    /// <summary>
-    /// 마나 사용이 됐을 경우 true, 마나가 부족할 경우 false을 반환
-    /// </summary>
-    public bool UseMana(float amount)
-    {
-        if (currentMana - amount < 0) return false;
-
-        currentMana -= amount;
-        tempMpSlider.value = currentMana;
-
-        return true;
-    }
-
-    // 추후 State 패턴을 사용한다면 CameraController 쪽에서 bool 값을 파라미터로 넘겨주는 게 아니라
-    // PlayerData에서 알아서 State에 따라 speed 값 넘겨주는 것으로 수정하는 것이 좋을 듯
-    public float GetCurrentPlayerSpeed(bool isRunning = false)
-    {
-        return isRunning ? runSpeed : walkSpeed;
-    }
 
     //public bool ChangeCurrentWeapon(IWeapon weapon) // WeaponBase
     //{
@@ -131,27 +99,11 @@ public class PlayerData : MonoBehaviour, IDamageable
     //    return true;
     //}
 
-    // 임시방편. 추후 수정
-    public void TakeDamage(float damage)
+    // 추후 State 패턴을 사용한다면 CameraController 쪽에서 bool 값을 파라미터로 넘겨주는 게 아니라
+    // PlayerData에서 알아서 State에 따라 speed 값 넘겨주는 것으로 수정하는 것이 좋을 듯
+    public float GetCurrentPlayerSpeed(bool isRunning = false)
     {
-        currentHealth -= damage;
-        tempHpSlider.value = currentHealth;
-
-        if (currentHealth < 0)
-            Die();
-    }
-
-    // knockback 관련 이벤트를 만들어서 playermovement가 sub하게 할까 말까
-    public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)
-    {
-        // IsParrying 등의 State에 따른 처리 요구
-        currentHealth -= damage;
-        tempHpSlider.value = currentHealth;
-
-        tempAnimator.SetTrigger("Hit");
-
-        if (currentHealth < 0)
-            Die();
+        return isRunning ? runSpeed : walkSpeed;
     }
 
     public void Die()
@@ -164,6 +116,41 @@ public class PlayerData : MonoBehaviour, IDamageable
     {
         maxHealth += modifier;
         // slider
+    }
+
+    /// <summary>
+    /// 스태미나 사용이 됐을 경우 true, 스태미나가 부족할 경우 false을 반환
+    /// </summary>
+    public bool UseStamina(float amount) => Use(ref currentStamina, amount, tempStaminaSlider);
+
+    /// <summary>
+    /// 마나 사용이 됐을 경우 true, 마나가 부족할 경우 false을 반환
+    /// </summary>
+    public bool UseMana(float amount) => Use(ref currentMana, amount, tempMpSlider);
+
+    // IDamageable의 TakeDamage의 범용성이 떨어져서 만든 임시방편. 추후 수정할 거 같음.
+    public void TakeDamage(float damage)
+    {
+        bool isAlive = Use(ref currentHealth, damage, tempHpSlider);
+
+        if (!isAlive) Die();
+    }
+
+    // knockback 관련 이벤트를 만들어서 playermovement가 sub하게 할까 말까
+    public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)
+    {
+        TakeDamage(damage);
+        tempAnimator.SetTrigger("Hit");
+    }
+
+    private bool Use(ref float target, float amount, Slider slider) // slider는 추후 제거 예정. 어차피 UI에서 세 스탯 보여주니까.
+    {
+        if (target - amount < 0) return false;
+
+        target -= amount;
+        slider.value = target;
+
+        return true;
     }
 
     public bool RestoreHealth(float amount) => Restore(ref currentHealth, maxHealth, amount, tempHpSlider);
