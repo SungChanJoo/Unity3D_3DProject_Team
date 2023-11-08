@@ -3843,14 +3843,14 @@ MonoBehaviour:
   force: 0
   speed: 2
   attackDistance: 4
-  timebetAttack: 2.267
-  detectRange: 20
+  timebetAttack: 0.5
+  detectRange: 40
   hpSlider: {fileID: 2181800298938193057}
   weapon: {fileID: 3718154024757246392}
   enemyData: {fileID: 11400000, guid: 557a73e8de0e1f34fb0ade84170c2680, type: 2}
-  longDetectRange: 20
-  middleDetectRange: 10
-  shortDetectRange: 5
+  longDetectRange: 30
+  middleDetectRange: 20
+  shortDetectRange: 10
   jumpPower: 70
 --- !u!136 &1527733691597286408
 CapsuleCollider:

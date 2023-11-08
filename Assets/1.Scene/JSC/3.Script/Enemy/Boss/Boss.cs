@@ -2,13 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+enum State
+{
+    Idle = 0,
+    Short,
+    Middle,
+    Long
+}
+
 public class Boss : Enemy
 {
+    [Header("Boss 세팅")]
     [SerializeField] private EnemyData enemyData;
     [SerializeField] private float longDetectRange = 20f;
     [SerializeField] private float middleDetectRange = 10f;
     [SerializeField] private float shortDetectRange = 5f;
     [SerializeField] private float jumpPower = 5f;
+    [SerializeField] private float nextBehaviorTimebet = 10f;
+    private float lastBehaviorTime;
     private Rigidbody enemyR;
 
     RaycastHit raycastHit;
@@ -16,10 +28,10 @@ public class Boss : Enemy
     Ray rightRay;
     Ray leftRay;
 
-    private bool isBehavior = false;
-    private bool isLong = false;
-    private bool isMiddle = false;
-    private bool isShort = false;
+    State bossState =0;
+
+    //private bool isBehavior = false;
+
 
     private bool isTarget
     {
@@ -51,6 +63,7 @@ public class Boss : Enemy
         agent.avoidancePriority = UnityEngine.Random.Range(0, 100);
         weapon.GetComponent<BoxCollider>().enabled = false;
         enemyR = GetComponent<Rigidbody>();
+        GetComponent<BoxCollider>().enabled = false;
     }
 
 
@@ -81,15 +94,22 @@ public class Boss : Enemy
     }
     IEnumerator DelayAttack_co()
     {
+        GetComponent<BoxCollider>().enabled = false;
+
         yield return new WaitForSeconds(timebetAttack);
         isAttack = false;
+        
+        //AI 활성화
         agent.enabled = true;
-
         agent.isStopped = false;
 
+        //상태 초기화
+        bossState = State.Idle;
         enemyAni.SetBool("isMove", !isAttack);
-        isBehavior = false;
         agent.speed = enemyData.Speed;
+
+        lastBehaviorTime = Time.time;
+        lastBehaviorTime += nextBehaviorTimebet;
     }
     protected void OnTriggerEnter(Collider other)
     {
@@ -140,62 +160,91 @@ public class Boss : Enemy
 
                 if (!IsDead && Time.time >= lastAttackTimebet && !isAttack)
                 {
-
-                    if (Physics.Raycast(rightRay, out raycastHit, attackDistance*1.2f, TargetLayer) || Physics.Raycast(leftRay, out raycastHit, attackDistance*1.2f, TargetLayer))
+                    if (Time.time >= lastBehaviorTime && bossState != State.Idle)
                     {
-                        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(targetEntity.transform.forward), 0.5f);
-                        transform.LookAt(targetEntity.transform);
+                        lastBehaviorTime = Time.time;
+                        lastBehaviorTime += nextBehaviorTimebet;
+                        bossState = State.Idle;
+                        isAttack = false;
+                        agent.speed = enemyData.Speed;
                     }
-                    if (DetectPlayer(shortDetectRange) && !isBehavior) //가까이 있을 때 근접 공격
+
+
+                    if (Physics.Raycast(rightRay, out raycastHit, longDetectRange, TargetLayer) || Physics.Raycast(leftRay, out raycastHit, longDetectRange, TargetLayer))
+                    {
+                        //transform.LookAt(targetEntity.transform);
+                    }
+
+                    if (DetectPlayer(shortDetectRange) && bossState == State.Idle) //가까이 있을 때 근접 공격
                     {
                         enemyAni.SetBool("isShort", true);
                         enemyAni.SetBool("isMiddle", false);
-                        isLong = false;
-                        isMiddle = false;
-                        isShort = true;
+                        enemyAni.SetBool("isLong", false);
+
+                        bossState = State.Short;
                     }
-                    else if (DetectPlayer(middleDetectRange) && !isBehavior) // 대쉬 공격
+                    else if (DetectPlayer(middleDetectRange) && bossState == State.Idle) // 대쉬 공격
                     {
+                        bossState = State.Middle;
+
                         enemyAni.SetBool("isShort", false);
                         enemyAni.SetBool("isMiddle", true);
-                        isLong = false;
-                        isMiddle = true;
-                        isShort = false;
+                        enemyAni.SetBool("isLong", false);
+                        agent.speed *= 3;
                     }
-                    else if (DetectPlayer(longDetectRange) && !isBehavior) // 점프 공격
+                    else if (DetectPlayer(longDetectRange) && bossState == State.Idle) // 점프 공격
                     {
-                        isLong = true;
-                        isMiddle = false;
-                        isShort = false;
-                    }
-                    if(isShort)
-                    {
-                        BasicAttack();
+                        bossState = State.Long;
 
+                        enemyAni.SetBool("isShort", false);
+                        enemyAni.SetBool("isMiddle", false);
+                        enemyAni.SetBool("isLong", true);
                     }
-                    if (isMiddle)
+
+                    if(bossState == State.Short)
                     {
-                        DashAttack();
+                        if (Physics.Raycast(centerRay, out raycastHit, attackDistance, TargetLayer) ||
+                            Physics.Raycast(rightRay, out raycastHit, attackDistance, TargetLayer) ||
+                            Physics.Raycast(leftRay, out raycastHit, attackDistance, TargetLayer) && !isAttack)
+                        {
+                            BasicAttack();
+                        }
                     }
-                    if (isLong)
+                    else if (bossState == State.Middle)
                     {
-                        JumpAttack();
+                        Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * middleDetectRange, Color.red);
+                        float dashIdle = 3.5f;
+                        if (Physics.Raycast(centerRay, out raycastHit, attackDistance * dashIdle, TargetLayer) ||
+                            Physics.Raycast(rightRay, out raycastHit, attackDistance * dashIdle, TargetLayer) || 
+                            Physics.Raycast(leftRay, out raycastHit, attackDistance * dashIdle, TargetLayer) && !isAttack)
+                        {
+                            DashAttack();
+                        }
                     }
-                }else if(Time.time >= lastAttackTimebet)
-                {
+                    else if (bossState == State.Long)
+                    {
+                        Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * longDetectRange, Color.black);
+
+                        if (Physics.Raycast(centerRay, out raycastHit, longDetectRange, TargetLayer) ||
+                            Physics.Raycast(rightRay, out raycastHit, longDetectRange, TargetLayer) ||
+                            Physics.Raycast(leftRay, out raycastHit, longDetectRange, TargetLayer) && !isAttack)
+                        {
+                            StartCoroutine(JumpAttack_co());
+                        }
+                    }
                     lastAttackTimebet = Time.time;
                     lastAttackTimebet += timebetAttack;
-                    isLong = false;
-                    isMiddle = false;
-                    isShort = false;
-                    isBehavior = false;
-                    agent.speed = enemyData.Speed;
+
+
                 }
-                if(agent.enabled)
+                else if (agent.enabled)
                 {
                     agent.SetDestination(targetEntity.transform.position);
 
                 }
+
+
+
 
                 //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(targetEntity.transform.position), 1f);
 
@@ -235,49 +284,57 @@ public class Boss : Enemy
 
     private void BasicAttack()
     {
-        isBehavior = true;
-        if (Physics.Raycast(centerRay, out raycastHit, attackDistance, TargetLayer))
-        {
-            agent.isStopped = true;
-            isAttack = true;
-            enemyAni.SetBool("isMove", !isAttack);
-            enemyAni.SetTrigger("Attack");
-        }
+        agent.isStopped = true;
+        isAttack = true;
+        enemyAni.SetBool("isMove", !isAttack);
+        enemyAni.SetTrigger("Attack");
     }
     private void DashAttack()
     {
-        isBehavior = true;
-        agent.speed *= 2;
-
-        if (Physics.Raycast(centerRay, out raycastHit, attackDistance*2f, TargetLayer))
-        {
-            Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * attackDistance*2f, Color.red);
-
-            agent.isStopped = true;
-            isAttack = true;
-            enemyAni.SetBool("isMove", !isAttack);
-            enemyAni.SetTrigger("DashAttack");
-
-        }
+        agent.isStopped = true;
+        isAttack = true;
+        enemyAni.SetBool("isMove", !isAttack);
+        enemyAni.SetTrigger("DashAttack");
     }
-    private void JumpAttack()
+    private IEnumerator JumpAttack_co()
     {
-        isBehavior = true;
-        agent.speed *= 2;
+        isAttack = true;
 
-        if (Physics.Raycast(centerRay, out raycastHit, attackDistance * 10f, TargetLayer))
+        enemyR.useGravity = false;
+        enemyR.isKinematic = true;
+        agent.enabled = false;
+        Debug.Log("JumpAttack 했어용");
+
+        enemyAni.SetTrigger("JumpAttack");
+        yield return new WaitForSeconds(0.3f);
+        float jumpY = transform.position.y + jumpPower;
+        while (transform.position.y < jumpY - 2f)
         {
-            Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * attackDistance * 10f, Color.black);
-            agent.enabled = false;
-
-            Debug.Log("JumpAttack 했어용");
-
-            isAttack = true;
-            enemyAni.SetBool("isMove", !isAttack);
-            enemyAni.SetTrigger("JumpAttack");
-            enemyR.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            transform.LookAt(targetEntity.transform);
+            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, jumpY, transform.position.z), 1f * Time.deltaTime);
+            yield return null;
+           
 
         }
+        enemyAni.SetTrigger("JumpIdle");
+        GetComponent<BoxCollider>().enabled = true;
+
+        Vector3 tempPos = targetEntity.transform.position;
+        while ((transform.position.y - tempPos.y) > 1f)
+        {
+
+            transform.position = Vector3.Lerp(transform.position, tempPos, 5f * Time.deltaTime);
+            yield return null;
+
+        }
+
+        enemyAni.SetTrigger("JumpEnd");
+        enemyR.useGravity = true;
+        enemyR.isKinematic = false;
+        agent.enabled = true;
+        agent.isStopped = true;
+        enemyAni.SetBool("isMove", !isAttack);
+
     }
 
     private void Start()
