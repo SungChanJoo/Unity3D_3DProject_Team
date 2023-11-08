@@ -509,7 +509,7 @@ ModelImporter:
       name: JumpIdle
       takeName: Take 001
       internalID: 0
-      firstFrame: 12
+      firstFrame: 4
       lastFrame: 15
       wrapMode: 0
       orientationOffsetY: 0
