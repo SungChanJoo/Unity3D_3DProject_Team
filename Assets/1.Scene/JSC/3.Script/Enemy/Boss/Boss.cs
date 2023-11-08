@@ -8,7 +8,8 @@ enum State
     Idle = 0,
     Short,
     Middle,
-    Long
+    Long,
+
 }
 
 public class Boss : Enemy
@@ -23,12 +24,15 @@ public class Boss : Enemy
     private float lastBehaviorTime;
     private Rigidbody enemyR;
 
+    [SerializeField] private GameObject enemyStrongEffect;
+
     RaycastHit raycastHit;
     Ray centerRay;
     Ray rightRay;
     Ray leftRay;
 
     State bossState =0;
+    public bool isStrong = false;
 
     //private bool isBehavior = false;
 
@@ -64,6 +68,7 @@ public class Boss : Enemy
         weapon.GetComponent<BoxCollider>().enabled = false;
         enemyR = GetComponent<Rigidbody>();
         GetComponent<BoxCollider>().enabled = false;
+        enemyStrongEffect.SetActive(false);
     }
 
 
@@ -83,6 +88,10 @@ public class Boss : Enemy
     void OnStartAttack()
     {
         weapon.GetComponent<BoxCollider>().enabled = true;
+        if (enemyStrongEffect.activeSelf == true)
+        {
+            enemyStrongEffect.SetActive(false);
+        }
     }
     void OnEndAttack()
     {
@@ -105,8 +114,10 @@ public class Boss : Enemy
 
         //상태 초기화
         bossState = State.Idle;
-        enemyAni.SetBool("isMove", !isAttack);
+        enemyAni.SetBool("isMove", true);
         agent.speed = enemyData.Speed;
+
+        isStrong = false;
 
         lastBehaviorTime = Time.time;
         lastBehaviorTime += nextBehaviorTimebet;
@@ -122,7 +133,14 @@ public class Boss : Enemy
                 //상대방 피격 위치와 피격 방향 근사값을 계산
                 Vector3 hitPoint = other.ClosestPoint(transform.position);
                 Vector3 hitNormal = transform.position - other.transform.position;
-                e.TakeDamage(damage, force, hitPoint, hitNormal);
+                if (isStrong)
+                {
+                    e.TakeDamage(damage*2f, force, hitPoint, hitNormal);
+                }
+                else
+                {
+                    e.TakeDamage(damage, force, hitPoint, hitNormal);
+                }
             }
         }
     }
@@ -160,6 +178,7 @@ public class Boss : Enemy
 
                 if (!IsDead && Time.time >= lastAttackTimebet && !isAttack)
                 {
+                    float rand = Random.Range(0, 100);
                     if (Time.time >= lastBehaviorTime && bossState != State.Idle)
                     {
                         lastBehaviorTime = Time.time;
@@ -207,7 +226,14 @@ public class Boss : Enemy
                             Physics.Raycast(rightRay, out raycastHit, attackDistance, TargetLayer) ||
                             Physics.Raycast(leftRay, out raycastHit, attackDistance, TargetLayer) && !isAttack)
                         {
-                            BasicAttack();
+                            if(rand > 30) // 70%확률
+                            {
+                                BasicAttack();
+                            }
+                            else
+                            {
+                                StrongAttack();
+                            }
                         }
                     }
                     else if (bossState == State.Middle)
@@ -242,15 +268,6 @@ public class Boss : Enemy
                     agent.SetDestination(targetEntity.transform.position);
 
                 }
-
-
-
-
-                //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(targetEntity.transform.position), 1f);
-
-                //transform.position = Vector3.MoveTowards(transform.position, targetEntity.transform.position, speed * Time.deltaTime);
-
-
             }
             else
             {
@@ -288,6 +305,15 @@ public class Boss : Enemy
         isAttack = true;
         enemyAni.SetBool("isMove", !isAttack);
         enemyAni.SetTrigger("Attack");
+    }
+    private void StrongAttack()
+    {
+        agent.isStopped = true;
+        isAttack = true;
+        isStrong = true;
+        enemyStrongEffect.SetActive(true);
+        enemyAni.SetBool("isMove", !isAttack);
+        enemyAni.SetTrigger("StrongAttack");
     }
     private void DashAttack()
     {
