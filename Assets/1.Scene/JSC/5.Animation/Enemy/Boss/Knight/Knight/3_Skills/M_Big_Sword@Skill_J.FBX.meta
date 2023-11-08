@@ -419,13 +419,16 @@ ModelImporter:
     second: root
   - first:
       74: 7400000
-    second: JumpAttack
+    second: JumpStart
   - first:
       95: 9500000
     second: //RootNode
   - first:
       41386430: 2186277476908879412
     second: ImportLogs
+  - first:
+      74: 4651498078043555414
+    second: JumpIdle
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -503,11 +506,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: JumpAttack
+      name: JumpStart
       takeName: Take 001
       internalID: 0
       firstFrame: 0
-      lastFrame: 65
+      lastFrame: 10
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -526,28 +529,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0.3844178
-        functionName: OnStartAttack
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.59598416
-        functionName: OnEndAttack
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.9923803
-        functionName: OnEndAni
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask:
       - path: 
         weight: 1
