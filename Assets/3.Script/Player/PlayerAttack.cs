@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,11 +14,15 @@ public class PlayerAttack : MonoBehaviour
     public bool hold = false;
     public bool perfectParrying = false;
     private bool mana;
+    private bool performedChargeAttack = false;    
+
+    private float chargingTimer = 0;
 
     private void Awake()
     {
         tempAnimator = GetComponent<Animator>();
     }
+
     public void OnAttackingAnimationCompleted()
     {
         data.CurrentWeapon.DisableDamaging();
@@ -25,22 +30,41 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
-            Attack();
+        if (Input.GetMouseButtonDown(0))            // 왼쪽 마우스 버튼을 누르면
+        {
+            tempAnimator.SetTrigger("Charge");      // 차지 애니메이션
 
-        else if (Input.GetKeyDown(KeyCode.L))
-            ChargeAttack();
+            // chargingTimer += Time.deltaTime;을 여기에 넣으면 performedChargeAttack 사용 안 해도 되긴 하는데 다른 사람이 코드를 이해하기 어려울까봐 못 넣겠다.
+            performedChargeAttack = false;          // 새로이 차지 공격할 수 있게 됨
+        }
+        else if (Input.GetMouseButton(0))           // 왼쪽 마우스 버튼을 (계속) 누르고 있는 중일 때
+        {
+            chargingTimer += Time.deltaTime;        // 차지
 
-        else if (Input.GetKeyDown(KeyCode.Alpha1))                   
+            if (CheckIfCharged()                    // 만약 다 차지가 된 상태이고
+                && !performedChargeAttack)          // 이미 해당 마우스 누름으로 인해 차지 공격을 한 상태가 아니라면
+                ChargeAttack();                     // 차지 공격
+        }
+        else if (Input.GetMouseButtonUp(0))         // 왼쪽 마우스 버튼에서 손을 떼었을 때
+        {
+            if (!CheckIfCharged())                  // 차지가 된 게 아니라면 (차지공격을 하지 않았다면) 
+                Attack();                           // 일반 공격
+
+            ResetChargingTimer();                   // 차지 타이머 리셋
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))                   
             Skill1();
         
         else if (Input.GetKeyDown(KeyCode.Alpha2))
-            skill2();
+            Skill2();
         
-
         Shield();
-
     }
+
+    private void ResetChargingTimer() => chargingTimer = 0;
+
+    private bool CheckIfCharged() => chargingTimer >= 1;
 
     public void Attack()
     {
@@ -52,6 +76,8 @@ public class PlayerAttack : MonoBehaviour
     {
         tempAnimator.SetTrigger("ChargeAttack");
         data.CurrentWeapon.ChargeAttack();
+
+        performedChargeAttack = true;
     }
 
     public void Shield()
@@ -92,7 +118,8 @@ public class PlayerAttack : MonoBehaviour
             Debug.Log("마나가 부족합니다.");
         }
     }
-    public void skill2()
+
+    public void Skill2()
     {
         mana = data.UseMana(20);
         if (mana)
@@ -105,17 +132,20 @@ public class PlayerAttack : MonoBehaviour
             Debug.Log("마나가 부족합니다.");
         }
     }
-    private IEnumerator skill2_Delay()
+
+    // Option 1
+    // 장점 : 추후 Skill2 외의 공격에서도 추가적 대미지를 주는 이벤트가 필요할 때 재사용 할 수 있음
+    // 단점 : 이벤트 쪽에서 필수적으로 대미지 값을 지정해서 넘겨줘야 함
+    public void OnAdditionalAttack(float damage)
     {
-        data.CurrentWeapon.Skill2();
-        //hold = true;
-        yield return new WaitForSeconds(0.5f);
-        //data.CurrentWeapon.Skill2();
-        //hold = false;
+        data.CurrentWeapon.AdditionalAttack(damage);
     }
-        
-    
 
-
-
+    // Option 2
+    // 장점 : 대미지 값을 스크립트 쪽에서, 특히 무기 쪽에서 제어할 수 있음
+    // 단점 : Skill2에만 사용할 수 있는 메소드임
+    public void OnAdditionalSkill2()
+    {
+        data.CurrentWeapon.AdditionalSkill2();
+    }
 }

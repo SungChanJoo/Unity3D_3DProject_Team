@@ -36,6 +36,7 @@ public class Boss : Enemy
 
 
 
+
     RaycastHit raycastHit;
     Ray centerRay;
     Ray rightRay;
@@ -397,6 +398,7 @@ public class Boss : Enemy
     {
         if (isAI)
             StartCoroutine(UpdataTargetPosition());
+
     }
     private void Update()
     {

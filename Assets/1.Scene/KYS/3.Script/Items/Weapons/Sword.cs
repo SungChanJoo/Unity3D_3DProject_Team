@@ -14,7 +14,7 @@ class Sword : WeaponBase
 
     protected override float Skill1Damage => 30;
 
-    protected override float Skill2Damage => 40;
+    protected override float Skill2Damage => 5;
 }
 
 //class Sword : MonoBehaviour, IWeapon

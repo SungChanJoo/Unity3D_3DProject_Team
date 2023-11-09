@@ -134,9 +134,14 @@ public class PlayerData : MonoBehaviour, IDamageable
     // IDamageable의 TakeDamage의 범용성이 떨어져서 만든 임시방편. 추후 수정할 거 같음.
     public void TakeDamage(float damage)
     {
-        bool isAlive = Use(ref currentHealth, damage, tempHpSlider);
+        if (currentHealth - damage <= 0)
+        {
+            Die();
+            return;
+        }
 
-        if (!isAlive) Die();
+        currentHealth -= damage;
+        tempHpSlider.value = currentHealth;
     }
 
     // knockback 관련 이벤트를 만들어서 playermovement가 sub하게 할까 말까
