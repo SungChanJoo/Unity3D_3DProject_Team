@@ -31,7 +31,12 @@ public class PlayerData : MonoBehaviour, IDamageable
     private float maxHealth;
     private float currentHealth;
 
-    //public bool IsDead { get; private set; }
+    private bool isDead = false;
+    public bool IsDead
+    {
+        get => isDead;
+        private set => isDead = value;
+    }
 
     private WeaponBase currentWeapon;
     public WeaponBase CurrentWeapon
@@ -46,8 +51,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         }
     }
     // CurrentArmor도 넣어야 하는 Aromor는 구현 방식을 좀 더 고민해 본 뒤 넣을 것
-
-    public Action PlayerDiedEvent;
 
     private void Awake()
     {
@@ -108,14 +111,14 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     public void Die()
     {
-        PlayerDiedEvent.Invoke();
+        IsDead = true;
     }
 
     // 최대 체력 늘려주는 아이템
     public void IncreaseMaxHealth(float modifier)
     {
         maxHealth += modifier;
-        // slider
+        // slider max value 변경
     }
 
     /// <summary>
