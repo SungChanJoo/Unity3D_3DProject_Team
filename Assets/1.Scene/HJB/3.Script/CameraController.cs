@@ -63,15 +63,15 @@ public class CameraController : MonoBehaviour
     //애니메이션 Blend값 저장할 변수
     float _percent;
     float percent;
-    //수렴 속도
-    float percentDamping = 1.5f;
+    //중력
 
+    private bool check = true;
     private void Awake()
     {
         animator = player.GetComponent<Animator>();
         _collider =player.GetComponent<Collider>();
         rigidbody = GetComponent<Rigidbody>();
-        rigidbody.useGravity = true;
+        
     }
     private void Start()
     {
@@ -79,6 +79,7 @@ public class CameraController : MonoBehaviour
     }
     private void Update()
     {
+        //rigidbody.velocity = Vector3.zero;
         StateCheck();
         Debug.DrawRay(transform.position, EulerToVector(0) * detectionDistance, Color.green);
         Debug.DrawRay(transform.position, EulerToVector(detectionAngle / 2) * detectionDistance, Color.green);
@@ -89,11 +90,12 @@ public class CameraController : MonoBehaviour
         move();
         cameraPoint.position = Vector3.MoveTowards(cameraPoint.position, transform.position, 20f*Time.deltaTime);
     }
+    
 
     //여기서 모든 상태를 하나로 묶어서 관리를 해야하나
     public void StateCheck()
     {
-        
+        //weaponBase.canDamageEnemy 앞 c를 C로 수정
         if (isRolling || weaponBase.canDamageEnemy ||attack.hold)  
         {
             state = true;
@@ -115,7 +117,7 @@ public class CameraController : MonoBehaviour
 
         if (targetEnemy!=null)
         {
-            float distance = (targetEnemy.transform.position - player.position).sqrMagnitude;
+            float distance = (targetEnemy.transform.position - transform.position).sqrMagnitude;
             distance =Mathf.Sqrt(distance);
             if (distance>detectionDistance)
             {
@@ -141,7 +143,7 @@ public class CameraController : MonoBehaviour
         //플레이어 이동속도 결정
         if (Input.GetKey(KeyCode.LeftShift)&&stamina)
         {            
-            stamina = data.UseStamina(0.1f);
+            //stamina = data.UseStamina(0.1f);
             isRun = true;
         }
         else
@@ -149,26 +151,35 @@ public class CameraController : MonoBehaviour
             isRun = false;
         }        
         finalSpeed = data.GetCurrentPlayerSpeed(isRun);
+        if (!state)
+        {
 
-        moveInputX = Input.GetAxis("Horizontal");
-        moveInputZ = Input.GetAxis("Vertical");
+            moveInputX = Input.GetAxis("Horizontal");
+            moveInputZ = Input.GetAxis("Vertical");
+        }
 
         bool move = new Vector3(moveInputX,0,moveInputZ).magnitude != 0;
+        
 
         //플레이어의 forward값을 카메라의 forward와 일치
 
-        if (!haveTarget &&move)
+        if (!haveTarget &&move&&!isRolling)
         {
-            lookForward = new Vector3(cameraPoint.forward.x, 0f, cameraPoint.forward.z).normalized;
-            lookRight = new Vector3(cameraPoint.right.x, 0f, cameraPoint.right.z).normalized;
-            player.forward = lookForward;
+            if (!haveTarget && move && !isRolling)
+            {
+                lookForward = new Vector3(cameraPoint.forward.x, 0f, cameraPoint.forward.z).normalized;
+                lookRight = new Vector3(cameraPoint.right.x, 0f, cameraPoint.right.z).normalized;
+                                               
+                // 플레이어가 움직일 때 카메라 방향을 따라가도록 함
+                //transform.forward = lookForward;                               
+            }
         }
         else if (haveTarget)
         {
             lookForward = new Vector3(lockOnCamera.forward.x, 0f, lockOnCamera.forward.z).normalized;
             lookRight = new Vector3(lockOnCamera.right.x, 0f, lockOnCamera.right.z).normalized;
-            Debug.DrawRay(player.position, moveDir * 5f, Color.black);
-            player.forward = lookForward;
+            Debug.DrawRay(transform.position, moveDir * 5f, Color.black);
+            transform.forward = lookForward;
 
         }
         moveDir = lookForward * moveInputZ + lookRight * moveInputX;
@@ -180,7 +191,7 @@ public class CameraController : MonoBehaviour
         if (!haveTarget && !state)
         {
 
-            var playerGroundPos = new Vector3(player.position.x, 0, transform.position.z);
+            var playerGroundPos = new Vector3(transform.position.x, 0, transform.position.z);
             var cameraGroundPos = new Vector3(Camera.main.transform.position.x, 0, Camera.main.transform.position.z);
 
             var cameraToPlayer = (playerGroundPos - cameraGroundPos);
@@ -191,53 +202,58 @@ public class CameraController : MonoBehaviour
             Debug.DrawLine(transform.position, transform.position + forward * moveInputZ, Color.red);
             Debug.DrawLine(transform.position, transform.position + right * moveInputX, Color.blue);
 
-            rigidbody.velocity = (forward * moveInputZ + right * moveInputX) * finalSpeed;
+            //rigidbody.velocity = (forward * moveInputZ + right * moveInputX) * finalSpeed;
+
             
-            percent = moveInputX;
-            animator.SetFloat("x", percent, 0.01f, Time.deltaTime);
-            percent = moveInputZ;
-            animator.SetFloat("y", percent, 0.01f, Time.deltaTime);
+
+            // 바라보는 방향으로 회전 후 다시 정면을 바라보는 현상을 막기 위해 설정
+            if (!(moveInputX == 0 && moveInputZ == 0))
+            {
+                // 이동과 회전을 함께 처리
+                rigidbody.MovePosition(transform.position + (forward * moveInputZ + right * moveInputX) * finalSpeed * Time.deltaTime);
+                // 회전하는 부분. Point 1.
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(moveDir), Time.deltaTime * (10f+finalSpeed));
+            }
+        
         }
 
         //락온에 따른 이동
         if (!state && haveTarget)
         {
             //플레이어 이동
-            rigidbody.velocity =moveDir * finalSpeed;
-            
-
-            //애니메이션의 Blend값 처리  
-            if (!isRolling && isRun)
-            {
-                _percent = 1f * moveInputX;
-                animator.SetFloat("RunX", _percent, 0.1f, Time.deltaTime);
-                percent = 1f * moveInputZ;
-                animator.SetFloat("RunY", percent, 0.1f, Time.deltaTime);
-            }
-            else if (!isRolling && !isRun)
-            {
-                _percent = 1f * moveInputX;
-                animator.SetFloat("x", _percent, 0.1f, Time.deltaTime);
-                percent = 1f * moveInputZ;
-                animator.SetFloat("y", percent, 0.1f, Time.deltaTime);
-            }
+            rigidbody.MovePosition(rigidbody.position + moveDir * finalSpeed * Time.deltaTime);
         }
-        //else
-        //{
-        //    _percent = Mathf.Lerp(_percent, 0f, Time.deltaTime * percentDamping);
-        //    percent = Mathf.Lerp(percent, 0f, Time.deltaTime * percentDamping);
 
-        //    animator.SetFloat("RunX", _percent, 0.1f, Time.deltaTime);
-        //    animator.SetFloat("RunY", percent, 0.1f, Time.deltaTime);
-        //    animator.SetFloat("x", _percent, 0.1f, Time.deltaTime);
-        //    animator.SetFloat("y", percent, 0.1f, Time.deltaTime);
-        //}
+        if (!haveTarget)
+        {
+            if (move)
+            {
+                percent = finalSpeed;
+
+            }
+            else
+            {
+                percent = 0;
+            }
+            animator.SetFloat("x", percent,0.1f,Time.deltaTime);
+        }
+        else
+        {
+            percent = moveInputX;
+            animator.SetFloat("x", percent);
+            percent = moveInputZ;
+            animator.SetFloat("y", percent);//, 0.01f, Time.deltaTime
+
+        }
+
+        
+        
         animator.SetBool("lockOn", haveTarget);
         animator.SetBool("runing", isRun);
         //구르기        
-        if (!state && Input.GetKeyDown(KeyCode.Space)&&stamina)
+        if (!state &&move&& Input.GetKeyDown(KeyCode.Space)&&stamina)
         {
-            stamina = data.UseStamina(10f);
+            //stamina = data.UseStamina(10f);
             StartCoroutine(Rolling());
         }
     }
@@ -274,30 +290,28 @@ public class CameraController : MonoBehaviour
         float distance = 5f;
         Vector3 directionEnemy = (_enemy.transform.position - transform.position).normalized;
         directionEnemy.y = 0;
-        Vector3 cameraPosition = player.position + (directionEnemy * -distance) + Vector3.up * 2.5f;
-        Debug.DrawRay(player.position, directionEnemy * 40f, Color.red);
+        Vector3 cameraPosition = transform.position + (directionEnemy * -distance) + Vector3.up * 2.5f;
+        Debug.DrawRay(transform.position, directionEnemy * 40f, Color.red);
         lockOnCamera.position = cameraPosition;
         lockOnCamera.forward = directionEnemy;
 
     }
 
-
-
     private IEnumerator Rolling()
     {
-        float moveInputX = Input.GetAxis("Horizontal");
-        float moveInputZ = Input.GetAxis("Vertical");
+        float X = Input.GetAxis("Horizontal");
+        float Z = Input.GetAxis("Vertical");
 
         isRolling = true;
 
         float rollSpeed = 5f;
         float timer = 0f;
 
-        _percent = moveInputX;
-        percent = moveInputZ;
+        _percent = X;
+        percent = Z;
 
-        animator.SetFloat("x", _percent, 0.1f, Time.deltaTime);
-        animator.SetFloat("y", percent, 0.1f, Time.deltaTime);
+        animator.SetFloat("x", _percent);
+        animator.SetFloat("y", percent);
         animator.SetTrigger("rolling");
 
         Vector3 directionRoll = moveDir;
@@ -307,24 +321,28 @@ public class CameraController : MonoBehaviour
         while (timer < 1f)
         {
             timer += Time.deltaTime;
-            if (timer > 0.1f && timer < 0.9f)
+            if (timer > 0.1f && timer < 1f)
             {
                 // 구르는 방향으로 순간적으로 이동
-                transform.position += directionRoll.normalized * rollSpeed * Time.deltaTime;
-                transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+                //transform.position += directionRoll.normalized * rollSpeed * Time.deltaTime;
+                //transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+                float distanceToMove = rollSpeed * Time.deltaTime;
+                Vector3 newPosition = transform.position + directionRoll.normalized * distanceToMove;
+
+                rigidbody.MovePosition(new Vector3(newPosition.x, -2.384186e-07f, newPosition.z));
             }
             yield return null;
         }
-        yield return new WaitForSeconds(0.2f);
+        animator.SetTrigger("Default");               
         _collider.enabled = true;
         isRolling = false;
     }
 
-    private Vector3 EulerToVector(float _in)
+    private Vector3 EulerToVector(float angle)
     {
-        _in += moveCamera.eulerAngles.y;
-        _in *= Mathf.Deg2Rad;
-        return new Vector3(Mathf.Sin(_in), 0, Mathf.Cos(_in));
+        angle += moveCamera.eulerAngles.y;
+        angle *= Mathf.Deg2Rad;
+        return new Vector3(Mathf.Sin(angle), 0, Mathf.Cos(angle));
     }
 
     //카메라 기준 정면 방향 적을 담는 메서드
@@ -340,12 +358,12 @@ public class CameraController : MonoBehaviour
         {
             if (objs[i].CompareTag("Enemy"))
             { 
-                float targetRadian = Vector3.Dot(player.forward,
-                    (objs[i].transform.position - player.position).normalized);
+                float targetRadian = Vector3.Dot(transform.forward,
+                    (objs[i].transform.position - transform.position).normalized);
                 if (targetRadian > radianRange)
                 {
                     targetList.Add(objs[i].gameObject);                
-                    Debug.DrawLine(player.position, objs[i].transform.position, Color.black);
+                    Debug.DrawLine(transform.position, objs[i].transform.position, Color.black);
 
                 }
             }
