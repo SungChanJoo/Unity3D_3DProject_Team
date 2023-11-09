@@ -48,7 +48,7 @@ public class PlayerAttack : MonoBehaviour
             if (!CheckIfCharged())                  // 차지가 된 게 아니라면 (차지공격을 하지 않았다면) 
                 Attack();                           // 일반 공격
 
-            ResetChargingState();                   // 차지 타이머 리셋
+            ResetChargingTimer();                   // 차지 타이머 리셋
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))                   
@@ -57,25 +57,12 @@ public class PlayerAttack : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha2))
             skill2();
         
-
         Shield();
-
     }
 
-    private void ResetChargingState()
-    {
-        chargingTimer = 0;
-    }
+    private void ResetChargingTimer() => chargingTimer = 0;
 
-        private bool CheckIfCharged()
-    {
-        Debug.Log($"차지 타이머 값 : {chargingTimer}\n" +
-                  $"차지 완료 여부: {chargingTimer >= 1}");
-
-        if (chargingTimer < 1) return false;
-
-        return true;
-    }
+    private bool CheckIfCharged() => chargingTimer >= 1;
 
     public void Attack()
     {
