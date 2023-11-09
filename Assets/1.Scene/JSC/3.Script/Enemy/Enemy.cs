@@ -11,9 +11,8 @@ public class Enemy : MonoBehaviour, IDamageable
     public bool isAI = true;
     [Header("추적할 대상 레이어")]
     public LayerMask TargetLayer;
-    protected Entity targetEntity;
+    protected PlayerData player;
 
-    [SerializeField] private Transform player;
     //경로를 계산할 AI Agent 
     protected NavMeshAgent agent;
 

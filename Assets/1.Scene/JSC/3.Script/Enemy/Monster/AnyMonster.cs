@@ -25,13 +25,13 @@ public class AnyMonster : Enemy
     {
         get
         {
-            if (targetEntity != null && !targetEntity.IsDead && 
-                Vector3.SqrMagnitude(targetEntity.transform.position - transform.position) < 150f) // 플레이어 거리가 탐지 범위안에 있을 때  
+            if (player != null && !player.IsDead && 
+                Vector3.SqrMagnitude(player.transform.position - transform.position) < 150f) // 플레이어 거리가 탐지 범위안에 있을 때  
             {
                 isPatroll = false;
                 return true;
             }
-            targetEntity = null;
+            player = null;
             isPatroll = true;
             return false;
 
@@ -61,7 +61,7 @@ public class AnyMonster : Enemy
     public override void TakeDamage(float damage, float knockBack, Vector3 hitposition, Vector3 hitNomal)
     {
         enemyAni.SetTrigger("TakeDamage");
-        transform.LookAt(targetEntity.transform.position);
+        transform.LookAt(player.transform.position);
         base.TakeDamage(damage, knockBack, hitposition, hitNomal);
     }
     
@@ -73,10 +73,10 @@ public class AnyMonster : Enemy
 
     protected void OnTriggerEnter(Collider other)
     {
-            if (other.TryGetComponent(out Entity e))
+            if (other.TryGetComponent(out PlayerData e))
 
             {
-                if (targetEntity.Equals(e))
+                if (player.Equals(e))
                 {
                     //ClosestPoint -> 닿는 위치
                     //상대방 피격 위치와 피격 방향 근사값을 계산
@@ -120,7 +120,7 @@ public class AnyMonster : Enemy
                 ray = new Ray(transform.position + new Vector3(0, 1f, 0), transform.forward );
 
                 Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * attackDistance, Color.red);
-                //float distance = Vector3.Distance(targetEntity.transform.position, transform.position);
+                //float distance = Vector3.Distance(player.transform.position, transform.position);
                 //거리가 공격범위보다 가깝고 공격중이 아닐때 //, 10f, LayerMask.NameToLayer("Player")
                 if (Physics.Raycast(ray, out raycastHit, attackDistance, TargetLayer))
                 {
@@ -138,7 +138,7 @@ public class AnyMonster : Enemy
                 }
                 else if(!isAttack )
                 {
-                    agent.SetDestination(targetEntity.transform.position);
+                    agent.SetDestination(player.transform.position);
 
                 }
                 //isMiss = true;
@@ -152,11 +152,11 @@ public class AnyMonster : Enemy
 
                 for (int i = 0; i < coll.Length; i++)
                 {
-                    if(coll[i].TryGetComponent(out Entity e))
+                    if(coll[i].TryGetComponent(out PlayerData e))
                     {
                         if(!e.IsDead)
                         {
-                            targetEntity = e;
+                            player = e;
                             break;
                         }
                     }
