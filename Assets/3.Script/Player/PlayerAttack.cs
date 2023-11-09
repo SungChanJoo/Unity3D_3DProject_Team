@@ -13,6 +13,9 @@ public class PlayerAttack : MonoBehaviour
     public bool hold = false;
     public bool perfectParrying = false;
     private bool mana;
+    private bool performedChargeAttack = false;    
+
+    private float chargingTimer = 0;
 
     private void Awake()
     {
@@ -25,13 +28,30 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
-            Attack();
+        if (Input.GetMouseButtonDown(0))            // 왼쪽 마우스 버튼을 누르면
+        {
+            tempAnimator.SetTrigger("Charge");      // 차지 애니메이션
 
-        else if (Input.GetKeyDown(KeyCode.L))
-            ChargeAttack();
+            // chargingTimer += Time.deltaTime;을 여기에 넣으면 performedChargeAttack 사용 안 해도 되긴 하는데 다른 사람이 코드를 이해하기 어려울까봐 못 넣겠다.
+            performedChargeAttack = false;          // 새로이 차지 공격할 수 있게 됨
+        }
+        else if (Input.GetMouseButton(0))           // 왼쪽 마우스 버튼을 (계속) 누르고 있는 중일 때
+        {
+            chargingTimer += Time.deltaTime;        // 차지
 
-        else if (Input.GetKeyDown(KeyCode.Alpha1))                   
+            if (CheckIfCharged()                    // 만약 다 차지가 된 상태이고
+                && !performedChargeAttack)          // 이미 해당 마우스 누름으로 인해 차지 공격을 한 상태가 아니라면
+                ChargeAttack();                     // 차지 공격
+        }
+        else if (Input.GetMouseButtonUp(0))         // 왼쪽 마우스 버튼에서 손을 떼었을 때
+        {
+            if (!CheckIfCharged())                  // 차지가 된 게 아니라면 (차지공격을 하지 않았다면) 
+                Attack();                           // 일반 공격
+
+            ResetChargingState();                   // 차지 타이머 리셋
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))                   
             Skill1();
         
         else if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -40,6 +60,21 @@ public class PlayerAttack : MonoBehaviour
 
         Shield();
 
+    }
+
+    private void ResetChargingState()
+    {
+        chargingTimer = 0;
+    }
+
+        private bool CheckIfCharged()
+    {
+        Debug.Log($"차지 타이머 값 : {chargingTimer}\n" +
+                  $"차지 완료 여부: {chargingTimer >= 1}");
+
+        if (chargingTimer < 1) return false;
+
+        return true;
     }
 
     public void Attack()
@@ -52,6 +87,8 @@ public class PlayerAttack : MonoBehaviour
     {
         tempAnimator.SetTrigger("ChargeAttack");
         data.CurrentWeapon.ChargeAttack();
+
+        performedChargeAttack = true;
     }
 
     public void Shield()
