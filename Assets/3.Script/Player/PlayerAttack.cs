@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,7 @@ public class PlayerAttack : MonoBehaviour
     {
         tempAnimator = GetComponent<Animator>();
     }
+
     public void OnAttackingAnimationCompleted()
     {
         data.CurrentWeapon.DisableDamaging();
@@ -55,7 +57,7 @@ public class PlayerAttack : MonoBehaviour
             Skill1();
         
         else if (Input.GetKeyDown(KeyCode.Alpha2))
-            skill2();
+            Skill2();
         
         Shield();
     }
@@ -116,7 +118,8 @@ public class PlayerAttack : MonoBehaviour
             Debug.Log("마나가 부족합니다.");
         }
     }
-    public void skill2()
+
+    public void Skill2()
     {
         mana = data.UseMana(20);
         if (mana)
@@ -129,17 +132,20 @@ public class PlayerAttack : MonoBehaviour
             Debug.Log("마나가 부족합니다.");
         }
     }
-    private IEnumerator skill2_Delay()
+
+    // Option 1
+    // 장점 : 추후 Skill2 외의 공격에서도 추가적 대미지를 주는 이벤트가 필요할 때 재사용 할 수 있음
+    // 단점 : 이벤트 쪽에서 필수적으로 대미지 값을 지정해서 넘겨줘야 함
+    public void OnAdditionalAttack(float damage)
     {
-        data.CurrentWeapon.Skill2();
-        //hold = true;
-        yield return new WaitForSeconds(0.5f);
-        //data.CurrentWeapon.Skill2();
-        //hold = false;
+        data.CurrentWeapon.AdditionalAttack(damage);
     }
-        
-    
 
-
-
+    // Option 2
+    // 장점 : 대미지 값을 스크립트 쪽에서, 특히 무기 쪽에서 제어할 수 있음
+    // 단점 : Skill2에만 사용할 수 있는 메소드임
+    public void OnAdditionalSkill2()
+    {
+        data.CurrentWeapon.AdditionalSkill2();
+    }
 }

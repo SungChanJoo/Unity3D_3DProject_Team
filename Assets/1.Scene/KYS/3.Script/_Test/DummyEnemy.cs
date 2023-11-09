@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DummyEnemy : MonoBehaviour, IDamageable
+public class DummyEnemy : Enemy, IDamageable
 {
     [SerializeField] private Slider hpSlider;
 
-    private float hp = 100f;
+    private float hp = 500f;
 
     private void Awake()
     {

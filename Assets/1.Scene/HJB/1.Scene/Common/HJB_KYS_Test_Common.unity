@@ -5450,6 +5450,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56ed3c3d65f1e2b4eb4f654a1cad65c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAI: 0
+  TargetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  MaxHealth: 100
+  damage: 20
+  force: 0
+  speed: 2
+  attackDistance: 2
+  timebetAttack: 2.267
+  detectRange: 5
+  hpSlider: {fileID: 710362791}
+  weapon: {fileID: 0}
   hpSlider: {fileID: 710362791}
 --- !u!65 &132763276
 BoxCollider:
@@ -11353,6 +11366,10 @@ PrefabInstance:
       propertyPath: longDetectRange
       value: 17
       objectReference: {fileID: 0}
+    - target: {fileID: 4927650122801587395, guid: b9fa9c13b2b58c245b49e50234e68214, type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 5268779812024204394, guid: b9fa9c13b2b58c245b49e50234e68214, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -11402,6 +11419,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5269617847917449379, guid: b9fa9c13b2b58c245b49e50234e68214, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5698832336038253245, guid: b9fa9c13b2b58c245b49e50234e68214, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5698832336038253245, guid: b9fa9c13b2b58c245b49e50234e68214, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
@@ -23538,7 +23563,6 @@ MonoBehaviour:
   TargetLayer:
     serializedVersion: 2
     m_Bits: 64
-  player: {fileID: 0}
   MaxHealth: 100
   damage: 20
   force: 0
