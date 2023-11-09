@@ -41,11 +41,10 @@ public class Boss : Enemy
     {
         get
         {
-            if (targetEntity != null && !targetEntity.IsDead) // 플레이어 거리가 탐지 범위안에 있을 때  
+            if (player != null && !player.IsDead) // 플레이어 거리가 탐지 범위안에 있을 때  
             {
                 return true;
             }
-            targetEntity = null;
             return false;
 
         }
@@ -76,7 +75,7 @@ public class Boss : Enemy
     public override void TakeDamage(float damage, float knockBack, Vector3 hitposition, Vector3 hitNomal)
     {
         enemyAni.SetTrigger("TakeDamage");
-        transform.LookAt(targetEntity.transform.position);
+        transform.LookAt(player.transform.position);
         base.TakeDamage(damage, knockBack, hitposition, hitNomal);
     }
 
@@ -107,27 +106,34 @@ public class Boss : Enemy
 
         yield return new WaitForSeconds(timebetAttack);
         isAttack = false;
-        
-        //AI 활성화
-        agent.enabled = true;
-        agent.isStopped = false;
+        if(!player.IsDead)
+        {
+            //AI 활성화
+            agent.enabled = true;
+            agent.isStopped = false;
 
-        //상태 초기화
-        bossState = State.Idle;
-        enemyAni.SetBool("isMove", true);
-        agent.speed = enemyData.Speed;
+            //상태 초기화
+            bossState = State.Idle;
+            enemyAni.SetBool("isMove", true);
+            agent.speed = enemyData.Speed;
 
-        isStrong = false;
+            isStrong = false;
 
-        lastBehaviorTime = Time.time;
-        lastBehaviorTime += nextBehaviorTimebet;
+            lastBehaviorTime = Time.time;
+            lastBehaviorTime += nextBehaviorTimebet;
+        }
+        else
+        {
+            enemyAni.SetBool("HasTarget", isTarget);
+        }
+
     }
     protected void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out Entity e))
+        if (other.TryGetComponent(out PlayerData e))
 
         {
-            if (targetEntity.Equals(e))
+            if (player.Equals(e))
             {
                 //ClosestPoint -> 닿는 위치
                 //상대방 피격 위치와 피격 방향 근사값을 계산
@@ -150,7 +156,7 @@ public class Boss : Enemy
         Collider[] coll = Physics.OverlapSphere(transform.position, detectRange, TargetLayer);
         for (int i = 0; i < coll.Length; i++)
         {
-            if (coll[i].TryGetComponent(out Entity e))
+            if (coll[i].TryGetComponent(out PlayerData e))
             {
                 if (!e.IsDead)
                 {
@@ -191,7 +197,7 @@ public class Boss : Enemy
 
                     if (Physics.Raycast(rightRay, out raycastHit, longDetectRange, TargetLayer) || Physics.Raycast(leftRay, out raycastHit, longDetectRange, TargetLayer))
                     {
-                        //transform.LookAt(targetEntity.transform);
+                        //transform.LookAt(player.transform);
                     }
 
                     if (DetectPlayer(shortDetectRange) && bossState == State.Idle) //가까이 있을 때 근접 공격
@@ -265,7 +271,7 @@ public class Boss : Enemy
                 }
                 else if (agent.enabled)
                 {
-                    agent.SetDestination(targetEntity.transform.position);
+                    agent.SetDestination(player.transform.position);
 
                 }
             }
@@ -276,18 +282,20 @@ public class Boss : Enemy
 
                 for (int i = 0; i < coll.Length; i++)
                 {
-                    if (coll[i].TryGetComponent(out Entity e))
+                    if (coll[i].TryGetComponent(out PlayerData e))
                     {
                         if (!e.IsDead)
                         {
-                            targetEntity = e;
+                            player = e;
                             break;
                         }
                     }
                 }
             }
+
             yield return null;
         }
+
     }
     void OnDrawGizmos()
     {
@@ -336,7 +344,7 @@ public class Boss : Enemy
         float jumpY = transform.position.y + jumpPower;
         while (transform.position.y < jumpY - 2f)
         {
-            transform.LookAt(targetEntity.transform);
+            transform.LookAt(player.transform);
             transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, jumpY, transform.position.z), 1f * Time.deltaTime);
             yield return null;
            
@@ -345,7 +353,7 @@ public class Boss : Enemy
         enemyAni.SetTrigger("JumpIdle");
         GetComponent<BoxCollider>().enabled = true;
 
-        Vector3 tempPos = targetEntity.transform.position;
+        Vector3 tempPos = player.transform.position;
         while ((transform.position.y - tempPos.y) > 1f)
         {
 
@@ -371,8 +379,13 @@ public class Boss : Enemy
     private void Update()
     {
         if (isAI)
-        {
-            enemyAni.SetBool("HasTarget", isTarget);
+        {   
+            if(!player.IsDead)
+            {
+                enemyAni.SetBool("HasTarget", isTarget);
+
+            }
+
         }
     }
 }

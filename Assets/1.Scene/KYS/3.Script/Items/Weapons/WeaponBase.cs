@@ -18,14 +18,12 @@ public abstract class WeaponBase : MonoBehaviour, IItem
 
     private void OnTriggerEnter(Collider other)
     {
-        // 이름 비교는 임시. EnemyControl 가지고 있나 없나로 비교할 가능성 높음
-        if (!canDamageEnemy
-            || !other.TryGetComponent(out IDamageable target)
-            || !other.name.Contains("Enemy"))
-            return;
+        if (canDamageEnemy && other.TryGetComponent(out Enemy target))
+        {
+            target.TakeDamage(currentDamage, 10, Vector3.zero, Vector3.zero);
+            DisableDamaging();
+        }
 
-        target.TakeDamage(currentDamage, 10, Vector3.zero, Vector3.zero);
-        DisableDamaging();
     }
 
     // 어떤 공격이든, 공격 키 누를 경우 사용
