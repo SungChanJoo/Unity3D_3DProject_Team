@@ -54,7 +54,12 @@ public class CameraController : MonoBehaviour
     //락온 타겟이 될 오브젝트 변수
     [SerializeField]private GameObject targetEnemy = null;
 
-    Animator animator;
+    private Animator animator;
+    private Rigidbody rigidbody;
+
+    private float moveInputX;
+    private float moveInputZ;
+
     //애니메이션 Blend값 저장할 변수
     float _percent;
     float percent;
@@ -65,6 +70,8 @@ public class CameraController : MonoBehaviour
     {
         animator = player.GetComponent<Animator>();
         _collider =player.GetComponent<Collider>();
+        rigidbody = GetComponent<Rigidbody>();
+        rigidbody.useGravity = true;
     }
     private void Start()
     {
@@ -80,6 +87,7 @@ public class CameraController : MonoBehaviour
 
         LockOnTargetCheck();
         move();
+        cameraPoint.position = Vector3.MoveTowards(cameraPoint.position, transform.position, 20f*Time.deltaTime);
     }
 
     //여기서 모든 상태를 하나로 묶어서 관리를 해야하나
@@ -142,9 +150,10 @@ public class CameraController : MonoBehaviour
         }        
         finalSpeed = data.GetCurrentPlayerSpeed(isRun);
 
-        Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        moveInputX = Input.GetAxis("Horizontal");
+        moveInputZ = Input.GetAxis("Vertical");
 
-        bool move = moveInput.magnitude != 0;
+        bool move = new Vector3(moveInputX,0,moveInputZ).magnitude != 0;
 
         //플레이어의 forward값을 카메라의 forward와 일치
 
@@ -162,7 +171,7 @@ public class CameraController : MonoBehaviour
             player.forward = lookForward;
 
         }
-        moveDir = lookForward * moveInput.y + lookRight * moveInput.x;
+        moveDir = lookForward * moveInputZ + lookRight * moveInputX;
 
 
 
@@ -179,44 +188,37 @@ public class CameraController : MonoBehaviour
             var forward = cameraToPlayer.normalized;
             var right = Vector3.Cross(Vector3.up, forward);
 
-            Debug.DrawLine(transform.position, transform.position + forward * moveInput.y, Color.red);
-            Debug.DrawLine(transform.position, transform.position + right * moveInput.x, Color.blue);
+            Debug.DrawLine(transform.position, transform.position + forward * moveInputZ, Color.red);
+            Debug.DrawLine(transform.position, transform.position + right * moveInputX, Color.blue);
 
-            transform.Translate(forward * moveInput.y * Time.deltaTime * finalSpeed);
-            transform.Translate(right * moveInput.x * Time.deltaTime * finalSpeed);
-
+            rigidbody.velocity = (forward * moveInputZ + right * moveInputX) * finalSpeed;
             
-            
-
-
-
-            percent = moveInput.x;
+            percent = moveInputX;
             animator.SetFloat("x", percent, 0.01f, Time.deltaTime);
-            percent = moveInput.y;
+            percent = moveInputZ;
             animator.SetFloat("y", percent, 0.01f, Time.deltaTime);
         }
 
         //락온에 따른 이동
-        if (move && !state && haveTarget)
+        if (!state && haveTarget)
         {
-
             //플레이어 이동
-            transform.Translate(moveDir * Time.deltaTime * finalSpeed);
-            //+= moveDir * Time.deltaTime * finalSpeed;
+            rigidbody.velocity =moveDir * finalSpeed;
+            
 
-            //애니메이션의 Blend값 처리
+            //애니메이션의 Blend값 처리  
             if (!isRolling && isRun)
             {
-                _percent = 1f * moveInput.x;
+                _percent = 1f * moveInputX;
                 animator.SetFloat("RunX", _percent, 0.1f, Time.deltaTime);
-                percent = 1f * moveInput.y;
+                percent = 1f * moveInputZ;
                 animator.SetFloat("RunY", percent, 0.1f, Time.deltaTime);
             }
             else if (!isRolling && !isRun)
             {
-                _percent = 1f * moveInput.x;
+                _percent = 1f * moveInputX;
                 animator.SetFloat("x", _percent, 0.1f, Time.deltaTime);
-                percent = 1f * moveInput.y;
+                percent = 1f * moveInputZ;
                 animator.SetFloat("y", percent, 0.1f, Time.deltaTime);
             }
         }
@@ -283,15 +285,16 @@ public class CameraController : MonoBehaviour
 
     private IEnumerator Rolling()
     {
-        Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        float moveInputX = Input.GetAxis("Horizontal");
+        float moveInputZ = Input.GetAxis("Vertical");
 
         isRolling = true;
 
         float rollSpeed = 5f;
         float timer = 0f;
 
-        _percent = moveInput.x;
-        percent = moveInput.y;
+        _percent = moveInputX;
+        percent = moveInputZ;
 
         animator.SetFloat("x", _percent, 0.1f, Time.deltaTime);
         animator.SetFloat("y", percent, 0.1f, Time.deltaTime);

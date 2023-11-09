@@ -83,7 +83,7 @@ public class PlayerAttack : MonoBehaviour
     {
         mana =data.UseMana(20);
         if (mana)
-        {
+        {            
             tempAnimator.SetTrigger("Skill1");
             data.CurrentWeapon.Skill1();
         }
@@ -92,7 +92,6 @@ public class PlayerAttack : MonoBehaviour
             Debug.Log("마나가 부족합니다.");
         }
     }
-
     public void skill2()
     {
         mana = data.UseMana(20);
@@ -106,6 +105,15 @@ public class PlayerAttack : MonoBehaviour
             Debug.Log("마나가 부족합니다.");
         }
     }
+    private IEnumerator skill2_Delay()
+    {
+        data.CurrentWeapon.Skill2();
+        //hold = true;
+        yield return new WaitForSeconds(0.5f);
+        //data.CurrentWeapon.Skill2();
+        //hold = false;
+    }
+        
     
 
 
