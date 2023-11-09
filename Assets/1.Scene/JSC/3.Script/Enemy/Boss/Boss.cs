@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 enum State
@@ -14,6 +15,11 @@ enum State
 
 public class Boss : Enemy
 {
+
+    [SerializeField] private string name = string.Empty;
+    [SerializeField] private Text nameText;
+    [SerializeField] private Text damageText;
+
     [Header("Boss ¼¼ÆÃ")]
     [SerializeField] private EnemyData enemyData;
     [SerializeField] private float longDetectRange = 20f;
@@ -23,8 +29,12 @@ public class Boss : Enemy
     [SerializeField] private float nextBehaviorTimebet = 10f;
     private float lastBehaviorTime;
     private Rigidbody enemyR;
+    private float totalDamage = 0;
 
     [SerializeField] private GameObject enemyStrongEffect;
+
+
+
 
     RaycastHit raycastHit;
     Ray centerRay;
@@ -51,6 +61,7 @@ public class Boss : Enemy
     }
     private void SetUp()
     {
+        nameText.text = name;
         MaxHealth = enemyData.MaxHealth;
         damage = enemyData.Damage;
         force = enemyData.Force;
@@ -74,9 +85,20 @@ public class Boss : Enemy
 
     public override void TakeDamage(float damage, float knockBack, Vector3 hitposition, Vector3 hitNomal)
     {
-        enemyAni.SetTrigger("TakeDamage");
-        transform.LookAt(player.transform.position);
         base.TakeDamage(damage, knockBack, hitposition, hitNomal);
+        StartCoroutine(UITakeDamage_co(damage));
+    }
+    private IEnumerator UITakeDamage_co(float damage)
+    {
+        totalDamage += damage;
+        damageText.text = $"{totalDamage}";
+        damageText.color = new Color(damageText.color.r, damageText.color.g, damageText.color.b, 1);
+        while (damageText.color.a > 0.0f)
+        {
+            damageText.color = new Color(damageText.color.r, damageText.color.g, damageText.color.b, damageText.color.a - (0.1f * Time.deltaTime));
+            yield return null;
+        }
+        totalDamage = 0;
     }
 
     public override void Die()

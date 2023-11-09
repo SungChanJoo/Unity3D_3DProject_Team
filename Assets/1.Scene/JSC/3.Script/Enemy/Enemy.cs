@@ -89,6 +89,8 @@ public class Enemy : MonoBehaviour, IDamageable
         agent.isStopped = true;
         agent.enabled = false;
         enemyAni.SetTrigger("Death");
+
+        Destroy(gameObject, 2f);
     }
 
 }
