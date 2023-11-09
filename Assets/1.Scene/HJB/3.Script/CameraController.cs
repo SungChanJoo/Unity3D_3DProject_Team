@@ -75,7 +75,7 @@ public class CameraController : MonoBehaviour
     }
     private void Start()
     {
-        //Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;
     }
     private void Update()
     {
@@ -96,7 +96,7 @@ public class CameraController : MonoBehaviour
     public void StateCheck()
     {
         //weaponBase.canDamageEnemy 앞 c를 C로 수정
-        if (isRolling || weaponBase.canDamageEnemy ||attack.hold)  
+        if (isRolling || weaponBase.CanDamageEnemy ||attack.hold)  
         {
             state = true;
         }
