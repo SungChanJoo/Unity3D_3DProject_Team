@@ -43,13 +43,11 @@ public class PlayerData : MonoBehaviour, IDamageable
         get => currentWeapon;
         set
         {
-            // 직접 비교하는 게 아니라 안의 Weapon이라는 enum으로 무기 타입 비교하든지 하기
             if (currentWeapon.Equals(value)) return;
 
             currentWeapon = value;
         }
     }
-    // CurrentArmor도 넣어야 하는 Aromor는 구현 방식을 좀 더 고민해 본 뒤 넣을 것
 
     private void Awake()
     {
@@ -80,29 +78,19 @@ public class PlayerData : MonoBehaviour, IDamageable
         // test
         if (Input.GetKeyDown(KeyCode.J))
             TakeDamage(5, 1, Vector3.zero, Vector3.zero);
-
-        if (Input.GetKeyDown(KeyCode.N))
-            RestoreMana(10);
     }
 
     private void FixedUpdate()
     {
-        RestoreMana(0.1f);
-        RestoreStamina(0.1f);
+        RestoreAsTimePass();
     }
 
+    private void RestoreAsTimePass()
+    {
+        RestoreMana(0.005f);
+        RestoreStamina(0.005f);
+    }
 
-    //public bool ChangeCurrentWeapon(IWeapon weapon) // WeaponBase
-    //{
-    //    // 직접 비교하는 게 아니라 안의 Weapon이라는 enum으로 무기 타입 비교하든지 하기
-    //    if (weapon.Equals(currentWeapon))
-    //        return false;
-
-    //    return true;
-    //}
-
-    // 추후 State 패턴을 사용한다면 CameraController 쪽에서 bool 값을 파라미터로 넘겨주는 게 아니라
-    // PlayerData에서 알아서 State에 따라 speed 값 넘겨주는 것으로 수정하는 것이 좋을 듯
     public float GetCurrentPlayerSpeed(bool isRunning = false)
     {
         return isRunning ? runSpeed : walkSpeed;
@@ -113,11 +101,15 @@ public class PlayerData : MonoBehaviour, IDamageable
         IsDead = true;
     }
 
-    // 최대 체력 늘려주는 아이템
     public void IncreaseMaxHealth(float modifier)
     {
         maxHealth += modifier;
-        // slider max value 변경
+        tempHpSlider.maxValue = maxHealth;
+    }
+    public void IncreaseMaxMana(float modifier)
+    {
+        maxMana += modifier;
+        tempMpSlider.maxValue = maxMana;
     }
 
     /// <summary>
@@ -143,7 +135,7 @@ public class PlayerData : MonoBehaviour, IDamageable
         tempHpSlider.value = currentHealth;
     }
 
-    // knockback 관련 이벤트를 만들어서 playermovement가 sub하게 할까 말까
+
     public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)
     {
         TakeDamage(damage);
