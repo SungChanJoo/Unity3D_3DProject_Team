@@ -15,7 +15,6 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     [SerializeField] private Animator tempAnimator;
 
-    [SerializeField] private WeaponBase tempWeapon;
     [SerializeField] private Sword tempSword;
 
 
