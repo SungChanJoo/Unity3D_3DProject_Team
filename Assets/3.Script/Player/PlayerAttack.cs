@@ -10,11 +10,14 @@ public class PlayerAttack : MonoBehaviour
     // AttackRate, CurrentWeapon 등의 정보 받아와서 사용
     [SerializeField] private PlayerData data;
 
+    //스킬 사용중인가
+    private bool skillEnabled = true;
+
     //가드상태를 유지할 때
     public bool hold = false;
     public bool perfectParrying = false;
     private bool mana;
-    private bool performedChargeAttack = false;    
+    private bool performedChargeAttack = false;
 
     private float chargingTimer = 0;
 
@@ -25,41 +28,53 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnAttackingAnimationCompleted()
     {
-        data.CurrentWeapon.DisableDamaging();
+        hold = false;
+        data.CurrentWeapon.DisableDamaging();        
     }
-
+    private void MoveHold()
+    {
+        hold = !hold;
+        
+    }
+    private void SkillEabled()
+    {
+        skillEnabled = !skillEnabled;
+    }
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))            // 왼쪽 마우스 버튼을 누르면
+        if (skillEnabled)
         {
-            tempAnimator.SetTrigger("Charge");      // 차지 애니메이션
+            if (Input.GetMouseButtonDown(0))            // 왼쪽 마우스 버튼을 누르면
+            {
+                tempAnimator.SetTrigger("Charge");      // 차지 애니메이션
+            
+                // chargingTimer += Time.deltaTime;을 여기에 넣으면 performedChargeAttack 사용 안 해도 되긴 하는데 다른 사람이 코드를 이해하기 어려울까봐 못 넣겠다.
+                performedChargeAttack = false;          // 새로이 차지 공격할 수 있게 됨
+            }
+            else if (Input.GetMouseButton(0))           // 왼쪽 마우스 버튼을 (계속) 누르고 있는 중일 때
+            {
+                chargingTimer += Time.deltaTime;        // 차지
+                
+                if (CheckIfCharged()                    // 만약 다 차지가 된 상태이고
+                    && !performedChargeAttack)          // 이미 해당 마우스 누름으로 인해 차지 공격을 한 상태가 아니라면
+                    ChargeAttack();                     // 차지 공격
+            }
+            else if (Input.GetMouseButtonUp(0))         // 왼쪽 마우스 버튼에서 손을 떼었을 때
+            {
+                if (!CheckIfCharged())                  // 차지가 된 게 아니라면 (차지공격을 하지 않았다면) 
+                    Attack();                           // 일반 공격
+            
+                ResetChargingTimer();               // 차지 타이머 리셋
+            }
 
-            // chargingTimer += Time.deltaTime;을 여기에 넣으면 performedChargeAttack 사용 안 해도 되긴 하는데 다른 사람이 코드를 이해하기 어려울까봐 못 넣겠다.
-            performedChargeAttack = false;          // 새로이 차지 공격할 수 있게 됨
-        }
-        else if (Input.GetMouseButton(0))           // 왼쪽 마우스 버튼을 (계속) 누르고 있는 중일 때
-        {
-            chargingTimer += Time.deltaTime;        // 차지
-
-            if (CheckIfCharged()                    // 만약 다 차지가 된 상태이고
-                && !performedChargeAttack)          // 이미 해당 마우스 누름으로 인해 차지 공격을 한 상태가 아니라면
-                ChargeAttack();                     // 차지 공격
-        }
-        else if (Input.GetMouseButtonUp(0))         // 왼쪽 마우스 버튼에서 손을 떼었을 때
-        {
-            if (!CheckIfCharged())                  // 차지가 된 게 아니라면 (차지공격을 하지 않았다면) 
-                Attack();                           // 일반 공격
-
-            ResetChargingTimer();                   // 차지 타이머 리셋
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))                   
-            Skill1();
+            if (Input.GetKeyDown(KeyCode.Alpha1))                   
+                Skill1();
         
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-            Skill2();
-        
-        Shield();
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+                Skill2();                        
+            
+        }
+            Shield();
     }
 
     private void ResetChargingTimer() => chargingTimer = 0;
@@ -68,13 +83,17 @@ public class PlayerAttack : MonoBehaviour
 
     public void Attack()
     {
+
         tempAnimator.SetTrigger("Attack");
+        hold = true;
         data.CurrentWeapon.Attack();
+        
     }
 
     public void ChargeAttack()
     {
         tempAnimator.SetTrigger("ChargeAttack");
+        hold = true;
         data.CurrentWeapon.ChargeAttack();
 
         performedChargeAttack = true;
@@ -112,6 +131,7 @@ public class PlayerAttack : MonoBehaviour
         {            
             tempAnimator.SetTrigger("Skill1");
             data.CurrentWeapon.Skill1();
+            hold = true;
         }
         else
         {
@@ -126,6 +146,7 @@ public class PlayerAttack : MonoBehaviour
         {
             tempAnimator.SetTrigger("Skill2");
             data.CurrentWeapon.Skill2();
+            hold = true;
         }
         else
         {
