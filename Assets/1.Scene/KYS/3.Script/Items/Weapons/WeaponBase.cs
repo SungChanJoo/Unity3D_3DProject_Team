@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-// 수정 요함
-public abstract class WeaponBase : MonoBehaviour //, IItem
+public abstract class WeaponBase : MonoBehaviour
 {
     protected abstract float AttackDamage { get; }
     protected abstract float ChargeAttackDamage { get; }
@@ -90,20 +89,5 @@ public abstract class WeaponBase : MonoBehaviour //, IItem
     {
         currentDamage = Skill2Damage;
         EnableDamaging();
-    }
-
-    public void Drop()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Store()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Use(PlayerData player)
-    {
-        throw new NotImplementedException();
     }
 }
