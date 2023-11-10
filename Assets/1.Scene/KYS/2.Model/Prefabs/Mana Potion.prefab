@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 5666545569255407442}
   - component: {fileID: 8722424340454781175}
   - component: {fileID: 6838911680711738429}
-  - component: {fileID: 9043829861775852189}
-  - component: {fileID: -2036167513848906626}
   m_Layer: 0
   m_Name: Mana Potion
   m_TagString: Untagged
@@ -83,29 +81,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &9043829861775852189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5037361398413813224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8b09a58bd5bfbc40b67d20e98e436f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!136 &-2036167513848906626
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5037361398413813224}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 13.301323
-  m_Height: 45.512028
-  m_Direction: 1
-  m_Center: {x: -0.00002527237, y: 21.42307, z: 0.000024795532}

@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 1678689543482992942}
   - component: {fileID: 2370086011749820043}
   - component: {fileID: 504627331053687361}
-  - component: {fileID: 474131581047337490}
-  - component: {fileID: 5180991131082367450}
   m_Layer: 0
   m_Name: Max Mana Potion
   m_TagString: Untagged
@@ -83,29 +81,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &474131581047337490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2017673735376941972}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaf47ed66952bdd4490686acc06c740a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!136 &5180991131082367450
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2017673735376941972}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 15.0128355
-  m_Height: 44.37751
-  m_Direction: 1
-  m_Center: {x: 0, y: 21.952385, z: 0.00000095367426}

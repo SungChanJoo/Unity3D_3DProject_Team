@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 791561416630891804}
   - component: {fileID: 4419134591789398713}
   - component: {fileID: 1925038386329914995}
-  - component: {fileID: 17192759086529649}
-  - component: {fileID: 4148980575310278447}
   m_Layer: 0
   m_Name: Max Health Potion
   m_TagString: Untagged
@@ -83,29 +81,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &17192759086529649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 123814109157273510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05ced4b813307654198ce2126aef9d9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!136 &4148980575310278447
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 123814109157273510}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 15.0128355
-  m_Height: 44.37751
-  m_Direction: 1
-  m_Center: {x: 0, y: 21.952385, z: 0.00000095367426}
