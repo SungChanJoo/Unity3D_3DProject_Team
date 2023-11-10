@@ -17,6 +17,8 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     [SerializeField] private Sword tempSword;
 
+    [SerializeField] private PlayerAttack attack;
+
 
     private float maxMana;
     private float currentMana;
@@ -133,13 +135,24 @@ public class PlayerData : MonoBehaviour, IDamageable
 
         currentHealth -= damage;
         tempHpSlider.value = currentHealth;
+        
     }
 
 
     public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)
     {
-        TakeDamage(damage);
-        tempAnimator.SetTrigger("Hit");
+        //if (attack.hold)
+        //{
+        //    TakeDamage(damage * 0.3f);
+        //    //중간에 패링 구현           
+        //}
+        //else
+        //{
+        //
+        //}
+
+            TakeDamage(damage);
+            tempAnimator.SetTrigger("Hit");
     }
 
     private bool Use(ref float target, float amount, Slider slider) // slider는 추후 제거 예정. 어차피 UI에서 세 스탯 보여주니까.

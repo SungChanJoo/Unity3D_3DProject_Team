@@ -73,8 +73,8 @@ public class PlayerAttack : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Alpha2))
                 Skill2();                        
             
-        }
             Shield();
+        }
     }
 
     private void ResetChargingTimer() => chargingTimer = 0;
