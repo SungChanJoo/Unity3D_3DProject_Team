@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public abstract class WeaponBase : MonoBehaviour, IItem
+// 수정 요함
+public abstract class WeaponBase : MonoBehaviour //, IItem
 {
     protected abstract float AttackDamage { get; }
     protected abstract float ChargeAttackDamage { get; }
