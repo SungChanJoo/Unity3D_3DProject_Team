@@ -25,7 +25,7 @@ public class ShieldBase : MonoBehaviour
             _collider.enabled = true;
             if (playerAttack.perfectParrying)
             {
-                //StartCoroutine(ParryTiming());
+                StartCoroutine(ParryTiming());
             }
 
         }
@@ -35,7 +35,8 @@ public class ShieldBase : MonoBehaviour
         }
     }
     private IEnumerator ParryTiming()
-    {        
+    {
+        
         childrenCollider.enabled = true;
         _collider.enabled = false;        
 

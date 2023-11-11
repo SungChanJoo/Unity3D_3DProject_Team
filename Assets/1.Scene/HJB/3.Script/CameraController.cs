@@ -89,8 +89,17 @@ public class CameraController : MonoBehaviour
         move();
         cameraPoint.position = Vector3.MoveTowards(cameraPoint.position, transform.position, 20f*Time.deltaTime);
 
+        
     }
-    
+   
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.CompareTag("Enemy"))
+    //    {
+    //        rigid.constraints = RigidbodyConstraints.FreezeAll;
+    //    }
+    //}
+
 
     //여기서 모든 상태를 하나로 묶어서 관리를 해야하나
     public void StateCheck()

@@ -10957,6 +10957,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 1194800671}
+  attackEanbled: 1
+  skillEnabled: 1
+  onDefence: 0
   hold: 0
   perfectParrying: 0
 --- !u!114 &1194800667
@@ -11057,7 +11060,9 @@ MonoBehaviour:
   tempMpSlider: {fileID: 1834133442}
   tempAnimator: {fileID: 1194800665}
   tempSword: {fileID: 779972167}
-  attack: {fileID: 0}
+  attack: {fileID: 1194800666}
+  col: {fileID: 1194800668}
+  invincibility: 0
 --- !u!114 &1194800672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26307,7 +26312,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 1046389549320104505}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.09
   m_Height: 0.38
   m_Direction: 1
@@ -26321,7 +26326,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 7624368984007617595}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.13
   m_Height: 0.61
   m_Direction: 0
@@ -26335,7 +26340,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 4912285617918212985}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.13
   m_Height: 0.61
   m_Direction: 0
@@ -31320,7 +31325,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 6353584385296314075}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.16
   m_Height: 0.57
   m_Direction: 0
@@ -31334,7 +31339,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 6743105464770998110}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.16
   m_Height: 0.57
   m_Direction: 0
@@ -31348,7 +31353,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 5445404149817578405}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.09
   m_Height: 0.38
   m_Direction: 1
@@ -31362,7 +31367,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 7318912270766957710}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.17
   m_Height: 0.42
   m_Direction: 2
@@ -39613,7 +39618,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7194019481265900666}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f52ff6ac2053bd4cabd523f45f67958, type: 3}
   m_Name: 

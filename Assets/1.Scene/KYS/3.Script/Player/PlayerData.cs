@@ -19,6 +19,8 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     [SerializeField] private PlayerAttack attack;
 
+    [SerializeField] private Collider col;
+
 
     private float maxMana;
     private float currentMana;
@@ -33,6 +35,9 @@ public class PlayerData : MonoBehaviour, IDamageable
     private float currentHealth;
 
     private bool isDead = false;
+
+    //무적조건
+    public bool invincibility = false;
     public bool IsDead
     {
         get => isDead;
@@ -89,8 +94,8 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     private void RestoreAsTimePass()
     {
-        RestoreMana(0.005f);
-        RestoreStamina(0.005f);
+        RestoreMana(0.01f);
+        RestoreStamina(0.01f);
     }
 
     public float GetCurrentPlayerSpeed(bool isRunning = false)
@@ -141,18 +146,45 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)
     {
-        //if (attack.hold)
-        //{
-        //    TakeDamage(damage * 0.3f);
-        //    //중간에 패링 구현           
-        //}
-        //else
-        //{
-        //
-        //}
+        if (attack.onDefence)
+        {
+                
+            if (UseStamina(10f)&&!attack.perfectParrying)
+            {
+                TakeDamage(damage * 0.3f);
+                attack.hold = true;
+            }
+            else if (attack.perfectParrying)
+            {
+                attack.hold = true;
+                tempAnimator.SetTrigger("Parry");
+                StartCoroutine(Invincibility());
+
+            }
+            else
+            {
+                TakeDamage(damage);
+                tempAnimator.SetTrigger("Hit");
+                attack.skillEnabled = false;
+                attack.hold = true;
+            }
+            
+            
+        }
+        else if (invincibility)
+        {
+            //여기에 뭔가해야함 반대로 여기서 공격을 해야한다던지
+            return;
+            
+        }
+        else 
+        {
 
             TakeDamage(damage);
             tempAnimator.SetTrigger("Hit");
+            attack.skillEnabled = false;
+            attack.hold = true;
+        }
     }
 
     private bool Use(ref float target, float amount, Slider slider) // slider는 추후 제거 예정. 어차피 UI에서 세 스탯 보여주니까.
@@ -184,5 +216,15 @@ public class PlayerData : MonoBehaviour, IDamageable
         //UnityEngine.Debug.Log("Caller" + stackTrace.GetFrame(1).GetMethod().Name + $"\nValue target - {target} max - {max} amount - {amount}");
         
         return true;
+    }
+
+    private IEnumerator Invincibility()
+    {
+        attack.skillEnabled = false;
+        invincibility = true;        
+        yield return new WaitForSeconds(2f);
+        attack.hold = false;
+        invincibility = false;
+        attack.skillEnabled = true;
     }
 }
