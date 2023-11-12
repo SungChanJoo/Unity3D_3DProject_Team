@@ -11,9 +11,11 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private PlayerData data;
 
     //스킬 사용중인가
-    private bool skillEnabled = true;
+    public bool attackEanbled = true;
+    public bool skillEnabled = true;
 
     //가드상태를 유지할 때
+    public bool onDefence = false;
     public bool hold = false;
     public bool perfectParrying = false;
     private bool mana;
@@ -36,14 +38,20 @@ public class PlayerAttack : MonoBehaviour
         hold = !hold;
         
     }
+    private void MoveHoldFalse()
+    {
+        hold = false;
+    }
     private void SkillEabled()
     {
         skillEnabled = !skillEnabled;
     }
+
     void Update()
     {
-        if (skillEnabled)
+        if (attackEanbled)
         {
+
             if (Input.GetMouseButtonDown(0))            // 왼쪽 마우스 버튼을 누르면
             {
                 tempAnimator.SetTrigger("Charge");      // 차지 애니메이션
@@ -66,15 +74,23 @@ public class PlayerAttack : MonoBehaviour
             
                 ResetChargingTimer();               // 차지 타이머 리셋
             }
+        }
 
+        if (skillEnabled)
+        {
             if (Input.GetKeyDown(KeyCode.Alpha1))                   
                 Skill1();
         
             else if (Input.GetKeyDown(KeyCode.Alpha2))
                 Skill2();                        
             
-        }
             Shield();
+        }
+        if (data.invincibility)
+        {
+            Debug.Log(data.invincibility);
+        }
+        
     }
 
     private void ResetChargingTimer() => chargingTimer = 0;
@@ -102,16 +118,19 @@ public class PlayerAttack : MonoBehaviour
     public void Shield()
     {
         if (Input.GetMouseButtonDown(1))
-        {            
+        {   
+
             tempAnimator.SetTrigger("Shield");
             hold = true;
+            onDefence = true;
            
         }
         else if (Input.GetMouseButtonUp(1))
         {
             hold = false;
+            onDefence = false;
         }
-        tempAnimator.SetBool("Hold", hold);
+        tempAnimator.SetBool("Hold", onDefence);
 
         //막기 사용중 홀드가 트루이면 데미지 감소하고
         //애니메이션 이벤트 걸어둔 프레임부터 약 0.2초간
@@ -120,7 +139,15 @@ public class PlayerAttack : MonoBehaviour
     }
     public void ParryEvent()
     {
+        StartCoroutine(Parry());
+    }
+
+    private IEnumerator Parry()
+    {
+        
         perfectParrying = true;
+        yield return new WaitForSeconds(0.4f);
+        perfectParrying = false;        
     }
 
 

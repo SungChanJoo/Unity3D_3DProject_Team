@@ -59,9 +59,9 @@ public abstract class WeaponBase : MonoBehaviour
 
     public virtual void Parry()
     {
-        // 패링은 아래 두 줄을 쓸라나 안 쓸라나 모르겠다.
-        // EnableDamaging();
-        // currentDamage = attackDamage;
+        
+        EnableDamaging();
+        currentDamage = 5;
     }
 
     public virtual void Skill1()
@@ -90,4 +90,5 @@ public abstract class WeaponBase : MonoBehaviour
         currentDamage = Skill2Damage;
         EnableDamaging();
     }
+    
 }
