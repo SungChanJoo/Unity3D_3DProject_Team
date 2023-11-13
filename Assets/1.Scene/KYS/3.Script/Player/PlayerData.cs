@@ -58,7 +58,6 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     private void Awake()
     {
-        // 할당하는 값은 나중에 바꿀 것
         maxHealth = 100;
         maxMana = 100;
         maxStamina = 100;
@@ -68,23 +67,22 @@ public class PlayerData : MonoBehaviour, IDamageable
         currentHealth = maxHealth;
         walkSpeed = 5;
         runSpeed = 8;
-
-        // test
         currentWeapon = tempSword;
 
+        SetTestSliders();
+    }
+
+    // 체력, 마나, 스태미나 슬라이더 테스트용.
+    // UI 쪽의 슬라이더로 바꾼 뒤 tempSlider들은 삭제할 것
+    private void SetTestSliders()
+    {
         tempHpSlider.maxValue = maxHealth;
         tempMpSlider.maxValue = maxMana;
         tempStaminaSlider.maxValue = maxStamina;
 
+        tempHpSlider.value = currentHealth;
         tempMpSlider.value = currentMana;
         tempStaminaSlider.value = currentStamina;
-    }
-
-    private void Update()
-    {
-        // test
-        if (Input.GetKeyDown(KeyCode.J))
-            TakeDamage(5, 1, Vector3.zero, Vector3.zero);
     }
 
     private void FixedUpdate()
