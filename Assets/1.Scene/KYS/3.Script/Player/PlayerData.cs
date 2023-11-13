@@ -11,6 +11,7 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     [SerializeField] private Collider col;
 
+    [SerializeField] private PlayerStateUI playerStateUI;
 
     private float maxMana;
     public float MaxMana
@@ -109,6 +110,7 @@ public class PlayerData : MonoBehaviour, IDamageable
         walkSpeed = 5;
         runSpeed = 8;
         CurrentWeapon = tempSword;
+        
     }
 
     private void Update()
@@ -194,6 +196,7 @@ public class PlayerData : MonoBehaviour, IDamageable
             attack.skillEnabled = false;
             attack.hold = true;
         }
+        playerStateUI.UpdateHp();
     }
 
     public void IncreaseMaxHealth(float modifier) => MaxHealth += modifier;
@@ -207,6 +210,7 @@ public class PlayerData : MonoBehaviour, IDamageable
         if (CurrentStamina - amount < 0) return false;
 
         CurrentStamina -= amount;
+        playerStateUI.UpdateStamina();
 
         return true;
     }
@@ -219,6 +223,7 @@ public class PlayerData : MonoBehaviour, IDamageable
         if (CurrentMana - amount < 0) return false;
 
         CurrentMana -= amount;
+        playerStateUI.UpdateMana();
 
         return true;
     }
@@ -231,6 +236,7 @@ public class PlayerData : MonoBehaviour, IDamageable
             amount = MaxHealth - CurrentHealth;
 
         CurrentHealth += amount;
+        playerStateUI.UpdateHp();
 
         return true;
     }
@@ -243,6 +249,7 @@ public class PlayerData : MonoBehaviour, IDamageable
             amount = MaxStamina - CurrentStamina;
 
         CurrentStamina += amount;
+        playerStateUI.UpdateStamina();
 
         return true;
     }
@@ -255,6 +262,7 @@ public class PlayerData : MonoBehaviour, IDamageable
             amount = MaxMana - CurrentMana;
 
         CurrentMana += amount;
+        playerStateUI.UpdateMana();
 
         return true;
     }
