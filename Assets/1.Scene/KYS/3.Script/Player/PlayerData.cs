@@ -15,6 +15,9 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     [SerializeField] private PlayerStateUI playerStateUI;
 
+
+    [SerializeField] private GameOver gameOver;
+
     private List<IItem> items = new List<IItem>();
     //public List<IItem> Items => items;
 
@@ -39,6 +42,7 @@ public class PlayerData : MonoBehaviour, IDamageable
         items.Remove(usedItem);
         Debug.Log(usedItem.Name + "을 사용. 인벤토리에 아이템이 " + items.Count + "만큼 있음");
     }
+
 
 
     private float maxMana;
@@ -146,7 +150,8 @@ public class PlayerData : MonoBehaviour, IDamageable
         walkSpeed = 5;
         runSpeed = 8;
         CurrentWeapon = tempSword;
-        
+        playerStateUI.InitState(MaxHealth, MaxStamina, MaxMana);
+
     }
 
     private void Update()
@@ -175,6 +180,7 @@ public class PlayerData : MonoBehaviour, IDamageable
     public void Die()
     {
         IsDead = true;
+        gameOver.LoadGameOver(); //gameover UI 호출
     }
 
 
@@ -193,6 +199,12 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)
     {
+        if (currentHealth - damage <= 0)
+        {
+            Die();
+            Debug.Log("플레이어 뒤짐");
+            return;
+        }
         if (attack.onDefence)
         {
 
