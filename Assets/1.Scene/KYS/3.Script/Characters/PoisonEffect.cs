@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 using UnityEngine;
 
 class PoisonEffect : StatusEffect
@@ -30,8 +25,7 @@ class PoisonEffect : StatusEffect
         {
             target.TargetData.TakeDamage(damage);
 
-            // 1초마다 타이머 다 끝났나 체크
-            yield return new WaitForSeconds(effectTimer);
+            yield return new WaitForSeconds(effectTimer); // 1초마다 타이머 다 끝났나 체크
         }
     }
 

@@ -37,6 +37,7 @@ public class CameraController : MonoBehaviour
     private bool isRun = false;
     private bool isRolling = false;
     private bool state = false;
+    public bool isParalysed = false;
 
     //플레이어 forward를 정하기위한 카메라 방향값
     private Vector3 lookForward;
@@ -105,7 +106,7 @@ public class CameraController : MonoBehaviour
     public void StateCheck()
     {
         //weaponBase.canDamageEnemy 앞 c를 C로 수정
-        if (isRolling || attack.hold)  
+        if (isRolling || attack.hold || isParalysed)  
         {
             
             state = true;

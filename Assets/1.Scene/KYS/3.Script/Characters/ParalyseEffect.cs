@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 class ParalyseEffect : StatusEffect
 {
     public ParalyseEffect(StatusEffectedCharacter target) : base(StatusEffectType.Paralysed, target) { }
-
-    public override void ApplyEffect()
-    {
-        // CameraController 쪽에서 ParalyseEffect의 저장/삭제에 따른 효과 적용
-    }
 
     public override void CustomStartEffect()
     {
@@ -21,6 +11,9 @@ class ParalyseEffect : StatusEffect
         {
             animator.SetTrigger("Paralysed");
         }
+
+        if (target.TryGetComponent(out CameraController player))
+            player.isParalysed = true;
     }
 
     public override void CustomEndEffect()
@@ -30,5 +23,10 @@ class ParalyseEffect : StatusEffect
         {
             animator.SetTrigger("Default");
         }
+
+        if (target.TryGetComponent(out CameraController player))
+            player.isParalysed = false;
     }
+
+    public override void ApplyEffect() { }
 }

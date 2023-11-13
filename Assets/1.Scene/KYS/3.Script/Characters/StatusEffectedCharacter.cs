@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class StatusEffectedCharacter : MonoBehaviour
@@ -16,7 +13,7 @@ public class StatusEffectedCharacter : MonoBehaviour
     [SerializeField] private PlayerData targetData;
     public PlayerData TargetData => targetData;
 
-    // UI에서 Subscribe 해야 함
+    // UI에서 Subscribe 해야 함. 아이콘 보여주는 용
     public Action<List<StatusEffect>> StatusEffectChangedEvent;
 
     private void Awake()
@@ -52,7 +49,7 @@ public class StatusEffectedCharacter : MonoBehaviour
             }
         }
 
-        StatusEffect se = null;
+        StatusEffect se;
 
         switch (type)
         {
@@ -69,7 +66,6 @@ public class StatusEffectedCharacter : MonoBehaviour
                 throw new NotImplementedException();
         }
 
-        Debug.LogWarning("Add Status Effect: " + se.Type);
         statusEffects.Add(se);
 
         StartCoroutine(se.StartEffectRoutine());

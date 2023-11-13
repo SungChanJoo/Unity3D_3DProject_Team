@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 class MaxManaPotion : MonoBehaviour, IItem
 {
     public string Name { get => "최대 마나 포션"; }

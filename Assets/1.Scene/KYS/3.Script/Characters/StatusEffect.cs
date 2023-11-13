@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum StatusEffectType
@@ -16,7 +14,6 @@ public abstract class StatusEffect
 
     protected bool IsOnGoing = false;
 
-    // PlayerData 사용이 좋은 방법이 아니긴 한데 일단 적용
     protected StatusEffectedCharacter target;
 
     private float removeTimer = 5;
@@ -39,8 +36,7 @@ public abstract class StatusEffect
         {
             remainingTime += checkTime;
 
-            // 1초마다 타이머 다 끝났나 체크
-            yield return new WaitForSeconds(checkTime);
+            yield return new WaitForSeconds(checkTime); // 1초마다 타이머 다 끝났나 체크
         }
 
         EndEffect();

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 class MaxHealthPotion : MonoBehaviour, IItem
 {
     public string Name { get => "최대 체력 포션"; }

@@ -1,6 +1,7 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerData : MonoBehaviour, IDamageable
 {
@@ -14,7 +15,35 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     [SerializeField] private PlayerStateUI playerStateUI;
 
+
     [SerializeField] private GameOver gameOver;
+
+    private List<IItem> items = new List<IItem>();
+    //public List<IItem> Items => items;
+
+    public Action<IItem> ItemAddedEvent; // 일단은 추가된 아이템만 파라미터로 보내준다. 추후 필요에 따라 List<IItem>을 통으로 보낼 수도 있음.
+
+    // 아이템 추가용
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.TryGetComponent(out IItem item)) return;
+
+        items.Add(item);
+        ItemAddedEvent?.Invoke(item);
+
+        Destroy(other.gameObject);
+        Debug.Log(item.Name + "을 획득. 인벤토리에 아이템이 " + items.Count + "만큼 있음");
+    }
+
+    public void UseItem(IItem usedItem)
+    {
+        // item.Use 메소드를 여기에서 써도 되고, 퀵슬롯 쪽에서 써도 된다. 상관 없음. 일단 여기에서 씀.
+        usedItem.Use(this);
+        items.Remove(usedItem);
+        Debug.Log(usedItem.Name + "을 사용. 인벤토리에 아이템이 " + items.Count + "만큼 있음");
+    }
+
+
 
     private float maxMana;
     public float MaxMana
@@ -105,7 +134,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         set
         {
             //if (currentWeapon.Equals(value)) return;
-
             currentWeapon = value;
         }
     }
