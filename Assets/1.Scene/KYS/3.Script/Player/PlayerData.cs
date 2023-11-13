@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerData : MonoBehaviour, IDamageable
 {
@@ -21,8 +20,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         private set
         {
             maxMana = value;
-            // UI_슬라이더
-            // UI쪽에 바뀐 값 넘겨주기
         }
     }
     private float currentMana;
@@ -32,8 +29,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         private set
         {
             currentMana = value;
-            // UI_슬라이더
-            // UI쪽에 바뀐 값 넘겨주기
         }
     }
 
@@ -44,8 +39,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         private set
         {
             maxStamina = value;
-            // UI_슬라이더
-            // UI쪽에 바뀐 값 넘겨주기
         }
     }
     private float currentStamina;
@@ -55,8 +48,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         private set
         {
             currentStamina = value;
-            // UI_슬라이더
-            // UI쪽에 바뀐 값 넘겨주기
         }
     }
 
@@ -103,7 +94,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         set
         {
             //if (currentWeapon.Equals(value)) return;
-
             currentWeapon = value;
         }
     }
