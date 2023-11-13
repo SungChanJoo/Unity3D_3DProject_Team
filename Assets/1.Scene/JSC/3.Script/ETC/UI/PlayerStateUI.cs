@@ -9,25 +9,33 @@ public class PlayerStateUI : MonoBehaviour
     [SerializeField] private Slider hpSlider;
     [SerializeField] private Slider staminaSlider;
     [SerializeField] private Slider manaSlider;
+    [SerializeField] private AnimationCurve timeOverSpeed;
 
     private void Awake()
     {
         Debug.Log(player.MaxHealth);
+        hpSlider.maxValue = player.MaxHealth;
         hpSlider.value = player.MaxHealth;
-        staminaSlider.value = player.MaxStamina;
-        manaSlider.value = player.MaxMana;
+        staminaSlider.maxValue = player.MaxStamina;
+        staminaSlider.value = player.MaxHealth;
+        manaSlider.maxValue = player.MaxMana;
+        manaSlider.value = player.MaxHealth;
     }
 
-    public void OnUpdateHp()
+    public void UpdateHp()
     {
+        Debug.Log("플레이어 현재 피 : " + player.CurrentHealth);
+
         hpSlider.value = player.CurrentHealth; 
     }
-    public void OnUpdatestamina()
+    public void UpdateStamina()
     {
         staminaSlider.value = player.CurrentStamina;
     }
-    public void OnUpdatemana()
+    public void UpdateMana()
     {
         manaSlider.value = player.CurrentMana;
     }
+
+
 }
