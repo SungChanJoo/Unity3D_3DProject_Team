@@ -12,6 +12,7 @@ public class StatusEffectedCharacter : MonoBehaviour
     private ObservableCollection<StatusEffect> statusEffects;
 
     // Player용. 일단 이거 씀
+    // 몬스터 상태 이상을 구현할 경우 PlayerData를 에너미 관련 클래스로 바꾸면 됨
     [SerializeField] private PlayerData targetData;
     public PlayerData TargetData => targetData;
 
@@ -30,6 +31,7 @@ public class StatusEffectedCharacter : MonoBehaviour
 
     private void Update()
     {
+        // test용. 실제로는 몬스터가 공격할 때 이 상태를 부여해줘야 함.
         if (Input.GetKeyDown(KeyCode.I))
             AddStatusEffect(StatusEffectType.Poisoned);
         if (Input.GetKeyDown(KeyCode.O))
