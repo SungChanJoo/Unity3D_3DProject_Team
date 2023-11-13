@@ -1,9 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,16 +18,76 @@ public class PlayerData : MonoBehaviour, IDamageable
 
 
     private float maxMana;
+    public float MaxMana
+    {
+        get => maxMana;
+        private set
+        {
+            maxMana = value;
+            // UI_슬라이더
+            // UI쪽에 바뀐 값 넘겨주기
+        }
+    }
     private float currentMana;
+    public float CurrentMana
+    {
+        get => currentMana;
+        private set
+        {
+            currentMana = value;
+            // UI_슬라이더
+            // UI쪽에 바뀐 값 넘겨주기
+        }
+    }
 
     private float maxStamina;
+    public float MaxStamina
+    {
+        get => maxStamina;
+        private set
+        {
+            maxStamina = value;
+            // UI_슬라이더
+            // UI쪽에 바뀐 값 넘겨주기
+        }
+    }
     private float currentStamina;
+    public float CurrentStamina
+    {
+        get => currentStamina;
+        private set
+        {
+            currentStamina = value;
+            // UI_슬라이더
+            // UI쪽에 바뀐 값 넘겨주기
+        }
+    }
+
+    private float maxHealth;
+    public float MaxHealth
+    {
+        get => maxHealth;
+        private set
+        {
+            maxHealth = value;
+            // UI_슬라이더
+            // UI쪽에 바뀐 값 넘겨주기
+        }
+    }
+    private float currentHealth;
+    public float CurrentHealth
+    {
+        get => currentHealth;
+        private set
+        {
+            currentHealth = value;
+            // UI_슬라이더
+            // UI쪽에 바뀐 값 넘겨주기
+        }
+    }
 
     private float walkSpeed;
     private float runSpeed;
-
-    private float maxHealth;
-    private float currentHealth;
 
     private bool isDead = false;
 
@@ -50,7 +105,7 @@ public class PlayerData : MonoBehaviour, IDamageable
         get => currentWeapon;
         set
         {
-            if (currentWeapon.Equals(value)) return;
+            //if (currentWeapon.Equals(value)) return;
 
             currentWeapon = value;
         }
@@ -58,26 +113,32 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     private void Awake()
     {
-        // 할당하는 값은 나중에 바꿀 것
-        maxHealth = 100;
-        maxMana = 100;
-        maxStamina = 100;
+        MaxHealth = 100;
+        MaxMana = 100;
+        MaxStamina = 100;
 
-        currentMana = maxMana;
-        currentStamina = maxStamina;
-        currentHealth = maxHealth;
+        CurrentMana = MaxMana;
+        CurrentStamina = MaxStamina;
+        CurrentHealth = MaxHealth;
         walkSpeed = 5;
         runSpeed = 8;
+        CurrentWeapon = tempSword;
 
-        // test
-        currentWeapon = tempSword;
+        SetTestSliders();
+    }
 
-        tempHpSlider.maxValue = maxHealth;
-        tempMpSlider.maxValue = maxMana;
-        tempStaminaSlider.maxValue = maxStamina;
+    // UI_슬라이더
+    // 체력, 마나, 스태미나 슬라이더 테스트용.
+    // UI 쪽의 슬라이더로 바꾼 뒤 tempSlider들은 삭제할 것
+    private void SetTestSliders()
+    {
+        tempHpSlider.maxValue = MaxHealth;
+        tempMpSlider.maxValue = MaxMana;
+        tempStaminaSlider.maxValue = MaxStamina;
 
-        tempMpSlider.value = currentMana;
-        tempStaminaSlider.value = currentStamina;
+        tempHpSlider.value = CurrentHealth;
+        tempMpSlider.value = CurrentMana;
+        tempStaminaSlider.value = CurrentStamina;
     }
 
     private void Update()
@@ -108,26 +169,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         IsDead = true;
     }
 
-    public void IncreaseMaxHealth(float modifier)
-    {
-        maxHealth += modifier;
-        tempHpSlider.maxValue = maxHealth;
-    }
-    public void IncreaseMaxMana(float modifier)
-    {
-        maxMana += modifier;
-        tempMpSlider.maxValue = maxMana;
-    }
-
-    /// <summary>
-    /// 스태미나 사용이 됐을 경우 true, 스태미나가 부족할 경우 false을 반환
-    /// </summary>
-    public bool UseStamina(float amount) => Use(ref currentStamina, amount, tempStaminaSlider);
-
-    /// <summary>
-    /// 마나 사용이 됐을 경우 true, 마나가 부족할 경우 false을 반환
-    /// </summary>
-    public bool UseMana(float amount) => Use(ref currentMana, amount, tempMpSlider);
 
     // IDamageable의 TakeDamage의 범용성이 떨어져서 만든 임시방편. 추후 수정할 거 같음.
     public void TakeDamage(float damage)
@@ -139,8 +180,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         }
 
         currentHealth -= damage;
-        tempHpSlider.value = currentHealth;
-        
     }
 
 
@@ -148,8 +187,8 @@ public class PlayerData : MonoBehaviour, IDamageable
     {
         if (attack.onDefence)
         {
-                
-            if (UseStamina(10f)&&!attack.perfectParrying)
+
+            if (UseStamina(10f) && !attack.perfectParrying)
             {
                 TakeDamage(damage * 0.3f);
                 attack.hold = true;
@@ -168,16 +207,16 @@ public class PlayerData : MonoBehaviour, IDamageable
                 attack.skillEnabled = false;
                 attack.hold = true;
             }
-            
-            
+
+
         }
         else if (invincibility)
         {
             //여기에 뭔가해야함 반대로 여기서 공격을 해야한다던지
             return;
-            
+
         }
-        else 
+        else
         {
 
             TakeDamage(damage);
@@ -187,41 +226,73 @@ public class PlayerData : MonoBehaviour, IDamageable
         }
     }
 
-    private bool Use(ref float target, float amount, Slider slider) // slider는 추후 제거 예정. 어차피 UI에서 세 스탯 보여주니까.
-    {
-        if (target - amount < 0) return false;
+    public void IncreaseMaxHealth(float modifier) => MaxHealth += modifier;
+    public void IncreaseMaxMana(float modifier) => MaxMana += modifier;
 
-        target -= amount;
-        slider.value = target;
+    /// <summary>
+    /// 스태미나 사용이 됐을 경우 true, 스태미나가 부족할 경우 false을 반환
+    /// </summary>
+    public bool UseStamina(float amount)
+    {
+        if (CurrentStamina - amount < 0) return false;
+
+        CurrentStamina -= amount;
 
         return true;
     }
 
-    public bool RestoreHealth(float amount) => Restore(ref currentHealth, maxHealth, amount, tempHpSlider);
-    public bool RestoreStamina(float amount) => Restore(ref currentStamina, maxStamina, amount, tempStaminaSlider);
-    public bool RestoreMana(float amount) => Restore(ref currentMana, maxMana, amount, tempMpSlider);
-
-    private bool Restore(ref float target, float max, float amount, Slider slider) // slider는 추후 제거 예정. 어차피 UI에서 세 스탯 보여주니까.
+    /// <summary>
+    /// 마나 사용이 됐을 경우 true, 마나가 부족할 경우 false을 반환
+    /// </summary>
+    public bool UseMana(float amount)
     {
-        if (target == max) return false;
+        if (CurrentMana - amount < 0) return false;
 
-        if (target + amount > max)
-            amount = max - target;
+        CurrentMana -= amount;
 
-        target += amount;
+        return true;
+    }
 
-        slider.value = target;
+    public bool RestoreHealth(float amount)
+    {
+        if (CurrentHealth == MaxHealth) return false;
 
-        //StackTrace stackTrace = new StackTrace();
-        //UnityEngine.Debug.Log("Caller" + stackTrace.GetFrame(1).GetMethod().Name + $"\nValue target - {target} max - {max} amount - {amount}");
-        
+        if (CurrentHealth + amount > MaxHealth)
+            amount = MaxHealth - CurrentHealth;
+
+        CurrentHealth += amount;
+
+        return true;
+    }
+
+    public bool RestoreStamina(float amount)
+    {
+        if (CurrentStamina == MaxStamina) return false;
+
+        if (CurrentStamina + amount > MaxStamina)
+            amount = MaxStamina - CurrentStamina;
+
+        CurrentStamina += amount;
+
+        return true;
+    }
+
+    public bool RestoreMana(float amount)
+    {
+        if (CurrentMana == MaxMana) return false;
+
+        if (CurrentMana + amount > MaxMana)
+            amount = MaxMana - CurrentMana;
+
+        CurrentMana += amount;
+
         return true;
     }
 
     private IEnumerator Invincibility()
     {
         attack.skillEnabled = false;
-        invincibility = true;        
+        invincibility = true;
         yield return new WaitForSeconds(2f);
         attack.hold = false;
         invincibility = false;

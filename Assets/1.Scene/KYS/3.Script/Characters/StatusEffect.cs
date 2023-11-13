@@ -10,7 +10,7 @@ public enum StatusEffectType
     BlurryVision
 }
 
-public abstract class StatusEffect : IDisposable
+public abstract class StatusEffect
 {
     public StatusEffectType Type;
 
@@ -18,9 +18,6 @@ public abstract class StatusEffect : IDisposable
 
     // PlayerData 사용이 좋은 방법이 아니긴 한데 일단 적용
     protected StatusEffectedCharacter target;
-
-    // UI 쪽에서 icon 고르고 할당해주기
-    private Sprite icon;
 
     private float removeTimer = 5;
     private float remainingTime = 0;
@@ -70,11 +67,5 @@ public abstract class StatusEffect : IDisposable
     public void ResetTimer()
     {
         remainingTime = 0;
-    }
-
-    public void Dispose()
-    {
-        // Suppress finalization.
-        GC.SuppressFinalize(this);
     }
 }
