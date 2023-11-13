@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// 플레이어 액션 test용 에너미. 더는 사용하지 않음.
 public class DummyEnemy : Enemy, IDamageable
 {
     [SerializeField] private Slider tempHpSlider;

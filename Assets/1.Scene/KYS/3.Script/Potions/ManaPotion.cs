@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 class ManaPotion : MonoBehaviour, IItem
 {
     public string Name { get => "마나 포션"; }

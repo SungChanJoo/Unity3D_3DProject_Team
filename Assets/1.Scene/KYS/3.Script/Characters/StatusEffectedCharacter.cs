@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class StatusEffectedCharacter : MonoBehaviour
@@ -52,7 +49,7 @@ public class StatusEffectedCharacter : MonoBehaviour
             }
         }
 
-        StatusEffect se = null;
+        StatusEffect se;
 
         switch (type)
         {
@@ -69,7 +66,6 @@ public class StatusEffectedCharacter : MonoBehaviour
                 throw new NotImplementedException();
         }
 
-        Debug.LogWarning("Add Status Effect: " + se.Type);
         statusEffects.Add(se);
 
         StartCoroutine(se.StartEffectRoutine());
