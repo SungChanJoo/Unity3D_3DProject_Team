@@ -4550,7 +4550,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5, y: 5, z: 5}
+  m_Size: {x: 3, y: 3, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!222 &7053709419129518447
 CanvasRenderer:
@@ -10878,11 +10878,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4687194026865562370, guid: 5a4af1929e70f24419ca7217934e789b, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4687194026865562370, guid: 5a4af1929e70f24419ca7217934e789b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4687194027301328199, guid: 5a4af1929e70f24419ca7217934e789b, type: 3}
       propertyPath: m_Pivot.x

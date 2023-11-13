@@ -9,7 +9,7 @@ public class PlayerStateUI : MonoBehaviour
     [SerializeField] private Slider hpSlider;
     [SerializeField] private Slider staminaSlider;
     [SerializeField] private Slider manaSlider;
-    [SerializeField] private AnimationCurve timeOverSpeed;
+    //[SerializeField] private AnimationCurve timeOverSpeed;
 
     public void InitState(float hp, float statmina, float mana)
     {

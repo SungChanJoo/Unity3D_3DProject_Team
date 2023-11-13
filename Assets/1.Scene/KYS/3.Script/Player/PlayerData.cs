@@ -14,6 +14,8 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     [SerializeField] private PlayerStateUI playerStateUI;
 
+    [SerializeField] private GameOver gameOver;
+
     private float maxMana;
     public float MaxMana
     {
@@ -150,6 +152,7 @@ public class PlayerData : MonoBehaviour, IDamageable
     public void Die()
     {
         IsDead = true;
+        gameOver.LoadGameOver(); //gameover UI 호출
     }
 
 
@@ -168,6 +171,12 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)
     {
+        if (currentHealth - damage <= 0)
+        {
+            Die();
+            Debug.Log("플레이어 뒤짐");
+            return;
+        }
         if (attack.onDefence)
         {
 
