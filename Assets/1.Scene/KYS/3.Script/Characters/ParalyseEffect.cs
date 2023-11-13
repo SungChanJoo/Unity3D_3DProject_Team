@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 class ParalyseEffect : StatusEffect
 {
@@ -22,10 +23,10 @@ class ParalyseEffect : StatusEffect
         if (animator != null)
         {
             animator.SetTrigger("Default");
-
-            if (target.TryGetComponent(out CameraController player))
-                player.isParalysed = false;
         }
+
+        if (target.TryGetComponent(out CameraController player))
+            player.isParalysed = false;
     }
 
     public override void ApplyEffect() { }

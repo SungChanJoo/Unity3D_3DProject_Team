@@ -16,7 +16,7 @@ public class StatusEffectedCharacter : MonoBehaviour
     [SerializeField] private PlayerData targetData;
     public PlayerData TargetData => targetData;
 
-    // UI에서 Subscribe 해야 함
+    // UI에서 Subscribe 해야 함. 아이콘 보여주는 용
     public Action<List<StatusEffect>> StatusEffectChangedEvent;
 
     private void Awake()
