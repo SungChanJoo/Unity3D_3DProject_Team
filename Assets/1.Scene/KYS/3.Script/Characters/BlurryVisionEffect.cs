@@ -10,6 +10,6 @@ class BlurryVisionEffect : StatusEffect
 
     public override void ApplyEffect()
     {
-        // UI 쪽에서 BlurryVisionEffect 저장/삭제에 따른 효과 적용하면 될 듯
+        // TODO : Post-processing
     }
 }

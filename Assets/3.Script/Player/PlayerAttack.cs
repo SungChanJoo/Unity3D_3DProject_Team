@@ -55,8 +55,6 @@ public class PlayerAttack : MonoBehaviour
             if (Input.GetMouseButtonDown(0))            // 왼쪽 마우스 버튼을 누르면
             {
                 tempAnimator.SetTrigger("Charge");      // 차지 애니메이션
-            
-                // chargingTimer += Time.deltaTime;을 여기에 넣으면 performedChargeAttack 사용 안 해도 되긴 하는데 다른 사람이 코드를 이해하기 어려울까봐 못 넣겠다.
                 performedChargeAttack = false;          // 새로이 차지 공격할 수 있게 됨
             }
             else if (Input.GetMouseButton(0))           // 왼쪽 마우스 버튼을 (계속) 누르고 있는 중일 때
@@ -72,7 +70,7 @@ public class PlayerAttack : MonoBehaviour
                 if (!CheckIfCharged())                  // 차지가 된 게 아니라면 (차지공격을 하지 않았다면) 
                     Attack();                           // 일반 공격
             
-                ResetChargingTimer();               // 차지 타이머 리셋
+                ResetChargingTimer();                   // 차지 타이머 리셋
             }
         }
 
