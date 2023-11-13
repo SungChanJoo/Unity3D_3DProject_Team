@@ -11,15 +11,14 @@ public class PlayerStateUI : MonoBehaviour
     [SerializeField] private Slider manaSlider;
     [SerializeField] private AnimationCurve timeOverSpeed;
 
-    private void Awake()
+    public void InitState(float hp, float statmina, float mana)
     {
-        Debug.Log(player.MaxHealth);
-        hpSlider.maxValue = player.MaxHealth;
-        hpSlider.value = player.MaxHealth;
-        staminaSlider.maxValue = player.MaxStamina;
-        staminaSlider.value = player.MaxHealth;
-        manaSlider.maxValue = player.MaxMana;
-        manaSlider.value = player.MaxHealth;
+        hpSlider.maxValue = hp;
+        hpSlider.value = hp;
+        staminaSlider.maxValue = statmina;
+        staminaSlider.value = statmina;
+        manaSlider.maxValue = mana;
+        manaSlider.value = mana;
     }
 
     public void UpdateHp()
@@ -36,6 +35,5 @@ public class PlayerStateUI : MonoBehaviour
     {
         manaSlider.value = player.CurrentMana;
     }
-
 
 }

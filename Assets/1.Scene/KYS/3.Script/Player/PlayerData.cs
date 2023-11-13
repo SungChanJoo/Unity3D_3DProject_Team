@@ -120,7 +120,8 @@ public class PlayerData : MonoBehaviour, IDamageable
         walkSpeed = 5;
         runSpeed = 8;
         CurrentWeapon = tempSword;
-        
+        playerStateUI.InitState(MaxHealth, MaxStamina, MaxMana);
+
     }
 
     private void Update()
