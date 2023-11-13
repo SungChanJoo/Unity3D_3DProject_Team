@@ -4,10 +4,6 @@ using UnityEngine.UI;
 
 public class PlayerData : MonoBehaviour, IDamageable
 {
-    [SerializeField] private Slider tempHpSlider;
-    [SerializeField] private Slider tempStaminaSlider;
-    [SerializeField] private Slider tempMpSlider;
-
     [SerializeField] private Animator tempAnimator;
 
     [SerializeField] private Sword tempSword;
@@ -123,22 +119,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         walkSpeed = 5;
         runSpeed = 8;
         CurrentWeapon = tempSword;
-
-        SetTestSliders();
-    }
-
-    // UI_슬라이더
-    // 체력, 마나, 스태미나 슬라이더 테스트용.
-    // UI 쪽의 슬라이더로 바꾼 뒤 tempSlider들은 삭제할 것
-    private void SetTestSliders()
-    {
-        tempHpSlider.maxValue = MaxHealth;
-        tempMpSlider.maxValue = MaxMana;
-        tempStaminaSlider.maxValue = MaxStamina;
-
-        tempHpSlider.value = CurrentHealth;
-        tempMpSlider.value = CurrentMana;
-        tempStaminaSlider.value = CurrentStamina;
     }
 
     private void Update()
