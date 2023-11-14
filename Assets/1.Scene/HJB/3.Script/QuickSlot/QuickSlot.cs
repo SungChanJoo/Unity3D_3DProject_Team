@@ -10,7 +10,6 @@ public class QuickSlot : MonoBehaviour
     [SerializeField] private GameObject ui_obj;
     [SerializeField] private GameObject selectUI_obj;
 
-
     [Header("슬롯 인벤토리")]
     [SerializeField] private GameObject[] uiSlot_obj;
 
@@ -23,36 +22,41 @@ public class QuickSlot : MonoBehaviour
     [Header("ItemList(체력 - 최대체력 - 마나 - 최대마나 순서)")]
     [SerializeField] private GameObject[] quickSlotItem;
     [SerializeField] private Sprite[] ItemImage;
+
+    //0~3 아이템 갯수, 4 선택아이템 갯수, 5 아이템 정보
     [Header("ItemList순서대로 5번째는 CenterInven")]
     [SerializeField] private Text[] ItemText;
 
+    //방패 가리기
+    [SerializeField] private GameObject shield;
 
+    private CameraController player;
     private PlayerData data;
+    private Animator ani;
 
     //선택 커서 인덱스와 슬롯인덱스를 일치시키기 위한 변수
     private int selectIndex = 0;
     private int slotSideLength = 2;
     private int selcetHold = 0;
-
-    //아이템 받을 변수
-    private List<IItem> items = new List<IItem>();
-
+      
     //아이템을 종류별로    
-    private List<IItem> Health_P = new List<IItem>();
-    private List<IItem> MaxHealth_P = new List<IItem>();
-    private List<IItem> Mana_P = new List<IItem>();
-    private List<IItem> MaxMana_P = new List<IItem>();
+    private List<IItem> health_P = new List<IItem>();
+    private List<IItem> maxHealth_P = new List<IItem>();
+    private List<IItem> mana_P = new List<IItem>();
+    private List<IItem> maxMana_P = new List<IItem>();
 
-
+    
     private void Start()
     {
+        player = FindObjectOfType<CameraController>();
         data = FindObjectOfType<PlayerData>();
+        ani = FindObjectOfType<Animator>();
+        
 
         if (data != null)
         {
 
             data.ItemChangedEvent = OnItemAdded;
-
         }
         else
         {
@@ -63,60 +67,77 @@ public class QuickSlot : MonoBehaviour
     private void Update()
     {
         MoveSlotKey();
-
     }
+
+    #region // PlayerData로 받은 아이템 데이터를 분배
     private void OnItemAdded(List<IItem> allItems)
     {
         //중복되는 것을 방지
-        Health_P.Clear();
-        MaxHealth_P.Clear();
-        Mana_P.Clear();
-        MaxMana_P.Clear();
+        health_P.Clear();
+        maxHealth_P.Clear();
+        mana_P.Clear();
+        maxMana_P.Clear();
 
         //var dd =  allItems.Any(x => x.Type.Equal(ItemType.HealthPotion));
         //모든 아이템을 처리
         foreach (var item in allItems)
-        {
+        {            
             Debug.Log(item.Name);
 
             if (item.Name == "체력 포션")
             {
-                Health_P.Add(item);
+                health_P.Add(item);
             }
             else if (item.Name == "최대 체력 포션")
             {
-                MaxHealth_P.Add(item);
+                maxHealth_P.Add(item);
             }
             else if (item.Name == "마나 포션")
             {
-                Mana_P.Add(item);
+                mana_P.Add(item);
             }
             else
             {
-                MaxMana_P.Add(item);
+                maxMana_P.Add(item);
             }
         }
+        
     }
-    //public void ShowItemInfo()
-    //{
-    //    // 마우스/선택이 해당 아이템에 올라갔나 안 올라갔나 확인하고 위의 행동을 하기.
-    //    // example
-    //    if (items.Count == 0)
-    //    {
-    //        Debug.Log(items[0].Name + " : " + items[0].Description);
-    //    }
-    //}
+    #endregion
+
+    #region // 아이템 정보
+    public void ShowItemInfo()
+    {
+        switch (selectIndex)
+        {
+            case 0:
+                ItemText[5].text = "체력 포션 : 체력을 '20' 만큼 회복시켜준다.";
+                return;
+            case 1:
+                ItemText[5].text = "최대 체력 포션 : 최대 체력을 '20' 만큼 늘려준다.";
+                return;
+            case 2:
+                ItemText[5].text = "마나 포션 : 마나를 '20' 만큼 회복시켜준다.";
+                return;
+            case 3:
+                ItemText[5].text = "최대 마나 포션 : 최대 마나를 '20' 만큼 늘려준다.";
+                return;
+            default:
+                break;
+        }
+    }
+    #endregion
+
     private void MoveSlotKey()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
-        {
+        {            
             ui_obj.SetActive(!ui_obj.activeSelf);
             selectUI_obj.SetActive(!selectUI_obj.activeSelf);
-
         }
         //UI Object가 true인 경우
         if (ui_obj.activeSelf)
-        {
+        {            
             if (Input.GetKeyDown(KeyCode.A))
             {
                 //왼쪽으로 이동
@@ -145,15 +166,24 @@ public class QuickSlot : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        //플레이어가 정지상태가 아니며 포션의 수량이 0보다 클 때 실행
+        if (Input.GetKeyDown(KeyCode.Q)&&!playerAttack.hold)
         {
-            //아이템 사용 메서드
-            UseItemSet();
+            List<IItem>[] potionLists = { health_P, maxHealth_P, mana_P, maxMana_P };
+            if (potionLists[selcetHold].Count>0)
+            {
+                //아이템 사용 메서드
+                ani.SetTrigger("Drinking");
+                StartCoroutine(Drinking());
+            }
         }
         //아이템 갯수 출력
         ItemCount();
+        ShowItemInfo();
+
     }
 
+    #region // 퀵슬롯 커서 움직임 로직(selectIndex 반환)
     private int MoveSelectUI(int offset)
     {
         if (offset < 0)
@@ -186,67 +216,93 @@ public class QuickSlot : MonoBehaviour
         }
 
         selectUI_obj.transform.position =
-            uiSlot_obj[offset].transform.position + new Vector3(-6f, 60f, 0);
+            uiSlot_obj[offset].transform.position + new Vector3(-6f, 60f, 0);        
 
         return selectIndex;
 
     }
-    //선택한 아이템으로 Sprite 변경
+    #endregion    
+
+    #region // 선택한 아이템으로 Sprite 변경 및 홀드
     private void SelectItem()
     {
         selcet_Item.sprite = ItemImage[selectIndex];
         selcetHold = selectIndex;
     }
+    #endregion
+
+    #region // 아이템 수량 출력 메서드
     private void ItemCount()
     {
-
         //여기에서 아이템 갯수 텍스트로 출력
-        ItemText[0].text = $"{ Health_P.Count }";
-        ItemText[1].text = $"{ MaxHealth_P.Count }";
-        ItemText[2].text = $"{ Mana_P.Count }";
-        ItemText[3].text = $"{ MaxMana_P.Count }";
+        ItemText[0].text = $"{ health_P.Count }";
+        ItemText[1].text = $"{ maxHealth_P.Count }";
+        ItemText[2].text = $"{ mana_P.Count }";
+        ItemText[3].text = $"{ maxMana_P.Count }";
 
         //if문 길게 쓰기 싫어서 list로 줄여봄 그리고 선택된 슬롯은 계속 변하면 안되기에 여기에 선언
-        List<IItem>[] potionLists = { Health_P, MaxHealth_P, Mana_P, MaxMana_P };
+        List<IItem>[] potionLists = { health_P, maxHealth_P, mana_P, maxMana_P };
 
         // selectIndex에 따라 다른 포션의 갯수 출력
         if (selcetHold >= 0 && selcetHold < potionLists.Length)
         {            
             ItemText[4].text = $"{potionLists[selcetHold].Count}";
-        }
+        }        
     }
+    #endregion
+
+    #region // 아이템 사용 메서드
     private void UseItemSet()
     {
         switch (selcetHold)
         {
             case 0:
-                if (Health_P.Count>0)
+                if (health_P.Count>0)
                 {
-                    data.UseItem(Health_P[0]);
+                    data.UseItem(health_P[0]);
                 }
                 return;
             case 1:
-                if (MaxHealth_P.Count > 0)
+                if (maxHealth_P.Count > 0)
                 {
-                    data.UseItem(MaxHealth_P[0]);
+                    data.UseItem(maxHealth_P[0]);
                 }
                 return;
             case 2:
-                if (Mana_P.Count>0)
+                if (mana_P.Count>0)
                 {
-                    data.UseItem(Mana_P[0]);
+                    data.UseItem(mana_P[0]);
                 }                
                 return;
             case 3:
-                if (MaxMana_P.Count>0)
+                if (maxMana_P.Count>0)
                 {
-                    data.UseItem(MaxMana_P[0]);
+                    data.UseItem(maxMana_P[0]);
                 }
                 return;
             default:
                 break;
         }
     }
-    
+    #endregion
+
+    private IEnumerator Drinking()
+    {        
+        playerAttack.hold = true;
+        playerAttack.skillEnabled = false;
+        shield.SetActive(false);
+        //시전 중 맞을 시 반환
+        if (true)
+        {
+            
+        }
+        yield return new WaitForSeconds(2.4f);
+        playerAttack.hold = false;
+        playerAttack.skillEnabled = true;
+        shield.SetActive(true);
+        ani.SetTrigger("Default");
+        UseItemSet();
+    }
 }
-    
+
+
