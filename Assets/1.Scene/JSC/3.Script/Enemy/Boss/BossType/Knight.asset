@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Knight
   m_EditorClassIdentifier: 
   MaxHealth: 1000
-  Damage: 100
+  Damage: 10
   Force: 0
   Speed: 2
   AttackDistance: 2
