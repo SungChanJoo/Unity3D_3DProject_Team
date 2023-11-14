@@ -108,7 +108,7 @@ public class Boss : Enemy
         base.Die();
         //³ªÁß¿¡ ÇØÁà..!
     }
-    void OnStartAttack()
+    protected virtual void OnStartAttack()
     {
         weapon.GetComponent<BoxCollider>().enabled = true;
         if (enemyStrongEffect.activeSelf == true)
@@ -120,7 +120,7 @@ public class Boss : Enemy
     {
         weapon.GetComponent<BoxCollider>().enabled = false;
     }
-    void OnEndAni()
+    protected virtual void OnEndAni()
     {
         StartCoroutine(DelayAttack_co());
     }
