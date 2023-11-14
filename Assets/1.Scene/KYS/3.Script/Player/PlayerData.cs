@@ -20,16 +20,15 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     private List<IItem> items = new List<IItem>();
     //public List<IItem> Items => items;
-
-    public Action<IItem> ItemAddedEvent; // 일단은 추가된 아이템만 파라미터로 보내준다. 추후 필요에 따라 List<IItem>을 통으로 보낼 수도 있음.
-
+        
+    public Action<List<IItem>> ItemChangedEvent;// 일단은 추가된 아이템만 파라미터로 보내준다. 추후 필요에 따라 List<IItem>을 통으로 보낼 수도 있음.
     // 아이템 추가용
     private void OnTriggerEnter(Collider other)
     {
         if (!other.TryGetComponent(out IItem item)) return;
 
         items.Add(item);
-        ItemAddedEvent?.Invoke(item);
+        ItemChangedEvent?.Invoke(items);
 
         Destroy(other.gameObject);
         Debug.Log(item.Name + "을 획득. 인벤토리에 아이템이 " + items.Count + "만큼 있음");
@@ -40,6 +39,7 @@ public class PlayerData : MonoBehaviour, IDamageable
         // item.Use 메소드를 여기에서 써도 되고, 퀵슬롯 쪽에서 써도 된다. 상관 없음. 일단 여기에서 씀.
         usedItem.Use(this);
         items.Remove(usedItem);
+        ItemChangedEvent?.Invoke(items);
         Debug.Log(usedItem.Name + "을 사용. 인벤토리에 아이템이 " + items.Count + "만큼 있음");
     }
 
@@ -150,7 +150,7 @@ public class PlayerData : MonoBehaviour, IDamageable
         walkSpeed = 5;
         runSpeed = 8;
         CurrentWeapon = tempSword;
-        playerStateUI.InitState(MaxHealth, MaxStamina, MaxMana);
+        //playerStateUI.InitState(MaxHealth, MaxStamina, MaxMana);
 
     }
 
@@ -159,6 +159,12 @@ public class PlayerData : MonoBehaviour, IDamageable
         // test
         if (Input.GetKeyDown(KeyCode.J))
             TakeDamage(5, 1, Vector3.zero, Vector3.zero);
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Debug.Log(maxHealth);
+            Debug.Log(MaxMana);
+        }
     }
 
     private void FixedUpdate()
@@ -244,7 +250,7 @@ public class PlayerData : MonoBehaviour, IDamageable
             attack.skillEnabled = false;
             attack.hold = true;
         }
-        playerStateUI.UpdateHp();
+        //playerStateUI.UpdateHp();
     }
 
     public void IncreaseMaxHealth(float modifier) => MaxHealth += modifier;
@@ -258,7 +264,7 @@ public class PlayerData : MonoBehaviour, IDamageable
         if (CurrentStamina - amount < 0) return false;
 
         CurrentStamina -= amount;
-        playerStateUI.UpdateStamina();
+        //playerStateUI.UpdateStamina();
 
         return true;
     }
@@ -271,7 +277,7 @@ public class PlayerData : MonoBehaviour, IDamageable
         if (CurrentMana - amount < 0) return false;
 
         CurrentMana -= amount;
-        playerStateUI.UpdateMana();
+        //playerStateUI.UpdateMana();
 
         return true;
     }
@@ -284,7 +290,7 @@ public class PlayerData : MonoBehaviour, IDamageable
             amount = MaxHealth - CurrentHealth;
 
         CurrentHealth += amount;
-        playerStateUI.UpdateHp();
+        //playerStateUI.UpdateHp();
 
         return true;
     }
@@ -297,7 +303,7 @@ public class PlayerData : MonoBehaviour, IDamageable
             amount = MaxStamina - CurrentStamina;
 
         CurrentStamina += amount;
-        playerStateUI.UpdateStamina();
+        //playerStateUI.UpdateStamina();
 
         return true;
     }
@@ -310,7 +316,7 @@ public class PlayerData : MonoBehaviour, IDamageable
             amount = MaxMana - CurrentMana;
 
         CurrentMana += amount;
-        playerStateUI.UpdateMana();
+        //playerStateUI.UpdateMana();
 
         return true;
     }

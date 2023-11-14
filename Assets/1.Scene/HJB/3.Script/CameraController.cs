@@ -9,8 +9,6 @@ public class CameraController : MonoBehaviour
     //[SerializeField] private float Speed = 5f;
     //[SerializeField] private float runSpeed = 8f;
     private float finalSpeed;
-    
-
 
     [Header("카메라 우선순위변경")]
     [SerializeField] private CinemachineVirtualCamera vCamera;

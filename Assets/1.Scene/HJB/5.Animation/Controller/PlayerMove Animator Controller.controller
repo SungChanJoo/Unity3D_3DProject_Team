@@ -132,7 +132,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Roll Tree
+  m_Name: RollTree
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1032,7 +1032,7 @@ AnimatorStateMachine:
     m_Position: {x: 680, y: 640, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8998272559623779188}
-    m_Position: {x: 670, y: 800, z: 0}
+    m_Position: {x: 520, y: 790, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8121277680146285295}
     m_Position: {x: -30, y: -50, z: 0}
@@ -2158,7 +2158,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.9166667
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1

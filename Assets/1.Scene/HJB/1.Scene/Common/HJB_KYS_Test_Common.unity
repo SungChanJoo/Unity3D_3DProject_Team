@@ -5505,7 +5505,7 @@ MonoBehaviour:
   detectRange: 5
   hpSlider: {fileID: 710362791}
   weapon: {fileID: 0}
-  hpSlider: {fileID: 710362791}
+  tempHpSlider: {fileID: 0}
 --- !u!65 &132763276
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26059,6 +26059,7 @@ MonoBehaviour:
   jumpPower: 10
   nextBehaviorTimebet: 5
   enemyStrongEffect: {fileID: 5859497710077604590}
+  canFight: 0
   isStrong: 0
 --- !u!65 &4927650121898509247
 BoxCollider:
