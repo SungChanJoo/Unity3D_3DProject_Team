@@ -15,7 +15,6 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     [SerializeField] private PlayerStateUI playerStateUI;
 
-
     [SerializeField] private GameOver gameOver;
 
     private List<IItem> items = new List<IItem>();
