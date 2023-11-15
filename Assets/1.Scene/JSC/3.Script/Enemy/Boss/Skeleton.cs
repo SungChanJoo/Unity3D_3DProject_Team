@@ -10,7 +10,7 @@ public class Skeleton : Boss
     [SerializeField] private GameObject StrongEffect;
     [SerializeField] private GameObject SwordForceEffect;
     [SerializeField] private int swordForceCount = 3;
-
+    [SerializeField] private GameObject FireField;
     //[SerializeField] private GameObject ThrowSword;
 
     protected override void Awake()
@@ -55,10 +55,10 @@ public class Skeleton : Boss
         {
             StrongEffect.SetActive(false);
         }
-        if (SwordForceEffect.activeSelf)
+/*        if (SwordForceEffect.activeSelf)
         {
             SwordForceEffect.SetActive(false);
-        }
+        }*/
     }
 
     private IEnumerator UpdataTargetPosition()
@@ -160,7 +160,14 @@ public class Skeleton : Boss
 
                             if (PlayerDetectRange(longDetectRange))
                             {
-                                StartCoroutine(JumpAttack_co());
+                                if (rand > 30) // 70%È®·ü
+                                {
+                                    PointAttack();
+                                }
+                                else
+                                {
+                                    StartCoroutine(JumpAttack_co());
+                                }
                             }
                         }
                         lastAttackTimebet = Time.time;
@@ -271,6 +278,7 @@ public class Skeleton : Boss
         isAttack = true;
         enemyAni.SetBool("isMove", !isAttack);
         enemyAni.SetTrigger("Point");
+        //Instantiate(FireField, transform.position, )
     }
     /*    private IEnumerator JumpAttack_co()
         {
