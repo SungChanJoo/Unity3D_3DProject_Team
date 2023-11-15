@@ -116,7 +116,7 @@ public class Boss : Enemy
             enemyStrongEffect.SetActive(false);
         }
     }
-    void OnEndAttack()
+    protected virtual void OnEndAttack()
     {
         weapon.GetComponent<BoxCollider>().enabled = false;
     }

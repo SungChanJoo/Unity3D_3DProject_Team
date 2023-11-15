@@ -8,35 +8,37 @@ public class OrcSpawner : MonoBehaviour
    
     [SerializeField] private int wayPointCount = 3;
     public GameObject wayPoint;
-    float rangeX = 10f;
-    float rangeZ = 10f;
+    public float weight = 10f;
+    public float height = 10f;
     private Vector3 poolPosition = new Vector3(0, -25f, 0);
 
     private void Awake()
     {
-        for(int i = 0; i < Random.Range(1,5); i++)
+        for (int i = 0; i < Random.Range(1, 5); i++)
         {
-            GameObject orc = Instantiate(Orcs[0], RandomPosition(), Quaternion.identity);
+            GameObject orc = Instantiate(Orcs[0], transform.position, Quaternion.identity);
 
             Vector3 pPosition = transform.position;
-            for(int j =0; j < wayPointCount; j++)
-            {
-                float temp = Time.time * 100f;
-                Random.InitState((int)temp);
-                if (j == 0)
-                {
-                    pPosition = RandomPosition();
-                    orc.GetComponent<AnyMonster>().wayPoint.Add(Instantiate(wayPoint, pPosition, Quaternion.identity));  
+            orc.GetComponent<AnyMonster>().wayPoint.Add(Instantiate(wayPoint, pPosition, Quaternion.identity));
 
-                }
-                else
-                {
-                    orc.GetComponent<AnyMonster>().wayPoint.Add(Instantiate(wayPoint, RandomPosition(pPosition), Quaternion.identity));  
-                }
-            }
+            /*            for (int j = 0; j < wayPointCount; j++)
+                        {
+                            float temp = Time.time * 100f;
+                            Random.InitState((int)temp);
+                            if (j == 0)
+                            {
+                                //pPosition = RandomPosition();
+                                orc.GetComponent<AnyMonster>().wayPoint.Add(Instantiate(wayPoint, pPosition, Quaternion.identity));
+
+                            }
+                            else
+                            {
+                                orc.GetComponent<AnyMonster>().wayPoint.Add(Instantiate(wayPoint, RandomPosition(pPosition), Quaternion.identity));
+                            }
+                        }*/
         }
     }
-    Vector3 RandomPosition()
+/*    Vector3 RandomPosition()
     {
 
 
@@ -64,5 +66,5 @@ public class OrcSpawner : MonoBehaviour
 
         Vector3 respawnPosition = originPosition + randomPostion;
         return respawnPosition;
-    }
+    }*/
 }

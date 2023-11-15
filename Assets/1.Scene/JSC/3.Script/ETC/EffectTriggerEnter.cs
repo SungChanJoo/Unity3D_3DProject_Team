@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EffectTriggerEnter : MonoBehaviour
 {
+    public float damage = 10f;
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
@@ -12,7 +13,7 @@ public class EffectTriggerEnter : MonoBehaviour
             
             if(other.TryGetComponent(out PlayerData player))
             {
-                player.TakeDamage(10f, 10, Vector3.zero, Vector3.zero);
+                player.TakeDamage(damage, 10, Vector3.zero, Vector3.zero);
 
             }
             else

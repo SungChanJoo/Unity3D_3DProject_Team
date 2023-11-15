@@ -5,6 +5,13 @@ using UnityEngine;
 public class Skeleton : Boss
 {
     private CapsuleCollider skeletonCapCol;
+    [Header("Effect")]
+    [SerializeField] private List<GameObject> jumpEffects;
+    [SerializeField] private GameObject StrongEffect;
+    [SerializeField] private GameObject SwordForceEffect;
+    [SerializeField] private int swordForceCount = 3;
+
+    //[SerializeField] private GameObject ThrowSword;
 
     protected override void Awake()
     {
@@ -24,6 +31,36 @@ public class Skeleton : Boss
         skeletonCapCol.enabled = true;
 
     }
+    protected override void OnStartAttack()
+    {
+        base.OnStartAttack();
+        if (isStrong)
+        {
+            StrongEffect.transform.position = transform.position;
+            StrongEffect.SetActive(true);
+            StrongEffect.transform.rotation = Quaternion.Euler(-90f, transform.rotation.eulerAngles.z, transform.rotation.eulerAngles.y);
+        }
+    }
+    protected override void OnEndAttack()
+    {
+        base.OnEndAttack();
+        if (jumpEffects[0].activeSelf)
+        {
+            jumpEffects[0].SetActive(false);
+            jumpEffects[1].SetActive(false);
+            jumpEffects[2].SetActive(false);
+            jumpEffects[3].SetActive(false);
+        }
+        if (StrongEffect.activeSelf)
+        {
+            StrongEffect.SetActive(false);
+        }
+        if (SwordForceEffect.activeSelf)
+        {
+            SwordForceEffect.SetActive(false);
+        }
+    }
+
     private IEnumerator UpdataTargetPosition()
     {
 
@@ -85,11 +122,11 @@ public class Skeleton : Boss
                                 {
                                     BasicAttack();
                                 }
-                                else if(rand > 30) //35% 확률
+                                else if (rand > 30) //35% 확률
                                 {
                                     ComboAttack();
                                 }
-                                else if(rand > 15)
+                                else if (rand > 15)
                                 {
                                     Dodge();
                                 }
@@ -104,8 +141,17 @@ public class Skeleton : Boss
                             Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * middleDetectRange, Color.red);
                             if (PlayerDetectRange(middleDetectRange))
                             {
-                                yield return new WaitForSeconds(0.5f);
-                                DashAttack();
+                                if (rand > 30) // 70%확률
+                                {
+                                    if (Vector3.SqrMagnitude(transform.position - player.transform.position) <= 8)
+                                    {
+                                        DashAttack();
+                                    }
+                                }
+                                else
+                                {
+                                    StartCoroutine(SwordForceAttack_co());
+                                }
                             }
                         }
                         else if (bossState == State.Long)
@@ -217,7 +263,57 @@ public class Skeleton : Boss
         isAttack = true;
         enemyAni.SetBool("isMove", !isAttack);
         enemyAni.SetTrigger("Dodge");
+        //StartCoroutine(ThrowSword_co());
     }
+    private void PointAttack()
+    {
+        agent.isStopped = true;
+        isAttack = true;
+        enemyAni.SetBool("isMove", !isAttack);
+        enemyAni.SetTrigger("Point");
+    }
+    /*    private IEnumerator JumpAttack_co()
+        {
+            isAttack = true;
+
+            enemyR.useGravity = false;
+            //enemyR.isKinematic = true;
+            agent.enabled = false;
+            //Debug.Log("JumpAttack 했어용");
+
+            enemyAni.SetTrigger("JumpAttack");
+            yield return new WaitForSeconds(0.3f);
+            float jumpY = transform.position.y + jumpPower;
+            while (transform.position.y < jumpY - 1f)
+            {
+                transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, jumpY, transform.position.z), 1f * Time.deltaTime);
+                transform.LookAt(player.transform);
+
+                yield return null;
+
+
+            }
+
+            enemyAni.SetTrigger("JumpIdle");
+            GetComponent<BoxCollider>().enabled = true;
+            //float distance = 1.2f; 플레이어 앞에서 멈춤... distance를 곱할려고 했으나 먼가 이상... 좀 생각해볼 필요가 있을듯
+            Vector3 tempPos = new Vector3( player.transform.position.x, player.transform.position.y, player.transform.position.z);
+            while ((transform.position.y - tempPos.y) > 1f)
+            {
+
+                transform.position = Vector3.Lerp(transform.position, tempPos, 5f * Time.deltaTime);
+                yield return null;
+
+            }
+
+            enemyAni.SetTrigger("JumpEnd");
+            enemyR.useGravity = true;
+            //enemyR.isKinematic = false;
+            agent.enabled = true;
+            agent.isStopped = true;
+            enemyAni.SetBool("isMove", !isAttack);
+
+        }*/
     private IEnumerator JumpAttack_co()
     {
         isAttack = true;
@@ -227,12 +323,16 @@ public class Skeleton : Boss
         agent.enabled = false;
         //Debug.Log("JumpAttack 했어용");
 
+        //점프 이펙트
+        jumpEffects[0].transform.position = transform.position;
+        jumpEffects[0].SetActive(true);
         enemyAni.SetTrigger("JumpAttack");
         yield return new WaitForSeconds(0.3f);
         float jumpY = transform.position.y + jumpPower;
+
         while (transform.position.y < jumpY - 1f)
         {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, jumpY, transform.position.z), 1f * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, jumpY, transform.position.z), Time.deltaTime * 1f);
             /*
                         if(transform.position.y > jumpY * 0.3)// 일정높이 이상일 때만 플레이어를 바라봄
                         {
@@ -244,11 +344,14 @@ public class Skeleton : Boss
 
 
         }
-
+        //점프 이펙트
+        jumpEffects[1].transform.position = transform.position;
+        jumpEffects[1].transform.rotation = transform.rotation;
+        jumpEffects[1].SetActive(true);
         enemyAni.SetTrigger("JumpIdle");
         GetComponent<BoxCollider>().enabled = true;
         //float distance = 1.2f; 플레이어 앞에서 멈춤... distance를 곱할려고 했으나 먼가 이상... 좀 생각해볼 필요가 있을듯
-        Vector3 tempPos = new Vector3( player.transform.position.x, player.transform.position.y, player.transform.position.z);
+        Vector3 tempPos = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
         while ((transform.position.y - tempPos.y) > 1f)
         {
 
@@ -262,7 +365,58 @@ public class Skeleton : Boss
         //enemyR.isKinematic = false;
         agent.enabled = true;
         agent.isStopped = true;
+        //점프 이펙트
+        jumpEffects[2].transform.position = transform.position;
+        jumpEffects[2].SetActive(true);
+
+        jumpEffects[3].transform.position = transform.position;
+        jumpEffects[3].SetActive(true);
         enemyAni.SetBool("isMove", !isAttack);
 
     }
+    IEnumerator SwordForceAttack_co()
+    {
+        agent.isStopped = true;
+        isAttack = true;
+        enemyAni.SetBool("isMove", !isAttack);
+        enemyAni.SetBool("isSwordForce", false);
+
+        enemyAni.SetTrigger("SwordForceAttack");
+        yield return new WaitForSeconds(0.5f);
+
+        for (int i = 0; i < swordForceCount; i++)
+        {
+            if (!SwordForceEffect.activeSelf)
+            {
+                SwordForceEffect.SetActive(true);
+            }
+            SwordForceEffect.transform.rotation = Quaternion.Euler(-90f, transform.rotation.eulerAngles.z, transform.rotation.eulerAngles.y);
+
+            GameObject force = Instantiate(SwordForceEffect, transform.position, SwordForceEffect.transform.rotation);
+            Destroy(force, 3f);
+            for (int j = 0; j < 50; j++)
+            {
+                transform.LookAt(player.transform);
+                yield return new WaitForSeconds(0.01f);
+
+            }
+        }
+        enemyAni.SetBool("isSwordForce", true);
+
+    }
+
+
+/*    IEnumerator ThrowSword_co()
+    {
+        Vector3 target = transform.position;
+        yield return new WaitForSeconds(1f);
+        if (!ThrowSword.activeSelf)
+        {
+            ThrowSword.SetActive(true);
+        }
+        ThrowSword.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0f);
+
+        GameObject sword = Instantiate(ThrowSword, target, ThrowSword.transform.rotation);
+        Destroy(sword, 3f);
+    }*/
 }
