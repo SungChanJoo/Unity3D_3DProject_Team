@@ -47,13 +47,13 @@ public class GameOver : MonoBehaviour
             {
                 if (images[i].color.a - colorsA[i] >= 0.3f)
                 {
-                    Debug.Log("color : "+colorsA[i]);
+                    //Debug.Log("color : "+colorsA[i]);
                     continue;
                 }
 
                 images[i].color = new Color(images[i].color.r, images[i].color.g, images[i].color.b, startNum);
             }
-            Debug.Log(endNum - startNum);
+            //Debug.Log(endNum - startNum);
             yield return null;
         }
         Time.timeScale = 0;
