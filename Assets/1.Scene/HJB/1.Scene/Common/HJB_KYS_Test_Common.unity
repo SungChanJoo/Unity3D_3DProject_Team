@@ -6059,6 +6059,11 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.6664747, y: -0.02568359, z: -0.19422725}
     m_Extent: {x: 0.3022338, y: 0.20499697, z: 0.27775386}
   m_DirtyAABB: 0
+--- !u!4 &222545217 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7114020497561230484, guid: dc20d6ba0a4818544b6410b404bb6e4a, type: 3}
+  m_PrefabInstance: {fileID: 1007815340}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &235456139
 GameObject:
   m_ObjectHideFlags: 0
@@ -6996,7 +7001,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -7516,7 +7521,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -7587,7 +7592,8 @@ Transform:
   m_LocalRotation: {x: 0.00023069193, y: 0.9713584, z: -0.23761712, w: 0.00094304874}
   m_LocalPosition: {x: -0.01, y: 2.6799998, z: 5.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 222545217}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8394,7 +8400,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8436,6 +8442,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 676499285}
   m_CullTransparentMesh: 1
+--- !u!1001 &678988535
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4425128053331125858, guid: 0f46f96107be53f44b549141c2cc29f3, type: 3}
+      propertyPath: m_Name
+      value: Dizzyness PostProcessing (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425128053331125858, guid: 0f46f96107be53f44b549141c2cc29f3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425128053331125860, guid: 0f46f96107be53f44b549141c2cc29f3, type: 3}
+      propertyPath: m_RootOrder
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425128053331125860, guid: 0f46f96107be53f44b549141c2cc29f3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.35526368
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425128053331125860, guid: 0f46f96107be53f44b549141c2cc29f3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.329899
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425128053331125860, guid: 0f46f96107be53f44b549141c2cc29f3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.49107772
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425128053331125860, guid: 0f46f96107be53f44b549141c2cc29f3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425128053331125860, guid: 0f46f96107be53f44b549141c2cc29f3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425128053331125860, guid: 0f46f96107be53f44b549141c2cc29f3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425128053331125860, guid: 0f46f96107be53f44b549141c2cc29f3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425128053331125860, guid: 0f46f96107be53f44b549141c2cc29f3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425128053331125860, guid: 0f46f96107be53f44b549141c2cc29f3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4425128053331125860, guid: 0f46f96107be53f44b549141c2cc29f3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0f46f96107be53f44b549141c2cc29f3, type: 3}
 --- !u!1 &710362789
 GameObject:
   m_ObjectHideFlags: 0
@@ -9631,6 +9698,67 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.26421875, y: -0.06411667, z: 0.007477157}
     m_Extent: {x: 0.17721826, y: 0.15384004, z: 0.15864313}
   m_DirtyAABB: 0
+--- !u!1001 &1007815340
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 529081798}
+    m_Modifications:
+    - target: {fileID: 7114020497561230484, guid: dc20d6ba0a4818544b6410b404bb6e4a, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114020497561230484, guid: dc20d6ba0a4818544b6410b404bb6e4a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114020497561230484, guid: dc20d6ba0a4818544b6410b404bb6e4a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114020497561230484, guid: dc20d6ba0a4818544b6410b404bb6e4a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.839
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114020497561230484, guid: dc20d6ba0a4818544b6410b404bb6e4a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114020497561230484, guid: dc20d6ba0a4818544b6410b404bb6e4a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114020497561230484, guid: dc20d6ba0a4818544b6410b404bb6e4a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114020497561230484, guid: dc20d6ba0a4818544b6410b404bb6e4a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114020497561230484, guid: dc20d6ba0a4818544b6410b404bb6e4a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114020497561230484, guid: dc20d6ba0a4818544b6410b404bb6e4a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114020497561230484, guid: dc20d6ba0a4818544b6410b404bb6e4a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114020497561230485, guid: dc20d6ba0a4818544b6410b404bb6e4a, type: 3}
+      propertyPath: m_Name
+      value: Dizzyness ScreenDistortion
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114020497561230485, guid: dc20d6ba0a4818544b6410b404bb6e4a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dc20d6ba0a4818544b6410b404bb6e4a, type: 3}
 --- !u!1 &1013879568
 GameObject:
   m_ObjectHideFlags: 0
@@ -9946,7 +10074,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1056499086
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11055,13 +11183,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c112cc30b6943534fb7dea8399596d7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tempHpSlider: {fileID: 1917683324}
-  tempStaminaSlider: {fileID: 188637551}
-  tempMpSlider: {fileID: 1834133442}
   tempAnimator: {fileID: 1194800665}
   tempSword: {fileID: 779972167}
   attack: {fileID: 1194800666}
   col: {fileID: 1194800668}
+  gameOver: {fileID: 0}
   invincibility: 0
 --- !u!114 &1194800672
 MonoBehaviour:
@@ -11096,6 +11222,7 @@ MonoBehaviour:
   data: {fileID: 1194800671}
   weaponBase: {fileID: 779972167}
   attack: {fileID: 1194800666}
+  isParalysed: 0
   detectionDistance: 50
   targetList: []
   player: {fileID: 1194800663}
@@ -19225,7 +19352,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
