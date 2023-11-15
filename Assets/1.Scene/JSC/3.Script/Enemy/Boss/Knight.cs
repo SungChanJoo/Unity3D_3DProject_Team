@@ -27,28 +27,26 @@ public class Knight : Boss
         }
     }
 
-    protected override void OnEndAni()
+    protected override void OnEndAttack()
     {
-        base.OnEndAni();
+        base.OnEndAttack();
         if (jumpEffects[0].activeSelf)
         {
             jumpEffects[0].SetActive(false);
             jumpEffects[1].SetActive(false);
             jumpEffects[2].SetActive(false);
+            jumpEffects[3].SetActive(false);
         }
-        if(StrongEffect.activeSelf)
+        if (StrongEffect.activeSelf)
         {
             StrongEffect.SetActive(false);
         }
-        if(SwordForceEffect.activeSelf)
+        if (SwordForceEffect.activeSelf)
         {
             SwordForceEffect.SetActive(false);
         }
     }
-    void OnSwordForceStart()
-    {
 
-    }
     private IEnumerator UpdataTargetPosition()
     {
 
@@ -229,10 +227,10 @@ public class Knight : Boss
     private void DashAttack()
     {
 
-            isAttack = true;
-            agent.isStopped = true;
-            enemyAni.SetBool("isMove", !isAttack);
-            enemyAni.SetTrigger("DashAttack");
+        isAttack = true;
+        agent.isStopped = true;
+        enemyAni.SetBool("isMove", !isAttack);
+        enemyAni.SetTrigger("DashAttack");
         
     }
     private IEnumerator JumpAttack_co()
@@ -304,8 +302,7 @@ public class Knight : Boss
 
         for (int i = 0; i < swordForceCount; i++)
         {
-            transform.LookAt(player.transform);
-            if(!SwordForceEffect.activeSelf)
+            if (!SwordForceEffect.activeSelf)
             {
                 SwordForceEffect.SetActive(true);
             }
@@ -313,8 +310,12 @@ public class Knight : Boss
 
             GameObject force = Instantiate(SwordForceEffect, transform.position, SwordForceEffect.transform.rotation);
             Destroy(force, 3f);
-            yield return new WaitForSeconds(0.5f);
+            for (int j = 0; j < 50; j++)
+            {
+                transform.LookAt(player.transform);
+                yield return new WaitForSeconds(0.01f);
 
+            }
         }
         enemyAni.SetBool("isSwordForce", true) ;
 
