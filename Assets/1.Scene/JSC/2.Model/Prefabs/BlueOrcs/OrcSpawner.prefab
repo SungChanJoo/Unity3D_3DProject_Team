@@ -47,3 +47,5 @@ MonoBehaviour:
   - {fileID: 6426250335487100956, guid: 3e34c95647cfbbf48a9825b2871c1b90, type: 3}
   wayPointCount: 3
   wayPoint: {fileID: 7700401123767923986, guid: ae491001f753dcc409bf0e51eaec122d, type: 3}
+  weight: 10
+  height: 10
