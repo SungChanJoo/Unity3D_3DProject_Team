@@ -50,7 +50,7 @@ public class QuickSlot : MonoBehaviour
     {
         player = FindObjectOfType<CameraController>();
         data = FindObjectOfType<PlayerData>();
-        ani = FindObjectOfType<Animator>();
+        ani = player.GetComponent<Animator>();
         
 
         if (data != null)
@@ -299,8 +299,7 @@ public class QuickSlot : MonoBehaviour
         yield return new WaitForSeconds(2.4f);
         playerAttack.hold = false;
         playerAttack.skillEnabled = true;
-        shield.SetActive(true);
-        ani.SetTrigger("Default");
+        shield.SetActive(true);        
         UseItemSet();
     }
 }

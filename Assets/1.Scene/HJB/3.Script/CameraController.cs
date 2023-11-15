@@ -77,15 +77,15 @@ public class CameraController : MonoBehaviour
     private void Update()
     {        
         StateCheck();
-        Debug.DrawRay(transform.position, EulerToVector(0) * detectionDistance, Color.green);
-        Debug.DrawRay(transform.position, EulerToVector(detectionAngle*0.6f ) * detectionDistance, Color.green);
-        Debug.DrawRay(transform.position, EulerToVector(-detectionAngle*0.6f ) * detectionDistance, Color.green);
+        Debug.DrawRay(cameraPoint.position, EulerToVector(0) * detectionDistance, Color.green);
+        Debug.DrawRay(cameraPoint.position, EulerToVector(detectionAngle*0.6f ) * detectionDistance, Color.green);
+        Debug.DrawRay(cameraPoint.position, EulerToVector(-detectionAngle*0.6f ) * detectionDistance, Color.green);
         LockOnTargetCheck();
         TargetDetection();
         move();
 
         //카메라 플레이어 위치 추적
-        cameraPoint.position = Vector3.MoveTowards(cameraPoint.position, transform.position, 20f*Time.deltaTime);                
+        
     }
 
     //여기서 모든 상태를 하나로 묶어서 관리를 해야하나
@@ -254,6 +254,29 @@ public class CameraController : MonoBehaviour
         {            
             StartCoroutine(Rolling());
         }
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.5f))
+        {
+            if (hit.collider.CompareTag("Stairs"))
+            {
+                // 계단에 있을 때는 중력을 비활성화
+                rigid.useGravity = false;
+
+                // 추가로, 움직임을 멈추거나 미끄러짐을 방지하기 위해 Rigidbody의 속도를 초기화
+                rigid.velocity = Vector3.zero;
+            }
+            else
+            {
+                // 계단에 없을 때는 중력을 활성화
+                rigid.useGravity = true;
+            }
+        }
+        else
+        {
+            // 땅에 없을 때는 중력을 활성화
+            rigid.useGravity = true;
+        }
     }
 
     #region // 카메라 회전 및 각 제어
@@ -267,13 +290,17 @@ public class CameraController : MonoBehaviour
         //카메라 회전각 제어
         if (x < 180f)
         {
-            x = Mathf.Clamp(x, -1f,17f);
+            x = Mathf.Clamp(x, -1f,30f);
         }
         else
         {
             x = Mathf.Clamp(x, 320f, 361f);
         }
         cameraPoint.rotation = Quaternion.Euler(x, camAngle.y + mouseDelta.x, 0f);
+        Vector3 cameraY = transform.position + new Vector3(0,1f,0);
+        cameraPoint.position = Vector3.MoveTowards(cameraPoint.position, cameraY, 20f * Time.deltaTime);
+        
+
     }
     #endregion
 
@@ -284,6 +311,7 @@ public class CameraController : MonoBehaviour
         {
             return;
         }
+        
         //플레이어와 적의 위치 계산 후 위치에 따른 카메라 위치 조정
         float distance = 5f;
         float upDistace = 2.5f;
@@ -292,10 +320,10 @@ public class CameraController : MonoBehaviour
         
         Vector3 cameraPosition = transform.position + (directionEnemy * -distance) + Vector3.up * upDistace;
         Debug.DrawRay(transform.position, directionEnemy * 40f, Color.red);
-        lockOnCamera.position = cameraPosition;
         lockOnCamera.forward = directionEnemy;
-                
-        //마우스 휠로 카메라 거리 조절 하기
+
+        lockOnCamera.position = cameraPosition;               
+        
     }
     #endregion
 
@@ -310,6 +338,7 @@ public class CameraController : MonoBehaviour
 
         float rollSpeed = 5f;
         float timer = 0f;
+        float rollingY = transform.position.y-0.4f;
 
         _percent = X;
         percent = Z;
@@ -319,7 +348,6 @@ public class CameraController : MonoBehaviour
         animator.SetTrigger("rolling");
 
         Vector3 directionRoll = moveDir;
-
         _collider.enabled = false;
         // 구르기 지속 시간
         while (timer < 1f)
@@ -333,13 +361,14 @@ public class CameraController : MonoBehaviour
                 float distanceToMove = rollSpeed * Time.deltaTime;
                 Vector3 newPosition = transform.position + directionRoll.normalized * distanceToMove;
 
-                rigid.MovePosition(new Vector3(newPosition.x, -2.384186e-07f, newPosition.z));
+                rigid.MovePosition(new Vector3(newPosition.x, transform.position.y, newPosition.z));
             }
             yield return null;
         }
-        animator.SetTrigger("Default");               
-        _collider.enabled = true;
+        animator.SetTrigger("Default");
         isRolling = false;
+        yield return new WaitForSeconds(0.2f);
+        _collider.enabled = true;
     }
     #endregion
 
@@ -365,7 +394,7 @@ public class CameraController : MonoBehaviour
         {
             if (objs[i].CompareTag("Enemy"))
             { 
-                float targetRadian = Vector3.Dot(moveCamera.forward,
+                float targetRadian = Vector3.Dot(cameraPoint.forward,
                     (objs[i].transform.position - transform.position).normalized);
                 if (targetRadian > radianRange)
                 {
@@ -400,7 +429,7 @@ public class CameraController : MonoBehaviour
     {
         GameObject closestEnemy = null;
         float maxDot = -Mathf.Infinity;
-        Vector3 cameraForward = moveCamera.forward;
+        Vector3 cameraForward = cameraPoint.forward;
         Vector3 playerPosition = transform.position;
 
         foreach (GameObject enemy in targetList)
@@ -413,7 +442,8 @@ public class CameraController : MonoBehaviour
                 maxDot = targetRadian;
                 closestEnemy = enemy;
             }
-        }        
+        }
+        
         targetEnemy = closestEnemy;
         yield return new WaitForSeconds(1f);
         
