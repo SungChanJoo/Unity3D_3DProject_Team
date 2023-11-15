@@ -5,14 +5,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AI;
 
-/*public enum State
+public enum MosterState
 {
     Idle = 0,
     Chase,
     Attack,
     Patroll,
     Die
-}*/
+}
 
 public class AnyMonster : Enemy
 {
@@ -20,7 +20,15 @@ public class AnyMonster : Enemy
     [SerializeField] private EnemyData enemyData;
     private bool isPatroll = true;
     //private bool isMiss = false;
-    //protected State state;
+    protected MosterState state;
+    protected RaycastHit raycastHit;
+    protected Ray centerRay;
+    protected Ray rightRay;
+    protected Ray leftRay;
+
+    [SerializeField] protected float nextBehaviorTimebet = 3f;
+    protected float lastBehaviorTime;
+
     private bool isTarget
     {
         get
@@ -54,14 +62,26 @@ public class AnyMonster : Enemy
         base.Awake();
         agent.avoidancePriority = UnityEngine.Random.Range(0, 100);
         weapon.GetComponent<BoxCollider>().enabled = false;
+        state = MosterState.Idle;
     }
 
 
 
     public override void TakeDamage(float damage, float knockBack, Vector3 hitposition, Vector3 hitNomal)
     {
+        agent.isStopped = true;
         enemyAni.SetTrigger("TakeDamage");
-        transform.LookAt(player.transform.position);
+        enemyAni.SetBool("isMove", false);
+
+        if (player != null)
+        {
+            transform.LookAt(player.transform.position);
+        }
+        else
+        {
+            transform.LookAt(transform.forward * -1f);
+        }
+
         base.TakeDamage(damage, knockBack, hitposition, hitNomal);
     }
     
@@ -103,50 +123,84 @@ public class AnyMonster : Enemy
     {
         yield return new WaitForSeconds(timebetAttack);
         isAttack = false;
-        agent.isStopped = false;
-        enemyAni.SetBool("isMove", !isAttack);
-        Debug.Log("move는 " + !isAttack);
+        if (player != null && !player.IsDead)
+        {
+            if (PlayerDetectRange(attackDistance))
+            {
+                state = MosterState.Idle;
+            }
+            else
+            {
+                state = MosterState.Chase;
+                //AI 활성화
+                agent.enabled = true;
+                agent.isStopped = false;
+
+                //상태 초기화
+                enemyAni.SetBool("isMove", true);
+                agent.speed = enemyData.Speed;
+            }
+        }
+        else
+        {
+            state = MosterState.Patroll;
+            enemyAni.SetBool("HasTarget", isTarget);
+        }
     }
+
     private IEnumerator UpdataTargetPosition()
     {
-        RaycastHit raycastHit;
-        Ray ray;
         while (!IsDead)
         {
             hpSlider.value = Health; // 왜 슬라이더 값이 변하는 지 모르겠네...
 
             if (isTarget)
-            {           
-                ray = new Ray(transform.position + new Vector3(0, 1f, 0), transform.forward );
+            {
+                state = MosterState.Chase;
+                agent.speed = enemyData.Speed*2f;
 
+                centerRay = new Ray(transform.position + new Vector3(0, 1f, 0), transform.forward);
+                rightRay = new Ray(transform.position + new Vector3(-1f, 1f, 0), transform.forward);
+                leftRay = new Ray(transform.position + new Vector3(1f, 1f, 0), transform.forward);
                 Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * attackDistance, Color.red);
+                Debug.DrawRay(transform.position + new Vector3(-1f, 1f, 0), transform.forward * attackDistance, Color.green);
+                Debug.DrawRay(transform.position + new Vector3(1f, 1f, 0), transform.forward * attackDistance, Color.blue);
                 //float distance = Vector3.Distance(player.transform.position, transform.position);
                 //거리가 공격범위보다 가깝고 공격중이 아닐때 //, 10f, LayerMask.NameToLayer("Player")
-                if (Physics.Raycast(ray, out raycastHit, attackDistance, TargetLayer))
+                if (!IsDead && Time.time >= lastAttackTimebet && !isAttack && PlayerDetectRange(attackDistance))
                 {
-                    if (!IsDead && Time.time >= lastAttackTimebet && !isAttack)
-                    {
-                        lastAttackTimebet = Time.time;
-                        lastAttackTimebet += timebetAttack;
-                        agent.isStopped = true;
-
-                        isAttack = true;
-                        enemyAni.SetBool("isMove", !isAttack);
-                        enemyAni.SetTrigger("Attack");
-                    }
-                    //Debug.Log(raycastHit.transform.gameObject);
+                    state = MosterState.Attack;
+                    agent.isStopped = true;
+                    isAttack = true;
+                    enemyAni.SetBool("isMove", false);
+                    enemyAni.SetTrigger("Attack");
+                    lastAttackTimebet = Time.time;
+                    lastAttackTimebet += timebetAttack;
+                    
                 }
-                else if(!isAttack )
+                else if (state == MosterState.Chase)
                 {
                     agent.SetDestination(player.transform.position);
+                }
+                if(Vector3.SqrMagnitude( player.transform.position - transform.position)>2000f && state == MosterState.Idle)
+                {
+                    state = MosterState.Patroll;
+
+                    player = null;
 
                 }
-                //isMiss = true;
             }
             else
             {
+                //AI 활성화
+                agent.enabled = true;
+                agent.isStopped = false;
 
-                //agent.isStopped = true;
+                //상태 초기화
+                enemyAni.SetBool("isMove", true);
+                agent.speed = enemyData.Speed;
+                state = MosterState.Patroll;
+
                 //현재 위치에서 20 반지름으로 가상의 원을 만들어 TargetLayer를 가진 콜라이더 추출
                 Collider[] coll = Physics.OverlapSphere(transform.position + transform.forward * (detectRange-1f), detectRange, TargetLayer);
 
@@ -156,7 +210,9 @@ public class AnyMonster : Enemy
                     {
                         if(!e.IsDead)
                         {
+
                             player = e;
+                            state = MosterState.Chase;
                             break;
                         }
                     }
@@ -165,10 +221,20 @@ public class AnyMonster : Enemy
             yield return null;
         }
     }
-
+    protected bool PlayerDetectRange(float distance)
+    {
+        if (Physics.Raycast(centerRay, out raycastHit, distance, TargetLayer) ||
+            Physics.Raycast(rightRay, out raycastHit, distance, TargetLayer) ||
+            Physics.Raycast(leftRay, out raycastHit, distance, TargetLayer) && !isAttack)
+        {
+            transform.LookAt(player.transform);
+            return true;
+        }
+        return false;
+    }
     void Patroll()
     {
-        enemyAni.SetBool("isPatrolling", isPatroll);
+        enemyAni.SetBool("isPatrolling", true);
 
         //플레이어를 놓치면 바로 순찰 아니면 플레이어의 마지막 위치까지 이동한 뒤에 순찰..
 /*        if (isMiss)
@@ -190,8 +256,13 @@ public class AnyMonster : Enemy
         enemyAni.SetBool("isPatrolling", false);
 
         yield return new WaitForSeconds(3f);
-        agent.SetDestination(wayPoint[UnityEngine.Random.Range(0, wayPoint.Count)].transform.position);
+/*        Vector3 tempPos = wayPoint[UnityEngine.Random.Range(0, wayPoint.Count)].transform.position;
+        while (tempPos)
+        {
 
+        }*/
+        agent.SetDestination(wayPoint[UnityEngine.Random.Range(0, wayPoint.Count)].transform.position);
+        state = MosterState.Patroll;
 
     }
     /*    void Chase()
@@ -225,7 +296,7 @@ public class AnyMonster : Enemy
         {
             enemyAni.SetBool("HasTarget", isTarget);
 
-            if (isPatroll)
+            if (state == MosterState.Patroll)
             {
                 Patroll();
             }
