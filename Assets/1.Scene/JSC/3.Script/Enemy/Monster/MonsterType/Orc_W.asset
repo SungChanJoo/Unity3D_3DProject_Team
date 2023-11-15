@@ -16,6 +16,6 @@ MonoBehaviour:
   Damage: 40
   Force: 0
   Speed: 2
-  AttackDistance: 2
+  AttackDistance: 1
   TimegetAttack: 2.267
   DetectRange: 5
