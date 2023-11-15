@@ -146,8 +146,8 @@ public class PlayerData : MonoBehaviour, IDamageable
         CurrentMana = MaxMana;
         CurrentStamina = MaxStamina;
         CurrentHealth = MaxHealth;
-        walkSpeed = 3;
-        runSpeed = 5;
+        walkSpeed = 5;
+        runSpeed = 8;
         CurrentWeapon = tempSword;
         //playerStateUI.InitState(MaxHealth, MaxStamina, MaxMana);
 
