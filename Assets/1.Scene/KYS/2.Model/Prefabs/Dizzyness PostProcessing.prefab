@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4425128053331125860}
   - component: {fileID: 4425128053331125859}
   m_Layer: 0
-  m_Name: Concussion PostProcessing
-  m_TagString: Untagged
+  m_Name: Dizzyness PostProcessing
+  m_TagString: StatusEffect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

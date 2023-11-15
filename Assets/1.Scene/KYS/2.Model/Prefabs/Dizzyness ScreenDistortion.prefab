@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 7114020497561230474}
   - component: {fileID: 7114020497561230475}
   m_Layer: 0
-  m_Name: Concussion ScreenDistortion
-  m_TagString: Untagged
+  m_Name: Dizzyness ScreenDistortion
+  m_TagString: StatusEffect
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
