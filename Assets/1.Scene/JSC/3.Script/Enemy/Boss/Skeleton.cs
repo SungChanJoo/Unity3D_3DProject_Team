@@ -291,6 +291,7 @@ public class Skeleton : Boss
 
         GameObject firefield = Instantiate(FireField, transform.position, FireField.transform.rotation);
         Destroy(firefield, 10f);
+        //왜 이 스크립트가 반영이 안됬을까...
     }
     /*    private IEnumerator JumpAttack_co()
         {
