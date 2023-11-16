@@ -162,7 +162,7 @@ public class Skeleton : Boss
                             {
                                 if (rand > 30) // 70%확률
                                 {
-                                    PointAttack();
+                                    StartCoroutine(PointAttack_co());
                                 }
                                 else
                                 {
@@ -272,7 +272,7 @@ public class Skeleton : Boss
         enemyAni.SetTrigger("Dodge");
         //StartCoroutine(ThrowSword_co());
     }
-    private void PointAttack()
+    IEnumerator PointAttack_co()
     {
         agent.isStopped = true;
         isAttack = true;
