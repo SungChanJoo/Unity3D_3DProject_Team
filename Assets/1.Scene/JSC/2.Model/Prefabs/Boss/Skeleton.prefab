@@ -737,7 +737,8 @@ MonoBehaviour:
   StrongEffect: {fileID: 4068573524967166844}
   SwordForceEffect: {fileID: 4567974782675413686, guid: 74e6cae8a97529642bfc8c9e37099e19, type: 3}
   swordForceCount: 5
-  FireField: {fileID: 7116142759266687952, guid: 1bc83cb1db5c3f9479f7cb7766b9ec14, type: 3}
+  FireField: {fileID: 4993466672276653456, guid: ac78c5d317fdd3c4fb678d4157f56190, type: 3}
+  appearEffects: []
 --- !u!1 &3117536764459291163
 GameObject:
   m_ObjectHideFlags: 0
@@ -11682,58 +11683,9 @@ Transform:
   - {fileID: 4066826944335200402}
   - {fileID: 4062667707189732548}
   - {fileID: 7510728757308383609}
-  - {fileID: 7504547500986023998}
   m_Father: {fileID: 3117536764459503457}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7506483140567484550
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7504547500986023998}
-  - component: {fileID: 7619313405598656706}
-  m_Layer: 0
-  m_Name: SkeletonField
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &7504547500986023998
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7506483140567484550}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 15.375}
-  m_LocalScale: {x: 0.49999988, y: 0.5, z: 0.5}
-  m_Children: []
-  m_Father: {fileID: 7505819460831934481}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!114 &7619313405598656706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7506483140567484550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d90f358e0f0235242a422a856b10775e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_makeObjs:
-  - {fileID: 1442633531510796, guid: f154beae8fdc42f42bc6a6f3ebf6b94d, type: 3}
-  m_movePos: {fileID: 0}
-  m_randomRotationValue: {x: 0, y: 0, z: 0}
-  IsLoop: 0
 --- !u!1 &7507340358650415921
 GameObject:
   m_ObjectHideFlags: 0

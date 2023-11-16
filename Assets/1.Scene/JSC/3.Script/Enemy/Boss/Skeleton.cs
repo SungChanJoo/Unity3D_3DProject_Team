@@ -13,10 +13,18 @@ public class Skeleton : Boss
     [SerializeField] private GameObject FireField;
     //[SerializeField] private GameObject ThrowSword;
 
+    [Header("등장 이펙트")]
+    [SerializeField] private List<GameObject> appearEffects;
+
     protected override void Awake()
     {
         base.Awake();
         skeletonCapCol = GetComponent<CapsuleCollider>();
+        for(int i = 0; i< appearEffects.Count; i++)
+        {
+            appearEffects[i].SetActive(false);
+        }
+        
     }
     void OnSpawn()
     {
@@ -31,6 +39,7 @@ public class Skeleton : Boss
         skeletonCapCol.enabled = true;
 
     }
+
     protected override void OnStartAttack()
     {
         base.OnStartAttack();
@@ -51,14 +60,26 @@ public class Skeleton : Boss
             jumpEffects[2].SetActive(false);
             jumpEffects[3].SetActive(false);
         }
-        if (StrongEffect.activeSelf)
-        {
-            StrongEffect.SetActive(false);
-        }
+
 /*        if (SwordForceEffect.activeSelf)
         {
             SwordForceEffect.SetActive(false);
         }*/
+    }
+    protected override void OnEndAni()
+    {
+        base.OnEndAni();
+        enemyAni.SetBool("isPoint", false);
+
+
+    }
+
+    void OnEndEffect()
+    {
+        if (StrongEffect.activeSelf)
+        {
+            StrongEffect.SetActive(false);
+        }
     }
 
     private IEnumerator UpdataTargetPosition()
@@ -210,6 +231,10 @@ public class Skeleton : Boss
     }
     protected void Start()
     {
+        for (int i = 0; i < appearEffects.Count; i++)
+        {
+            appearEffects[i].SetActive(true);
+        }
         if (isAI)
         {
             StartCoroutine(UpdataTargetPosition());
@@ -285,7 +310,6 @@ public class Skeleton : Boss
 
         GameObject firefield = Instantiate(FireField, transform.position, FireField.transform.rotation);
         Destroy(firefield, 10f);
-        //왜 이 스크립트가 반영이 안瑛뺑...
 
         //Instantiate(FireField, transform.position, )
 
