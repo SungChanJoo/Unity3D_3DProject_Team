@@ -18,9 +18,9 @@ public class PlayerData : MonoBehaviour, IDamageable
     [SerializeField] private GameOver gameOver;
 
     private List<IItem> items = new List<IItem>();
-    //public List<IItem> Items => items;
         
-    public Action<List<IItem>> ItemChangedEvent;// 일단은 추가된 아이템만 파라미터로 보내준다. 추후 필요에 따라 List<IItem>을 통으로 보낼 수도 있음.
+    public Action<List<IItem>> ItemChangedEvent;
+
     // 아이템 추가용
     private void OnTriggerEnter(Collider other)
     {
@@ -35,14 +35,11 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     public void UseItem(IItem usedItem)
     {
-        // item.Use 메소드를 여기에서 써도 되고, 퀵슬롯 쪽에서 써도 된다. 상관 없음. 일단 여기에서 씀.
         usedItem.Use(this);
         items.Remove(usedItem);
         ItemChangedEvent?.Invoke(items);
         Debug.Log(usedItem.Name + "을 사용. 인벤토리에 아이템이 " + items.Count + "만큼 있음");
     }
-
-
 
     private float maxMana;
     public float MaxMana
@@ -62,8 +59,9 @@ public class PlayerData : MonoBehaviour, IDamageable
         private set
         {
             currentMana = value;
-            // UI_슬라이더
-            // UI쪽에 바뀐 값 넘겨주기
+
+            if(playerStateUI != null)
+               playerStateUI.UpdateMana();
         }
     }
 
@@ -74,8 +72,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         private set
         {
             maxStamina = value;
-            // UI_슬라이더
-            // UI쪽에 바뀐 값 넘겨주기
         }
     }
     private float currentStamina;
@@ -85,8 +81,9 @@ public class PlayerData : MonoBehaviour, IDamageable
         private set
         {
             currentStamina = value;
-            // UI_슬라이더
-            // UI쪽에 바뀐 값 넘겨주기
+
+            if (playerStateUI != null)
+                playerStateUI.UpdateStamina();
         }
     }
 
@@ -108,8 +105,9 @@ public class PlayerData : MonoBehaviour, IDamageable
         private set
         {
             currentHealth = value;
-            // UI_슬라이더
-            // UI쪽에 바뀐 값 넘겨주기
+
+            if (playerStateUI != null)
+                playerStateUI.UpdateHp();
         }
     }
 
@@ -130,11 +128,7 @@ public class PlayerData : MonoBehaviour, IDamageable
     public WeaponBase CurrentWeapon
     {
         get => currentWeapon;
-        set
-        {
-            //if (currentWeapon.Equals(value)) return;
-            currentWeapon = value;
-        }
+        set => currentWeapon = value;
     }
 
     private void Awake()
@@ -151,19 +145,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         CurrentWeapon = tempSword;
         playerStateUI.InitState(MaxHealth, MaxStamina, MaxMana);
 
-    }
-
-    private void Update()
-    {
-        // test
-        if (Input.GetKeyDown(KeyCode.J))
-            TakeDamage(5, 1, Vector3.zero, Vector3.zero);
-
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            Debug.Log(maxHealth);
-            Debug.Log(MaxMana);
-        }
     }
 
     private void FixedUpdate()
@@ -201,12 +182,10 @@ public class PlayerData : MonoBehaviour, IDamageable
         currentHealth -= damage;
     }
 
-
     public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)
     {
         if (currentHealth - damage <= 0)
         {
-            playerStateUI.UpdateHp();
             Die();
             Debug.Log("플레이어 뒤짐");
             return;
@@ -250,7 +229,6 @@ public class PlayerData : MonoBehaviour, IDamageable
             attack.skillEnabled = false;
             attack.hold = true;
         }
-        playerStateUI.UpdateHp();
     }
 
     public void IncreaseMaxHealth(float modifier) => MaxHealth += modifier;
@@ -264,7 +242,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         if (CurrentStamina - amount < 0) return false;
 
         CurrentStamina -= amount;
-        playerStateUI.UpdateStamina();
 
         return true;
     }
@@ -277,7 +254,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         if (CurrentMana - amount < 0) return false;
 
         CurrentMana -= amount;
-        playerStateUI.UpdateMana();
 
         return true;
     }
@@ -290,7 +266,6 @@ public class PlayerData : MonoBehaviour, IDamageable
             amount = MaxHealth - CurrentHealth;
 
         CurrentHealth += amount;
-        playerStateUI.UpdateHp();
 
         return true;
     }
@@ -303,7 +278,6 @@ public class PlayerData : MonoBehaviour, IDamageable
             amount = MaxStamina - CurrentStamina;
 
         CurrentStamina += amount;
-        playerStateUI.UpdateStamina();
 
         return true;
     }
@@ -316,7 +290,6 @@ public class PlayerData : MonoBehaviour, IDamageable
             amount = MaxMana - CurrentMana;
 
         CurrentMana += amount;
-        playerStateUI.UpdateMana();
 
         return true;
     }
