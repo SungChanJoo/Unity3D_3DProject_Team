@@ -50,7 +50,7 @@ public class QuickSlot : MonoBehaviour
     {
         player = FindObjectOfType<CameraController>();
         data = FindObjectOfType<PlayerData>();
-        ani = FindObjectOfType<Animator>();
+        ani =player.GetComponent<Animator>();
         
 
         if (data != null)
@@ -163,6 +163,8 @@ public class QuickSlot : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 SelectItem();
+                ui_obj.SetActive(false);
+                selectUI_obj.SetActive(false);
             }
         }
 
@@ -291,16 +293,19 @@ public class QuickSlot : MonoBehaviour
         playerAttack.hold = true;
         playerAttack.skillEnabled = false;
         shield.SetActive(false);
-        //시전 중 맞을 시 반환
-        if (true)
-        {
-            
-        }
+
         yield return new WaitForSeconds(2.4f);
+
         playerAttack.hold = false;
         playerAttack.skillEnabled = true;
         shield.SetActive(true);
         ani.SetTrigger("Default");
+        //시전 중 맞을 시 반환
+        if (data.stop)
+        {
+            data.stop = false;
+            yield return null;
+        }
         UseItemSet();
     }
 }
