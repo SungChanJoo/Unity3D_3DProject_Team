@@ -2037,7 +2037,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &190404253
 Transform:
   m_ObjectHideFlags: 0
@@ -2706,7 +2706,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &241018386
 Transform:
   m_ObjectHideFlags: 0
@@ -18626,7 +18626,7 @@ Transform:
   m_GameObject: {fileID: 965641426}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -38207,6 +38207,10 @@ MonoBehaviour:
   enemyStrongEffect: {fileID: 8199233147549906919}
   canFight: 1
   isStrong: 0
+  jumpEffects: []
+  StrongEffect: {fileID: 0}
+  SwordForceEffect: {fileID: 0}
+  swordForceCount: 3
 --- !u!195 &7276161863196985016
 NavMeshAgent:
   m_ObjectHideFlags: 0

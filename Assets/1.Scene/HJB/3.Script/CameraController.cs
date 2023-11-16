@@ -78,8 +78,8 @@ public class CameraController : MonoBehaviour
     {        
         StateCheck();
         Debug.DrawRay(transform.position, EulerToVector(0) * detectionDistance, Color.green);
-        Debug.DrawRay(transform.position, EulerToVector(detectionAngle/2 ) * detectionDistance, Color.green);
-        Debug.DrawRay(transform.position, EulerToVector(-detectionAngle/2 ) * detectionDistance, Color.green);
+        Debug.DrawRay(transform.position, EulerToVector(detectionAngle*0.6f ) * detectionDistance, Color.green);
+        Debug.DrawRay(transform.position, EulerToVector(-detectionAngle*0.6f ) * detectionDistance, Color.green);
         LockOnTargetCheck();
         TargetDetection();
         move();
@@ -358,8 +358,8 @@ public class CameraController : MonoBehaviour
         Collider[] objs = Physics.OverlapSphere(transform.position, detectionDistance);
         targetList.Clear();
         
-        float radianRange = Mathf.Cos((detectionAngle/2) * Mathf.Deg2Rad);
-
+        float radianRange = Mathf.Cos((detectionAngle*0.7f) * Mathf.Deg2Rad);
+       
        
         for (int i = 0; i < objs.Length; i++)
         {
@@ -378,7 +378,7 @@ public class CameraController : MonoBehaviour
     }
     #endregion
 
-    #region // 카메라 정면 기준 가장 가까운 적을 찾는 메서드(return GameObject)
+    #region // 카메라 정면 기준 가장 가까운 적을 찾는 메서드(return GameObject)와 코루틴
     private GameObject GetClosestEnemyInFront()
     {
         
@@ -394,37 +394,29 @@ public class CameraController : MonoBehaviour
         //Debug.Log(targetEnemy);
         return targetEnemy;
     }
-    #endregion
 
     // 락온을 푸는 도중 타겟이 바뀌는 것을 방지하기 위해 코루틴으로 딜레이
     private IEnumerator GetclosersetInFrontDelay()
     {
-
-        //카메라 전환중에 다른타겟을 보지않도록 하기위해 딜레이
-        //yield return new WaitForSeconds(1f);
         GameObject closestEnemy = null;
-        float closestDistanceSqr = Mathf.Infinity;
+        float maxDot = -Mathf.Infinity;
         Vector3 cameraForward = moveCamera.forward;
         Vector3 playerPosition = transform.position;
 
         foreach (GameObject enemy in targetList)
         {
-            //여기 계산식 좀 더 정교하게 바꿀 것
             Vector3 directionToEnemy = enemy.transform.position - playerPosition;
-            float distanceSqrToEnemy = directionToEnemy.sqrMagnitude;
+            float targetRadian = Vector3.Dot(directionToEnemy.normalized, cameraForward.normalized);
 
-            float targetRadian = Vector3.Dot(directionToEnemy, cameraForward);
-            if (targetRadian > 0)
+            if (targetRadian > maxDot)
             {
-                if (distanceSqrToEnemy < closestDistanceSqr)
-                {
-                    closestDistanceSqr = distanceSqrToEnemy;
-                    closestEnemy = enemy;
-                }
+                maxDot = targetRadian;
+                closestEnemy = enemy;
             }
-        }
+        }        
         targetEnemy = closestEnemy;
         yield return new WaitForSeconds(1f);
         
     }
+    #endregion
 }
