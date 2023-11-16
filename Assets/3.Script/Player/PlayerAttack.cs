@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    private Animator tempAnimator;
     
     // AttackRate, CurrentWeapon 등의 정보 받아와서 사용
-    [SerializeField] private PlayerData data;
+    private PlayerData data;
+    private Animator tempAnimator;
+    private CameraController controller;
 
     //스킬 사용중인가
     public bool attackEanbled = true;
@@ -15,7 +16,7 @@ public class PlayerAttack : MonoBehaviour
     //가드상태를 유지할 때
     public bool onDefence = false;
     public bool hold = false;
-    public bool perfectParrying = false;
+    public bool perfectParrying = false;    
     private bool mana;
     private bool performedChargeAttack = false;
 
@@ -24,11 +25,13 @@ public class PlayerAttack : MonoBehaviour
     private void Awake()
     {
         tempAnimator = GetComponent<Animator>();
+        data = GetComponent<PlayerData>();
+        controller = GetComponent<CameraController>();
     }
 
     public void OnAttackingAnimationCompleted()
     {
-        hold = false;
+        hold = false;                
         data.CurrentWeapon.DisableDamaging();        
     }
     private void MoveHold()
@@ -42,12 +45,16 @@ public class PlayerAttack : MonoBehaviour
     }
     private void SkillEabled()
     {
-        skillEnabled = !skillEnabled;
+        skillEnabled = true;        
+    }
+    private void SkillEabledFalse()
+    {
+        skillEnabled = false;
     }
 
     void Update()
     {
-        if (attackEanbled)
+        if (attackEanbled&&!controller.isRolling)
         {
 
             if (Input.GetMouseButtonDown(0))            // 왼쪽 마우스 버튼을 누르면
@@ -58,7 +65,7 @@ public class PlayerAttack : MonoBehaviour
             else if (Input.GetMouseButton(0))           // 왼쪽 마우스 버튼을 (계속) 누르고 있는 중일 때
             {
                 chargingTimer += Time.deltaTime;        // 차지
-                
+                hold = true;
                 if (CheckIfCharged()                    // 만약 다 차지가 된 상태이고
                     && !performedChargeAttack)          // 이미 해당 마우스 누름으로 인해 차지 공격을 한 상태가 아니라면
                     ChargeAttack();                     // 차지 공격
@@ -72,7 +79,7 @@ public class PlayerAttack : MonoBehaviour
             }
         }
 
-        if (skillEnabled)
+        if (skillEnabled&& !controller.isRolling)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))                   
                 Skill1();
@@ -84,7 +91,7 @@ public class PlayerAttack : MonoBehaviour
         }
         if (data.invincibility)
         {
-            Debug.Log(data.invincibility);
+            
         }
         
     }

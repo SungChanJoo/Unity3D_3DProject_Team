@@ -21,6 +21,8 @@ public class PlayerData : MonoBehaviour, IDamageable
         
     public Action<List<IItem>> ItemChangedEvent;
 
+    public bool stop = false;
+
     // 아이템 추가용
     private void OnTriggerEnter(Collider other)
     {
@@ -133,7 +135,7 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     private void Awake()
     {
-        MaxHealth = 100;
+        MaxHealth = 10000;
         MaxMana = 100;
         MaxStamina = 100;
 
@@ -184,6 +186,7 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)
     {
+        stop = true;
         if (currentHealth - damage <= 0)
         {
             Die();
@@ -212,7 +215,7 @@ public class PlayerData : MonoBehaviour, IDamageable
                 attack.skillEnabled = false;
                 attack.hold = true;
             }
-
+            
 
         }
         else if (invincibility)
@@ -229,6 +232,9 @@ public class PlayerData : MonoBehaviour, IDamageable
             attack.skillEnabled = false;
             attack.hold = true;
         }
+        StartCoroutine(TakeDamgeAni());
+
+
     }
 
     public void IncreaseMaxHealth(float modifier) => MaxHealth += modifier;
@@ -301,6 +307,12 @@ public class PlayerData : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(2f);
         attack.hold = false;
         invincibility = false;
+        attack.skillEnabled = true;
+    }
+    private IEnumerator TakeDamgeAni()
+    {
+        
+        yield return new WaitForSeconds(0.667f);
         attack.skillEnabled = true;
     }
 }
