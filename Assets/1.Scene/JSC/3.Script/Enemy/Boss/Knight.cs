@@ -27,28 +27,26 @@ public class Knight : Boss
         }
     }
 
-    protected override void OnEndAni()
+    protected override void OnEndAttack()
     {
-        base.OnEndAni();
+        base.OnEndAttack();
         if (jumpEffects[0].activeSelf)
         {
             jumpEffects[0].SetActive(false);
             jumpEffects[1].SetActive(false);
             jumpEffects[2].SetActive(false);
+            jumpEffects[3].SetActive(false);
         }
-        if(StrongEffect.activeSelf)
+        if (StrongEffect.activeSelf)
         {
             StrongEffect.SetActive(false);
         }
-        if(SwordForceEffect.activeSelf)
+        if (SwordForceEffect.activeSelf)
         {
             SwordForceEffect.SetActive(false);
         }
     }
-    void OnSwordForceStart()
-    {
 
-    }
     private IEnumerator UpdataTargetPosition()
     {
 
@@ -70,40 +68,34 @@ public class Knight : Boss
                     if (!IsDead && Time.time >= lastAttackTimebet && !isAttack)
                     {
                         float rand = Random.Range(0, 100);
-                        if (Time.time >= lastBehaviorTime && bossState != State.Idle)
+                        if (Time.time >= lastBehaviorTime && bossState != BossState.Idle)
                         {
                             lastBehaviorTime = Time.time;
                             lastBehaviorTime += nextBehaviorTimebet;
-                            bossState = State.Idle;
+                            bossState = BossState.Idle;
                             isAttack = false;
                             agent.speed = enemyData.Speed;
                         }
 
-
-                        if (Physics.Raycast(rightRay, out raycastHit, longDetectRange, TargetLayer) || Physics.Raycast(leftRay, out raycastHit, longDetectRange, TargetLayer))
+                        if (DetectPlayer(shortDetectRange) && bossState == BossState.Idle) //가까이 있을 때 근접 공격
                         {
-                            //transform.LookAt(player.transform);
-                        }
-
-                        if (DetectPlayer(shortDetectRange) && bossState == State.Idle) //가까이 있을 때 근접 공격
-                        {
-                            bossState = State.Short;
+                            bossState = BossState.Short;
                             SetRangeAni(bossState);
                         }
-                        else if (DetectPlayer(middleDetectRange) && bossState == State.Idle) // 대쉬 공격
+                        else if (DetectPlayer(middleDetectRange) && bossState == BossState.Idle) // 대쉬 공격
                         {
-                            bossState = State.Middle;
+                            bossState = BossState.Middle;
                             SetRangeAni(bossState);
 
                             agent.speed *= 3;
                         }
-                        else if (DetectPlayer(longDetectRange) && bossState == State.Idle) // 점프 공격
+                        else if (DetectPlayer(longDetectRange) && bossState == BossState.Idle) // 점프 공격
                         {
-                            bossState = State.Long;
+                            bossState = BossState.Long;
                             SetRangeAni(bossState);
                         }
 
-                        if (bossState == State.Short)
+                        if (bossState == BossState.Short)
                         {
                             if (PlayerDetectRange(attackDistance))
                             {
@@ -117,7 +109,7 @@ public class Knight : Boss
                                 }
                             }
                         }
-                        else if (bossState == State.Middle)
+                        else if (bossState == BossState.Middle)
                         {
                             Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * middleDetectRange, Color.red);
                             if (PlayerDetectRange(middleDetectRange))
@@ -135,7 +127,7 @@ public class Knight : Boss
                                 }
                             }
                         }
-                        else if (bossState == State.Long)
+                        else if (bossState == BossState.Long)
                         {
                             Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * longDetectRange, Color.black);
 
@@ -229,10 +221,10 @@ public class Knight : Boss
     private void DashAttack()
     {
 
-            isAttack = true;
-            agent.isStopped = true;
-            enemyAni.SetBool("isMove", !isAttack);
-            enemyAni.SetTrigger("DashAttack");
+        isAttack = true;
+        agent.isStopped = true;
+        enemyAni.SetBool("isMove", !isAttack);
+        enemyAni.SetTrigger("DashAttack");
         
     }
     private IEnumerator JumpAttack_co()
@@ -304,8 +296,7 @@ public class Knight : Boss
 
         for (int i = 0; i < swordForceCount; i++)
         {
-            transform.LookAt(player.transform);
-            if(!SwordForceEffect.activeSelf)
+            if (!SwordForceEffect.activeSelf)
             {
                 SwordForceEffect.SetActive(true);
             }
@@ -313,8 +304,12 @@ public class Knight : Boss
 
             GameObject force = Instantiate(SwordForceEffect, transform.position, SwordForceEffect.transform.rotation);
             Destroy(force, 3f);
-            yield return new WaitForSeconds(0.5f);
+            for (int j = 0; j < 50; j++)
+            {
+                transform.LookAt(player.transform);
+                yield return new WaitForSeconds(0.01f);
 
+            }
         }
         enemyAni.SetBool("isSwordForce", true) ;
 

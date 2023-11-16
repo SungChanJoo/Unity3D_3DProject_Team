@@ -8,7 +8,7 @@ TagManager:
   - Cam
   - Parry
   - Ground
-  - Stairs
+  - StatusEffect
   layers:
   - Default
   - TransparentFX
