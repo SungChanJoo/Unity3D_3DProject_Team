@@ -12,7 +12,7 @@ class DizzyEffect : StatusEffect
     {
         try
         {
-            distortionQuad = GameObject.FindGameObjectWithTag("MainCamera").transform.GetChild(0).gameObject;
+            distortionQuad = Camera.main.transform.GetChild(0).gameObject;
         }
         catch (Exception)
         {
