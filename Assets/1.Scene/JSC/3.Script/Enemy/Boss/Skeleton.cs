@@ -55,15 +55,10 @@ public class Skeleton : Boss
         {
             StrongEffect.SetActive(false);
         }
-        if(enemyAni.GetBool("isPoint"))
+/*        if (SwordForceEffect.activeSelf)
         {
-            enemyAni.SetBool("isPoint", false);
-        }
-
-        /*        if (SwordForceEffect.activeSelf)
-                {
-                    SwordForceEffect.SetActive(false);
-                }*/
+            SwordForceEffect.SetActive(false);
+        }*/
     }
 
     private IEnumerator UpdataTargetPosition()
@@ -87,11 +82,11 @@ public class Skeleton : Boss
                     if (!IsDead && Time.time >= lastAttackTimebet && !isAttack)
                     {
                         float rand = Random.Range(0, 100);
-                        if (Time.time >= lastBehaviorTime && bossState != BossState.Idle)
+                        if (Time.time >= lastBehaviorTime && bossState != State.Idle)
                         {
                             lastBehaviorTime = Time.time;
                             lastBehaviorTime += nextBehaviorTimebet;
-                            bossState = BossState.Idle;
+                            bossState = State.Idle;
                             isAttack = false;
                             agent.speed = enemyData.Speed;
                         }
@@ -101,25 +96,25 @@ public class Skeleton : Boss
                             //transform.LookAt(player.transform);
                         }
 
-                        if (DetectPlayer(shortDetectRange) && bossState == BossState.Idle) //가까이 있을 때 근접 공격
+                        if (DetectPlayer(shortDetectRange) && bossState == State.Idle) //가까이 있을 때 근접 공격
                         {
-                            bossState = BossState.Short;
+                            bossState = State.Short;
                             SetRangeAni(bossState);
                         }
-                        else if (DetectPlayer(middleDetectRange) && bossState == BossState.Idle) // 대쉬 공격
+                        else if (DetectPlayer(middleDetectRange) && bossState == State.Idle) // 대쉬 공격
                         {
-                            bossState = BossState.Middle;
+                            bossState = State.Middle;
                             SetRangeAni(bossState);
 
                             agent.speed *= 3;
                         }
-                        else if (DetectPlayer(longDetectRange) && bossState == BossState.Idle) // 점프 공격
+                        else if (DetectPlayer(longDetectRange) && bossState == State.Idle) // 점프 공격
                         {
-                            bossState = BossState.Long;
+                            bossState = State.Long;
                             SetRangeAni(bossState);
                         }
 
-                        if (bossState == BossState.Short)
+                        if (bossState == State.Short)
                         {
                             if (PlayerDetectRange(attackDistance))
                             {
@@ -141,7 +136,7 @@ public class Skeleton : Boss
                                 }
                             }
                         }
-                        else if (bossState == BossState.Middle)
+                        else if (bossState == State.Middle)
                         {
                             Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * middleDetectRange, Color.red);
                             if (PlayerDetectRange(middleDetectRange))
@@ -159,15 +154,15 @@ public class Skeleton : Boss
                                 }
                             }
                         }
-                        else if (bossState == BossState.Long)
+                        else if (bossState == State.Long)
                         {
                             Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * longDetectRange, Color.black);
 
                             if (PlayerDetectRange(longDetectRange))
                             {
-                                if (rand >= 50) // 50%확률
+                                if (rand > 30) // 70%확률
                                 {
-                                    StartCoroutine(PointAttack_co());
+                                    PointAttack();
                                 }
                                 else
                                 {
@@ -271,26 +266,19 @@ public class Skeleton : Boss
     }
     private void Dodge()
     {
-        agent.enabled = false;
-
+        agent.isStopped = true;
         isAttack = true;
         enemyAni.SetBool("isMove", !isAttack);
         enemyAni.SetTrigger("Dodge");
-        transform.Translate(transform.forward * -10f * Time.deltaTime);
         //StartCoroutine(ThrowSword_co());
     }
-    IEnumerator PointAttack_co()
+    private void PointAttack()
     {
         agent.isStopped = true;
         isAttack = true;
         enemyAni.SetBool("isMove", !isAttack);
         enemyAni.SetTrigger("Point");
-        enemyAni.SetBool("isPoint", true);
-        yield return new WaitForSeconds(1f);
-        FireField.transform.rotation = Quaternion.Euler(-90f, transform.rotation.eulerAngles.y,180f);
-
-        GameObject firefield = Instantiate(FireField, transform.position, FireField.transform.rotation);
-        Destroy(firefield, 10f);
+        //Instantiate(FireField, transform.position, )
     }
     /*    private IEnumerator JumpAttack_co()
         {
