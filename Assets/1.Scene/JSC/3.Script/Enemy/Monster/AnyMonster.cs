@@ -25,7 +25,7 @@ public class AnyMonster : Enemy
     protected Ray centerRay;
     protected Ray rightRay;
     protected Ray leftRay;
-
+    int previousIndex = 0;
     [SerializeField] protected float nextBehaviorTimebet = 3f;
     protected float lastBehaviorTime;
 
@@ -253,15 +253,22 @@ public class AnyMonster : Enemy
     }
     IEnumerator PatrollDelay_co()
     {
-        enemyAni.SetBool("isPatrolling", false);
 
-        yield return new WaitForSeconds(3f);
-/*        Vector3 tempPos = wayPoint[UnityEngine.Random.Range(0, wayPoint.Count)].transform.position;
-        while (tempPos)
+        /*        Vector3 tempPos = wayPoint[UnityEngine.Random.Range(0, wayPoint.Count)].transform.position;
+                while (tempPos)
+                {
+
+                }*/
+        int tempIndex = UnityEngine.Random.Range(0, wayPoint.Count);
+        while(tempIndex == previousIndex)
         {
+            tempIndex = UnityEngine.Random.Range(0, wayPoint.Count);
+        }
 
-        }*/
-        agent.SetDestination(wayPoint[UnityEngine.Random.Range(0, wayPoint.Count)].transform.position);
+        enemyAni.SetBool("isPatrolling", false);
+        yield return new WaitForSeconds(3f);
+        agent.SetDestination(wayPoint[tempIndex].transform.position);
+        previousIndex = tempIndex;
         state = MosterState.Patroll;
 
     }

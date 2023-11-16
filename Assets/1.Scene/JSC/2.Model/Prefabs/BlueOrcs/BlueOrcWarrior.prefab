@@ -950,7 +950,7 @@ Transform:
   m_GameObject: {fileID: 4481565716627130837}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 10}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.8, y: 1.8, z: 1.8}
   m_Children:
   - {fileID: 4478730154401806101}
   - {fileID: 4483672724740573069}
@@ -1055,7 +1055,8 @@ MonoBehaviour:
   hpSlider: {fileID: 3472136548191373255}
   weapon: {fileID: 4482012839137400597}
   wayPoint: []
-  enemyData: {fileID: 0}
+  enemyData: {fileID: 11400000, guid: ba6828aae0ec9a142b5154182cb42b0f, type: 2}
+  nextBehaviorTimebet: 3
 --- !u!1 &4481574674195480645
 GameObject:
   m_ObjectHideFlags: 0

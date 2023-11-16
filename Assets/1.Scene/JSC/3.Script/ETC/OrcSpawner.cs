@@ -14,9 +14,22 @@ public class OrcSpawner : MonoBehaviour
 
     private void Awake()
     {
-        for (int i = 0; i < Random.Range(1, 3); i++)
+        for (int i = 0; i < Random.Range(6, 10); i++)
         {
-            GameObject orc = Instantiate(Orcs[0], transform.position, Quaternion.identity);
+            int rand = Random.Range(0,100);
+            GameObject orc;
+            if (rand >= 50)
+            {
+                 orc = Instantiate(Orcs[0], transform.position, Quaternion.identity);
+            }
+            else if(rand >= 20)
+            {
+                 orc = Instantiate(Orcs[1], transform.position, Quaternion.identity);
+            }
+            else
+            {
+                 orc = Instantiate(Orcs[2], transform.position, Quaternion.identity);
+            }
 
             Vector3 pPosition = RandomPosition();
 
