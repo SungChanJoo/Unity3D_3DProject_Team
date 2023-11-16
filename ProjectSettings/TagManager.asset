@@ -9,6 +9,7 @@ TagManager:
   - Parry
   - Ground
   - StatusEffect
+  - Stairs
   layers:
   - Default
   - TransparentFX

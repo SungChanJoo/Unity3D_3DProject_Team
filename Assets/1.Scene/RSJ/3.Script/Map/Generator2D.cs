@@ -17,8 +17,8 @@ public class Generator2D : MonoBehaviour
     {
         right,
         left,
-        up,
-        down,
+        forward,
+        back,
         none
     }
 
@@ -55,6 +55,18 @@ public class Generator2D : MonoBehaviour
          */
     }
 
+    class MonsterSpawner
+    {
+        public Vector3 position;
+        public Vector2 size;
+        
+        public MonsterSpawner(Vector3 position, Vector2 size)
+        {
+            this.position = position;
+            this.size = size;
+        }
+    }
+
     [Header("던전 생성 변수")]
     [SerializeField] Vector2Int size;
     [SerializeField] int roomCount;
@@ -78,12 +90,14 @@ public class Generator2D : MonoBehaviour
     [SerializeField] private GameObject hallwayCornerTLPrefab;
     [SerializeField] private GameObject hallwayCornerBRPrefab;
     [SerializeField] private GameObject hallwayCornerBLPrefab;
-    [SerializeField] private GameObject hallwayCrossPrefab;
+    [SerializeField] private GameObject hallwayCrossCeilingPrefab;
+    [SerializeField] private GameObject hallwayCrossWallPrefab;
     [SerializeField] private GameObject roomCeilingPrefab;
     [SerializeField] private GameObject dungeonEntrancePrefab;
     [SerializeField] private GameObject bossRoomPrefab;
-    [SerializeField] Material redMaterial;
-    [SerializeField] Material blueMaterial;
+
+    [Header("몬스터 스포너")]
+    [SerializeField] private GameObject monsterSpawnerPrefab;
     
     Random random;
     Grid2D<CellType> grid;
@@ -103,9 +117,15 @@ public class Generator2D : MonoBehaviour
     private bool canUseDungeonEntrance = false; // 마을-던전입구 한번만 사용
 
     //보스방 포지션
-    Vector2 bossRoomPosition = Vector2.zero;
-    float bossRoom_yMax = 0;
-    float bossRoom_xMax = 0;
+    private Vector2 bossRoomPosition = Vector2.zero;
+    private float bossRoom_yMax = 0;
+    private float bossRoom_xMax = 0;
+
+    //몬스터 스포너 위치 및 사이즈
+    private List<MonsterSpawner> monsterSpawners;
+
+    //크로스되는 복도큐브 위치
+    private List<Vector3> crossPos_List;
 
 
     private void Start()
@@ -122,6 +142,10 @@ public class Generator2D : MonoBehaviour
         sizeEntrance = new Vector2Int(size.x, 15);
         gridEntrance = new Grid2D<CellType>(sizeEntrance, Vector2Int.zero);
 
+        monsterSpawners = new List<MonsterSpawner>();
+
+        crossPos_List = new List<Vector3>();
+
         //방생성
         PlaceRooms();
         //들로네 삼각분할
@@ -135,6 +159,10 @@ public class Generator2D : MonoBehaviour
         //보스방 생성
         //CreateBossRoom();
         Invoke("CreateBossRoom", 0.1f);
+        //교차되는 복도 생성
+        Invoke("CreateCrossHallway", 0.1f);
+        //몬스터 스포너 생성
+        CreateMonsterSpawner();
 
     }
 
@@ -549,7 +577,7 @@ public class Generator2D : MonoBehaviour
         Vector2 centerPosf = newRoom.bounds.center;
         Vector2Int centerPos = new Vector2Int((int)centerPosf.x, (int)centerPosf.y);
 
-        Vector3 offset = new Vector3(-10f, 0, -80f);
+        Vector3 offset = new Vector3(-10f, -0.5f, -80f);
 
         //Width 짝수 -> x : -1.5 변경, 홀수 -> 그대로
         if(newRoom.bounds.width % 2 == 0)
@@ -569,6 +597,11 @@ public class Generator2D : MonoBehaviour
         //Debug.DrawRay(centerPositionf, Vector3.up * 15f, Color.red, Mathf.Infinity);
         GameObject roomCeiling = Instantiate(roomCeilingPrefab, centerPosition, Quaternion.identity);
         roomCeiling.transform.localScale = new Vector3(newRoom.bounds.width*3, 9f, newRoom.bounds.height*3);
+
+        //몬스터 스포너 위치 저장
+        MonsterSpawner monSpawn = new MonsterSpawner(centerPosition, new Vector2(newRoom.bounds.width*3 -2, newRoom.bounds.height*3 - 2));
+        monsterSpawners.Add(monSpawn);
+
     }
 
     //보스방 만들기
@@ -639,6 +672,95 @@ public class Generator2D : MonoBehaviour
         }
     }
 
+    //교차되는 방 만들기
+    private void CreateCrossHallway()
+    {
+        foreach(Vector3 crossPosition in crossPos_List)
+        {
+            RaycastHit hit;
+
+            //방향표시
+            CellDirection checkCellDirection;
+
+            Debug.Log("교차된 위치들을 알려줘 : " + crossPosition);
+            if(!Physics.Raycast(crossPosition, Vector3.up, out hit, 10f))
+            {
+                GameObject crossCeiling = Instantiate(hallwayCrossCeilingPrefab, crossPosition, Quaternion.identity);
+                crossCeiling.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
+            }
+            else
+            {
+                Debug.Log("공중에 뭐가 있는거지? : " + hit.transform.gameObject.name);
+            }
+
+            //forward
+            if (!Physics.Raycast(crossPosition, Vector3.forward, 1.5f) )
+            {
+                Debug.Log("forward에 없음");
+                if(Physics.Raycast(crossPosition + Vector3.forward * 3f, Vector3.down, out hit, 3f))
+                {
+                    Debug.Log("forward에 가서 밑에 레이 쏘니까 맞음");
+                    Debug.Log("그럼 부딪힌녀석 이름이 뭐야 : " + hit.transform.gameObject.name);
+                    if (hit.transform.gameObject.name == "Terrain")
+                    {
+                        checkCellDirection = CellDirection.forward;
+                        CreateCrossWall(crossPosition, checkCellDirection);
+                    }
+                }
+            }
+
+            //back
+            if (!Physics.Raycast(crossPosition, Vector3.back, 1.5f))
+            {
+                if (Physics.Raycast(crossPosition + Vector3.back * 3f, Vector3.down, out hit, 3f))
+                {
+                    if (hit.transform.gameObject.name == "Terrain")
+                    {
+                        checkCellDirection = CellDirection.back;
+                        CreateCrossWall(crossPosition, checkCellDirection);
+                    }
+                }
+            }
+
+            //right
+            if (!Physics.Raycast(crossPosition, Vector3.right, 1.5f))
+            {
+                if (Physics.Raycast(crossPosition + Vector3.right * 3f, Vector3.down, out hit, 3f))
+                {
+                    if (hit.transform.gameObject.name == "Terrain")
+                    {
+                        checkCellDirection = CellDirection.right;
+                        CreateCrossWall(crossPosition, checkCellDirection);
+                    }
+                }
+            }
+
+            //left
+            if (!Physics.Raycast(crossPosition, Vector3.left, 1.5f))
+            {
+                if (Physics.Raycast(crossPosition + Vector3.left * 3f, Vector3.down, out hit, 3f))
+                {
+                    if (hit.transform.gameObject.name == "Terrain")
+                    {
+                        checkCellDirection = CellDirection.left;
+                        CreateCrossWall(crossPosition, checkCellDirection);
+                    }
+                }
+            }
+
+        }
+
+        //if (!Physics.Raycast(checkPos, Vector3.up, out hit, 10f))
+        //{
+        //    checkCellDirection = CellDirection.up;
+        //    CreateCrossCube(checkPos, checkCellDirection);
+        //}
+        //else
+        //{
+        //    Debug.Log("공중에 뭐가 있는거지? : " + hit.transform.gameObject.name);
+        //}
+    }
+        
 
     private void PlaceCube(Vector2Int location, Vector2Int size)
     {
@@ -813,13 +935,13 @@ public class Generator2D : MonoBehaviour
                 Hallway_Straight.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
                 Hallway_Straight.transform.parent = parent.transform;
             }
-            else if (delta2Dir == CellDirection.up) // 오른쪽-위 : 꺾인 통로
+            else if (delta2Dir == CellDirection.forward) // 오른쪽-위 : 꺾인 통로
             {
                 GameObject Hallway_Corner = Instantiate(hallwayCornerBRPrefab, createPos, Quaternion.identity);
                 Hallway_Corner.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
                 Hallway_Corner.transform.parent = parent.transform;
             }
-            else if (delta2Dir == CellDirection.down) // 오른쪽-아래 : 꺾인 통로
+            else if (delta2Dir == CellDirection.back) // 오른쪽-아래 : 꺾인 통로
             {
                 GameObject Hallway_Corner = Instantiate(hallwayCornerTRPrefab, createPos, Quaternion.identity);
                 Hallway_Corner.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
@@ -834,20 +956,20 @@ public class Generator2D : MonoBehaviour
                 Hallway_Straight.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
                 Hallway_Straight.transform.parent = parent.transform;
             }
-            else if (delta2Dir == CellDirection.up) // 왼쪽-위
+            else if (delta2Dir == CellDirection.forward) // 왼쪽-위
             {
                 GameObject Hallway_Corner = Instantiate(hallwayCornerBLPrefab, createPos, Quaternion.identity);
                 Hallway_Corner.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
                 Hallway_Corner.transform.parent = parent.transform;
             }
-            else if (delta2Dir == CellDirection.down) // 왼쪽-아래
+            else if (delta2Dir == CellDirection.back) // 왼쪽-아래
             {
                 GameObject Hallway_Corner = Instantiate(hallwayCornerTLPrefab, createPos, Quaternion.identity);
                 Hallway_Corner.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
                 Hallway_Corner.transform.parent = parent.transform;
             }
         }
-        else if (delta1Dir == CellDirection.up)
+        else if (delta1Dir == CellDirection.forward)
         {
             if (delta2Dir == CellDirection.right) // 위-오른쪽
             {
@@ -861,14 +983,14 @@ public class Generator2D : MonoBehaviour
                 Hallway_Corner.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
                 Hallway_Corner.transform.parent = parent.transform;
             }
-            else if (delta2Dir == CellDirection.up) // 위-위
+            else if (delta2Dir == CellDirection.forward) // 위-위
             {
                 GameObject Hallway_Straight = Instantiate(hallwayYPrefabs[index], createPos, Quaternion.identity);
                 Hallway_Straight.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
                 Hallway_Straight.transform.parent = parent.transform;
             }
         }
-        else if (delta1Dir == CellDirection.down)
+        else if (delta1Dir == CellDirection.back)
         {
             if (delta2Dir == CellDirection.right) // 아래-오른쪽
             {
@@ -882,7 +1004,7 @@ public class Generator2D : MonoBehaviour
                 Hallway_Corner.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
                 Hallway_Corner.transform.parent = parent.transform;
             }
-            else if (delta2Dir == CellDirection.down) // 아래-아래
+            else if (delta2Dir == CellDirection.back) // 아래-아래
             {
                 GameObject Hallway_Straight = Instantiate(hallwayYPrefabs[index], createPos, Quaternion.identity);
                 Hallway_Straight.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
@@ -911,11 +1033,11 @@ public class Generator2D : MonoBehaviour
         }
         else if(delta == Vector2Int.up)
         {
-            result = CellDirection.up;
+            result = CellDirection.forward;
         }
         else if(delta == Vector2Int.down)
         {
-            result = CellDirection.down;
+            result = CellDirection.back;
         }
         else
         {
@@ -942,13 +1064,6 @@ public class Generator2D : MonoBehaviour
     private void CheckOverlapHallway(Vector3 checkPos)
     {
         int checkCount = 0;
-        int checkCount_forward = 0;
-        int checkCount_back = 0;
-        int checkCount_right = 0;
-        int checkCount_left = 0;
-
-        //방향표시
-        CellDirection checkCellDirection;
 
         //아래방향 겹치는거 제거
         Collider[] colliders = Physics.OverlapCapsule(checkPos, checkPos + Vector3.down * 0.5f, 0.1f);
@@ -957,66 +1072,16 @@ public class Generator2D : MonoBehaviour
             checkCount++;
             if(checkCount >= 2)
             {
+                RaycastHit hit;
+
                 Debug.Log("2개 이상 물체가 겹친데가 있다.");
                 Debug.Log("colliders의 개수 : " + colliders.Length);
                 DeleteCube(checkPos);
                 Debug.Log(checkPos);
-                
 
-                //앞방향
-                Collider[] colliders_forward = Physics.OverlapCapsule(checkPos, checkPos + Vector3.forward * 0.3f, 0.01f);
-                foreach (Collider collider_forward in colliders_forward)
-                {
-                    checkCount_forward++;
-                    if (checkCount_forward >= 2)
-                    {
-                        Debug.Log("포워드 들어옴, 위치 : " + checkPos);
-                        checkCellDirection = CellDirection.up;
-                        CreateCrossCube(checkPos, checkCellDirection);
-                    }
-                }
-
-                //뒷방향
-                Collider[] colliders_back = Physics.OverlapCapsule(checkPos, checkPos + Vector3.back * 0.3f, 0.01f);
-                foreach (Collider collider_back in colliders_back)
-                {
-                    checkCount_back++;
-                    if (checkCount_back >= 2)
-                    {
-                        Debug.Log("백 들어옴, 위치 : " + checkPos);
-                        checkCellDirection = CellDirection.down;
-                        CreateCrossCube(checkPos, checkCellDirection);
-                    }
-                }
-
-                //오른쪽
-                Collider[] colliders_right = Physics.OverlapCapsule(checkPos, checkPos + Vector3.right * 0.3f, 0.01f);
-                foreach (Collider collider_right in colliders_right)
-                {
-                    checkCount_right++;
-                    if (checkCount_right >= 2)
-                    {
-                        Debug.Log("라이트 들어옴, 위치 : " + checkPos);
-                        checkCellDirection = CellDirection.right;
-                        CreateCrossCube(checkPos, checkCellDirection);
-                    }
-                }
-
-                //왼쪽
-                Collider[] colliders_left = Physics.OverlapCapsule(checkPos, checkPos + Vector3.left * 0.3f, 0.01f);
-                foreach (Collider collider_left in colliders_left)
-                {
-                    checkCount_left++;
-                    if (checkCount_left >= 2)
-                    {
-                        Debug.Log("레프트 들어옴, 위치 : " + checkPos);
-                        checkCellDirection = CellDirection.right;
-                        CreateCrossCube(checkPos, checkCellDirection);
-                    }
-                }
+                crossPos_List.Add(checkPos);
             }
         }
-
     }
 
     //6방향 제거, up,down,right,left,forward,back
@@ -1072,30 +1137,30 @@ public class Generator2D : MonoBehaviour
     }
 
     //겹치는 코너 생성
-    private void CreateCrossCube(Vector3 createPos, CellDirection cellDirection)
+    private void CreateCrossWall(Vector3 createPos, CellDirection cellDirection)
     {
         Debug.DrawRay(createPos + new Vector3(0, 10f, 0), Vector3.down * 10f, Color.red, Mathf.Infinity);
 
         switch (cellDirection)
         {
-            case CellDirection.up:
-                GameObject hallwayCross_up = Instantiate(hallwayCrossPrefab, createPos, Quaternion.identity);
-                hallwayCross_up.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
+            case CellDirection.forward:
+                GameObject hallwayCrossWall_forward = Instantiate(hallwayCrossWallPrefab, createPos, Quaternion.identity);
+                hallwayCrossWall_forward.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
                 break;
-            case CellDirection.down:
-                GameObject hallwayCross_down = Instantiate(hallwayCrossPrefab, createPos, Quaternion.identity);
-                hallwayCross_down.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
-                hallwayCross_down.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            case CellDirection.back:
+                GameObject hallwayCrossWall_down = Instantiate(hallwayCrossWallPrefab, createPos, Quaternion.identity);
+                hallwayCrossWall_down.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
+                hallwayCrossWall_down.transform.localRotation = Quaternion.Euler(0, 180, 0);
                 break;
             case CellDirection.right:
-                GameObject hallwayCross_right = Instantiate(hallwayCrossPrefab, createPos, Quaternion.identity);
-                hallwayCross_right.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
-                hallwayCross_right.transform.localRotation = Quaternion.Euler(0, 90, 0);
+                GameObject hallwayCrossWall_right = Instantiate(hallwayCrossWallPrefab, createPos, Quaternion.identity);
+                hallwayCrossWall_right.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
+                hallwayCrossWall_right.transform.localRotation = Quaternion.Euler(0, 90, 0);
                 break;
             case CellDirection.left:
-                GameObject hallwayCross_left = Instantiate(hallwayCrossPrefab, createPos, Quaternion.identity);
-                hallwayCross_left.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
-                hallwayCross_left.transform.localRotation = Quaternion.Euler(0, 270, 0);
+                GameObject hallwayCrossWall_left = Instantiate(hallwayCrossWallPrefab, createPos, Quaternion.identity);
+                hallwayCrossWall_left.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
+                hallwayCrossWall_left.transform.localRotation = Quaternion.Euler(0, 270, 0);
                 break;
         }
     }
@@ -1117,7 +1182,7 @@ public class Generator2D : MonoBehaviour
                 dungeonEntrance_left.transform.localRotation = Quaternion.Euler(0, 270, 0);
                 dungeonEntrance_left.transform.parent = parent.transform;
                 break;
-            case CellDirection.up:
+            case CellDirection.forward:
                 GameObject dungeonEntrance_top = Instantiate(dungeonEntrancePrefab, createPos, Quaternion.identity);
                 dungeonEntrance_top.GetComponent<Transform>().localScale = new Vector3(3, 3f, 3);
                 dungeonEntrance_top.transform.parent = parent.transform;
@@ -1153,8 +1218,23 @@ public class Generator2D : MonoBehaviour
         }
     }
 
-//잠시 DrawLine 볼수있게 코루틴
-private IEnumerator ShowLine(List<Prim.Edge> edges)
+    //몬스터 스포너
+    private void CreateMonsterSpawner()
+    {
+        GameObject parent = Instantiate(parentPrefab, Vector3.zero, Quaternion.identity);
+        parent.transform.gameObject.name = "MonsterSpawner";
+
+        foreach(MonsterSpawner monSpawn in monsterSpawners)
+        {
+            GameObject monsterSpawner = Instantiate(monsterSpawnerPrefab, monSpawn.position, Quaternion.identity);
+            monsterSpawner.GetComponent<OrcSpawner>().weight = monSpawn.size.x;
+            monsterSpawner.GetComponent<OrcSpawner>().height = monSpawn.size.y;
+            monsterSpawner.transform.gameObject.SetActive(true);
+            monsterSpawner.transform.parent = parent.transform;
+        }
+    }
+    //잠시 DrawLine 볼수있게 코루틴
+    private IEnumerator ShowLine(List<Prim.Edge> edges)
     {
         for (int i = 1; i < edges.Count; i++)
         {
