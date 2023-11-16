@@ -10,9 +10,19 @@ public class Knight : Boss
     [SerializeField] private GameObject SwordForceEffect;
     [SerializeField] private int swordForceCount = 3;
 
+
+    [Header("DeadEvent")]
+    [SerializeField] private GameObject SpawnBoss;
+    [SerializeField] private GameObject SpawnBossField;
+    [SerializeField] private GameObject SpawnBossBackgroundEffect;
     protected override void Awake()
     {
         base.Awake();
+        OnDead += () => { SpawnBoss.SetActive(true);
+                          SpawnBossField.SetActive(true);
+                          SpawnBossBackgroundEffect.SetActive(true);
+        };
+
     }
 
 
@@ -35,7 +45,6 @@ public class Knight : Boss
             jumpEffects[0].SetActive(false);
             jumpEffects[1].SetActive(false);
             jumpEffects[2].SetActive(false);
-            jumpEffects[3].SetActive(false);
         }
         if (StrongEffect.activeSelf)
         {
@@ -44,6 +53,13 @@ public class Knight : Boss
         if (SwordForceEffect.activeSelf)
         {
             SwordForceEffect.SetActive(false);
+        }
+    }
+    void OnEndEffect()
+    {
+        if (StrongEffect.activeSelf)
+        {
+            StrongEffect.SetActive(false);
         }
     }
 

@@ -102,6 +102,8 @@ public class AnyMonster : Enemy
                     //상대방 피격 위치와 피격 방향 근사값을 계산
                     Vector3 hitPoint = other.ClosestPoint(transform.position);
                     Vector3 hitNormal = transform.position - other.transform.position;
+                    //player.AddStatusEffect(StatusEffectType.Poisoned);
+
                     e.TakeDamage(damage, force, hitPoint, hitNormal);
                 }
             }

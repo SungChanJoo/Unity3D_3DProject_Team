@@ -75,6 +75,7 @@ public class Enemy : MonoBehaviour, IDamageable
         if (OnDead != null)
         {
             OnDead();
+            Debug.Log("죽음 이벤트 호출!");
         }
         IsDead = true;
 
