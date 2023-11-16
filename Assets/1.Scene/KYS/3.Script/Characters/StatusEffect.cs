@@ -5,7 +5,7 @@ public enum StatusEffectType
 {
     Poisoned,
     Paralysed,
-    BlurryVision
+    Dizzy
 }
 
 public abstract class StatusEffect

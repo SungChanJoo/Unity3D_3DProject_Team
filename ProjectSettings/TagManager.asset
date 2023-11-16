@@ -8,6 +8,7 @@ TagManager:
   - Cam
   - Parry
   - Ground
+  - StatusEffect
   - Stairs
   layers:
   - Default

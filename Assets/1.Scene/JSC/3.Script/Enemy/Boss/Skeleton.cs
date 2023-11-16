@@ -68,7 +68,7 @@ public class Skeleton : Boss
         {
             if(canFight)
             {
-                hpSlider.value = Health; // ¿Ö ½½¶óÀÌ´õ °ªÀÌ º¯ÇÏ´Â Áö ¸ğ¸£°Ú³×...
+                hpSlider.value = Health; // ì™œ ìŠ¬ë¼ì´ë” ê°’ì´ ë³€í•˜ëŠ” ì§€ ëª¨ë¥´ê² ë„¤...
 
                 if (isTarget)
                 {
@@ -96,19 +96,19 @@ public class Skeleton : Boss
                             //transform.LookAt(player.transform);
                         }
 
-                        if (DetectPlayer(shortDetectRange) && bossState == State.Idle) //°¡±îÀÌ ÀÖÀ» ¶§ ±ÙÁ¢ °ø°İ
+                        if (DetectPlayer(shortDetectRange) && bossState == State.Idle) //ê°€ê¹Œì´ ìˆì„ ë•Œ ê·¼ì ‘ ê³µê²©
                         {
                             bossState = State.Short;
                             SetRangeAni(bossState);
                         }
-                        else if (DetectPlayer(middleDetectRange) && bossState == State.Idle) // ´ë½¬ °ø°İ
+                        else if (DetectPlayer(middleDetectRange) && bossState == State.Idle) // ëŒ€ì‰¬ ê³µê²©
                         {
                             bossState = State.Middle;
                             SetRangeAni(bossState);
 
                             agent.speed *= 3;
                         }
-                        else if (DetectPlayer(longDetectRange) && bossState == State.Idle) // Á¡ÇÁ °ø°İ
+                        else if (DetectPlayer(longDetectRange) && bossState == State.Idle) // ì í”„ ê³µê²©
                         {
                             bossState = State.Long;
                             SetRangeAni(bossState);
@@ -118,11 +118,11 @@ public class Skeleton : Boss
                         {
                             if (PlayerDetectRange(attackDistance))
                             {
-                                if (rand > 65) // 35% È®·ü
+                                if (rand > 65) // 35% í™•ë¥ 
                                 {
                                     BasicAttack();
                                 }
-                                else if (rand > 30) //35% È®·ü
+                                else if (rand > 30) //35% í™•ë¥ 
                                 {
                                     ComboAttack();
                                 }
@@ -141,7 +141,7 @@ public class Skeleton : Boss
                             Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * middleDetectRange, Color.red);
                             if (PlayerDetectRange(middleDetectRange))
                             {
-                                if (rand > 30) // 70%È®·ü
+                                if (rand > 30) // 70%í™•ë¥ 
                                 {
                                     if (Vector3.SqrMagnitude(transform.position - player.transform.position) <= 8)
                                     {
@@ -160,9 +160,9 @@ public class Skeleton : Boss
 
                             if (PlayerDetectRange(longDetectRange))
                             {
-                                if (rand > 30) // 70%È®·ü
+                                if (rand > 30) // 70%í™•ë¥ 
                                 {
-                                    PointAttack();
+                                    StartCoroutine(PointAttack_co());
                                 }
                                 else
                                 {
@@ -180,7 +180,7 @@ public class Skeleton : Boss
                 }
                 else
                 {
-                    //ÇöÀç À§Ä¡¿¡¼­ 20 ¹İÁö¸§À¸·Î °¡»óÀÇ ¿øÀ» ¸¸µé¾î TargetLayer¸¦ °¡Áø Äİ¶óÀÌ´õ ÃßÃâ
+                    //í˜„ì¬ ìœ„ì¹˜ì—ì„œ 20 ë°˜ì§€ë¦„ìœ¼ë¡œ ê°€ìƒì˜ ì›ì„ ë§Œë“¤ì–´ TargetLayerë¥¼ ê°€ì§„ ì½œë¼ì´ë” ì¶”ì¶œ
                     Collider[] coll = Physics.OverlapSphere(transform.position, detectRange, TargetLayer);
                     for (int i = 0; i < coll.Length; i++)
                     {
@@ -233,7 +233,7 @@ public class Skeleton : Boss
         }
 
     }
-    //º¸½º ½ºÅ³
+    //ë³´ìŠ¤ ìŠ¤í‚¬
     private void BasicAttack()
     {
         agent.isStopped = true;
@@ -272,13 +272,23 @@ public class Skeleton : Boss
         enemyAni.SetTrigger("Dodge");
         //StartCoroutine(ThrowSword_co());
     }
-    private void PointAttack()
+    IEnumerator PointAttack_co()
     {
         agent.isStopped = true;
         isAttack = true;
         enemyAni.SetBool("isMove", !isAttack);
         enemyAni.SetTrigger("Point");
+
+        enemyAni.SetBool("isPoint", true);
+        yield return new WaitForSeconds(1f);
+        FireField.transform.rotation = Quaternion.Euler(-90f, transform.rotation.eulerAngles.y,180f);
+
+        GameObject firefield = Instantiate(FireField, transform.position, FireField.transform.rotation);
+        Destroy(firefield, 10f);
+        //ì™œ ì´ ìŠ¤í¬ë¦½íŠ¸ê°€ ë°˜ì˜ì´ ì•ˆÂ‰ç‘›ëº‘...
+
         //Instantiate(FireField, transform.position, )
+
     }
     /*    private IEnumerator JumpAttack_co()
         {
@@ -287,7 +297,7 @@ public class Skeleton : Boss
             enemyR.useGravity = false;
             //enemyR.isKinematic = true;
             agent.enabled = false;
-            //Debug.Log("JumpAttack Çß¾î¿ë");
+            //Debug.Log("JumpAttack í–ˆì–´ìš©");
 
             enemyAni.SetTrigger("JumpAttack");
             yield return new WaitForSeconds(0.3f);
@@ -304,7 +314,7 @@ public class Skeleton : Boss
 
             enemyAni.SetTrigger("JumpIdle");
             GetComponent<BoxCollider>().enabled = true;
-            //float distance = 1.2f; ÇÃ·¹ÀÌ¾î ¾Õ¿¡¼­ ¸ØÃã... distance¸¦ °öÇÒ·Á°í ÇßÀ¸³ª ¸Õ°¡ ÀÌ»ó... Á» »ı°¢ÇØº¼ ÇÊ¿ä°¡ ÀÖÀ»µí
+            //float distance = 1.2f; í”Œë ˆì´ì–´ ì•ì—ì„œ ë©ˆì¶¤... distanceë¥¼ ê³±í• ë ¤ê³  í–ˆìœ¼ë‚˜ ë¨¼ê°€ ì´ìƒ... ì¢€ ìƒê°í•´ë³¼ í•„ìš”ê°€ ìˆì„ë“¯
             Vector3 tempPos = new Vector3( player.transform.position.x, player.transform.position.y, player.transform.position.z);
             while ((transform.position.y - tempPos.y) > 1f)
             {
@@ -329,9 +339,9 @@ public class Skeleton : Boss
         enemyR.useGravity = false;
         //enemyR.isKinematic = true;
         agent.enabled = false;
-        //Debug.Log("JumpAttack Çß¾î¿ë");
+        //Debug.Log("JumpAttack í–ˆì–´ìš©");
 
-        //Á¡ÇÁ ÀÌÆåÆ®
+        //ì í”„ ì´í™íŠ¸
         jumpEffects[0].transform.position = transform.position;
         jumpEffects[0].SetActive(true);
         enemyAni.SetTrigger("JumpAttack");
@@ -342,7 +352,7 @@ public class Skeleton : Boss
         {
             transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, jumpY, transform.position.z), Time.deltaTime * 1f);
             /*
-                        if(transform.position.y > jumpY * 0.3)// ÀÏÁ¤³ôÀÌ ÀÌ»óÀÏ ¶§¸¸ ÇÃ·¹ÀÌ¾î¸¦ ¹Ù¶óº½
+                        if(transform.position.y > jumpY * 0.3)// ì¼ì •ë†’ì´ ì´ìƒì¼ ë•Œë§Œ í”Œë ˆì´ì–´ë¥¼ ë°”ë¼ë´„
                         {
                             transform.LookAt(player.transform);
                         }*/
@@ -352,13 +362,13 @@ public class Skeleton : Boss
 
 
         }
-        //Á¡ÇÁ ÀÌÆåÆ®
+        //ì í”„ ì´í™íŠ¸
         jumpEffects[1].transform.position = transform.position;
         jumpEffects[1].transform.rotation = transform.rotation;
         jumpEffects[1].SetActive(true);
         enemyAni.SetTrigger("JumpIdle");
         GetComponent<BoxCollider>().enabled = true;
-        //float distance = 1.2f; ÇÃ·¹ÀÌ¾î ¾Õ¿¡¼­ ¸ØÃã... distance¸¦ °öÇÒ·Á°í ÇßÀ¸³ª ¸Õ°¡ ÀÌ»ó... Á» »ı°¢ÇØº¼ ÇÊ¿ä°¡ ÀÖÀ»µí
+        //float distance = 1.2f; í”Œë ˆì´ì–´ ì•ì—ì„œ ë©ˆì¶¤... distanceë¥¼ ê³±í• ë ¤ê³  í–ˆìœ¼ë‚˜ ë¨¼ê°€ ì´ìƒ... ì¢€ ìƒê°í•´ë³¼ í•„ìš”ê°€ ìˆì„ë“¯
         Vector3 tempPos = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
         while ((transform.position.y - tempPos.y) > 1f)
         {
@@ -373,7 +383,7 @@ public class Skeleton : Boss
         //enemyR.isKinematic = false;
         agent.enabled = true;
         agent.isStopped = true;
-        //Á¡ÇÁ ÀÌÆåÆ®
+        //ì í”„ ì´í™íŠ¸
         jumpEffects[2].transform.position = transform.position;
         jumpEffects[2].SetActive(true);
 

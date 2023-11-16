@@ -2979,7 +2979,7 @@ Transform:
   m_GameObject: {fileID: 6426250335487100956}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 10}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 6429492871684312086}
   - {fileID: 6429951663781754824}
@@ -3086,6 +3086,7 @@ MonoBehaviour:
   weapon: {fileID: 6425705453476604202}
   wayPoint: []
   enemyData: {fileID: 11400000, guid: 0d0f9dab8d2bc2d4a9771431eb9a6aae, type: 2}
+  nextBehaviorTimebet: 3
 --- !u!1 &6426251023689847762
 GameObject:
   m_ObjectHideFlags: 0
