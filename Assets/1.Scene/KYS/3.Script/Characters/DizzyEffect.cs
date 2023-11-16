@@ -10,13 +10,19 @@ class DizzyEffect : StatusEffect
 
     public DizzyEffect(StatusEffectedCharacter target) : base(StatusEffectType.Dizzy, target)
     {
-        distortionQuad = GameObject.FindGameObjectWithTag("MainCamera").transform.GetChild(0).gameObject;
+        try
+        {
+            distortionQuad = GameObject.FindGameObjectWithTag("MainCamera").transform.GetChild(0).gameObject;
+        }
+        catch (Exception)
+        {
+            throw new Exception("Main Camera에 1. MainCamera 태그가 안 붙었거나 2. Dizzyness ScreenDistortion 게임 오브젝트가 자식으로 할당되지 않았습니다.");
+        }
+        
         distortionPostProcessing = GameObject.FindObjectsOfType<Volume>(true).Where(x => x.gameObject.CompareTag("StatusEffect")).Select(x => x.gameObject).FirstOrDefault();
 
-        if (distortionQuad == null)
-            throw new Exception($"Main Camera에 1. MainCamera 태그가 안 붙었거나 2. Dizzyness ScreenDistortion 게임 오브젝트가 자식으로 할당되지 않았습니다.");
-        else if (distortionPostProcessing == null)
-            throw new Exception($"씬에 Dizzyness PostProcessing 오브젝트가 존재하지 않습니다.");
+        if (distortionPostProcessing == null)
+            throw new Exception("씬에 Dizzyness PostProcessing 오브젝트가 존재하지 않습니다.");
 
         distortionQuad.SetActive(false);
         distortionPostProcessing.SetActive(false);
