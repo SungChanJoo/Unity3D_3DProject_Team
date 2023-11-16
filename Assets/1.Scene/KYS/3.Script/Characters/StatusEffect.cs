@@ -12,9 +12,9 @@ public abstract class StatusEffect
 {
     public StatusEffectType Type;
 
-    protected bool IsOnGoing = false;
-
     protected StatusEffectedCharacter target;
+
+    protected bool IsOnGoing = false;
 
     private float removeTimer = 5;
     private float remainingTime = 0;
@@ -57,8 +57,7 @@ public abstract class StatusEffect
 
     public virtual void CustomStartEffect() { }
     public virtual void CustomEndEffect()  { }
-
-    public abstract void ApplyEffect();
+    public virtual void ApplyEffect() { }
 
     public void ResetTimer()
     {
