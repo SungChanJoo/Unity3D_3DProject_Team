@@ -295,7 +295,7 @@ GameObject:
   - component: {fileID: 4016734904118805400}
   m_Layer: 0
   m_Name: Stair_02 (6)
-  m_TagString: Untagged
+  m_TagString: Stairs
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32005,7 +32005,7 @@ GameObject:
   - component: {fileID: 2264145090379182479}
   m_Layer: 0
   m_Name: Stair_02 (2)
-  m_TagString: Untagged
+  m_TagString: Stairs
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36647,7 +36647,7 @@ GameObject:
   - component: {fileID: 2264145090990857936}
   m_Layer: 0
   m_Name: Stair_02 (1)
-  m_TagString: Untagged
+  m_TagString: Stairs
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77842,7 +77842,7 @@ GameObject:
   - component: {fileID: 577200177113629025}
   m_Layer: 0
   m_Name: Stair_02 (5)
-  m_TagString: Untagged
+  m_TagString: Stairs
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
