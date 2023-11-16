@@ -149,7 +149,7 @@ public class PlayerData : MonoBehaviour, IDamageable
         walkSpeed = 5;
         runSpeed = 8;
         CurrentWeapon = tempSword;
-        playerStateUI.InitState(MaxHealth, MaxStamina, MaxMana);
+        //playerStateUI.InitState(MaxHealth, MaxStamina, MaxMana);
 
     }
 
@@ -206,7 +206,6 @@ public class PlayerData : MonoBehaviour, IDamageable
     {
         if (currentHealth - damage <= 0)
         {
-            playerStateUI.UpdateHp();
             Die();
             Debug.Log("플레이어 뒤짐");
             return;
@@ -250,7 +249,7 @@ public class PlayerData : MonoBehaviour, IDamageable
             attack.skillEnabled = false;
             attack.hold = true;
         }
-        playerStateUI.UpdateHp();
+        //playerStateUI.UpdateHp();
     }
 
     public void IncreaseMaxHealth(float modifier) => MaxHealth += modifier;
@@ -264,7 +263,7 @@ public class PlayerData : MonoBehaviour, IDamageable
         if (CurrentStamina - amount < 0) return false;
 
         CurrentStamina -= amount;
-        playerStateUI.UpdateStamina();
+        //playerStateUI.UpdateStamina();
 
         return true;
     }
@@ -277,7 +276,7 @@ public class PlayerData : MonoBehaviour, IDamageable
         if (CurrentMana - amount < 0) return false;
 
         CurrentMana -= amount;
-        playerStateUI.UpdateMana();
+        //playerStateUI.UpdateMana();
 
         return true;
     }
@@ -290,7 +289,7 @@ public class PlayerData : MonoBehaviour, IDamageable
             amount = MaxHealth - CurrentHealth;
 
         CurrentHealth += amount;
-        playerStateUI.UpdateHp();
+        //playerStateUI.UpdateHp();
 
         return true;
     }
@@ -303,7 +302,7 @@ public class PlayerData : MonoBehaviour, IDamageable
             amount = MaxStamina - CurrentStamina;
 
         CurrentStamina += amount;
-        playerStateUI.UpdateStamina();
+        //playerStateUI.UpdateStamina();
 
         return true;
     }
@@ -316,7 +315,7 @@ public class PlayerData : MonoBehaviour, IDamageable
             amount = MaxMana - CurrentMana;
 
         CurrentMana += amount;
-        playerStateUI.UpdateMana();
+        //playerStateUI.UpdateMana();
 
         return true;
     }

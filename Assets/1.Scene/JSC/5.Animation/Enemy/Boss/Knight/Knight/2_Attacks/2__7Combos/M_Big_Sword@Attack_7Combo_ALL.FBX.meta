@@ -1065,7 +1065,7 @@ ModelImporter:
       takeName: Take 001
       internalID: 0
       firstFrame: 0
-      lastFrame: 65
+      lastFrame: 193
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -1085,21 +1085,21 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.23829201
+      - time: 0.071625344
         functionName: OnStartAttack
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.91456825
+      - time: 0.7703623
         functionName: OnEndAttack
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.99089074
+      - time: 0.9524292
         functionName: OnEndAni
         data: 
         objectReferenceParameter: {instanceID: 0}

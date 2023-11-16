@@ -28,19 +28,17 @@ public class StatusEffectedCharacter : MonoBehaviour
 
     private void Update()
     {
-        // Monster_TODO
         // test용. 실제로는 몬스터가 공격할 때 이 상태를 부여해줘야 함.
         if (Input.GetKeyDown(KeyCode.I))
             AddStatusEffect(StatusEffectType.Poisoned);
         if (Input.GetKeyDown(KeyCode.O))
             AddStatusEffect(StatusEffectType.Paralysed);
         if (Input.GetKeyDown(KeyCode.P))
-            AddStatusEffect(StatusEffectType.Dizzy);
+            AddStatusEffect(StatusEffectType.BlurryVision);
     }
 
     public void AddStatusEffect(StatusEffectType type)
     {
-        // 이미 해당 상태이상을 겪던 중이라면 새로 상태이상을 부여하는 게 아니라 리셋 타이머에 0만 할당하고 리턴
         for (int i = 0; i < statusEffects.Count; i++)
         {
             if (statusEffects[i].Type.Equals(type))
@@ -61,8 +59,8 @@ public class StatusEffectedCharacter : MonoBehaviour
             case StatusEffectType.Paralysed:
                 se = new ParalyseEffect(this);
                 break;
-            case StatusEffectType.Dizzy:
-                se = new DizzyEffect(this);
+            case StatusEffectType.BlurryVision:
+                se = new BlurryVisionEffect(this);
                 break;
             default:
                 throw new NotImplementedException();

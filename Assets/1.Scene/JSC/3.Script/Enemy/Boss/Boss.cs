@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public enum BossState
+public enum State
 {
     Idle = 0,
     Short,
@@ -42,7 +42,7 @@ public class Boss : Enemy
     protected Ray rightRay;
     protected Ray leftRay;
 
-    protected BossState bossState;
+    protected State bossState;
     public bool isStrong = false;
 
     //protected bool isBehavior = false;
@@ -80,7 +80,7 @@ public class Boss : Enemy
         enemyR = GetComponent<Rigidbody>();
         GetComponent<BoxCollider>().enabled = false;
         enemyStrongEffect.SetActive(false);
-        bossState = BossState.Idle;
+        bossState = State.Idle;
     }
 
 
@@ -116,7 +116,7 @@ public class Boss : Enemy
             enemyStrongEffect.SetActive(false);
         }
     }
-    protected virtual void OnEndAttack()
+    void OnEndAttack()
     {
         weapon.GetComponent<BoxCollider>().enabled = false;
     }
@@ -137,7 +137,7 @@ public class Boss : Enemy
             agent.isStopped = false;
 
             //상태 초기화
-            bossState = BossState.Idle;
+            bossState = State.Idle;
             enemyAni.SetBool("isMove", true);
             agent.speed = enemyData.Speed;
 
@@ -202,21 +202,21 @@ public class Boss : Enemy
         return false;
     }
 
-    protected void SetRangeAni(BossState bossState)
+    protected void SetRangeAni(State bossState)
     {
         switch (bossState)
         {
-            case BossState.Short:
+            case State.Short:
                 enemyAni.SetBool("isShort", true);
                 enemyAni.SetBool("isMiddle", false);
                 enemyAni.SetBool("isLong", false);
                 break;
-            case BossState.Middle:
+            case State.Middle:
                 enemyAni.SetBool("isShort", false);
                 enemyAni.SetBool("isMiddle", true);
                 enemyAni.SetBool("isLong", false);
                 break;
-            case BossState.Long:
+            case State.Long:
                 enemyAni.SetBool("isShort", false);
                 enemyAni.SetBool("isMiddle", false);
                 enemyAni.SetBool("isLong", true);
