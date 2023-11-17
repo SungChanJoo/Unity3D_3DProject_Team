@@ -45,6 +45,14 @@ public class QuickSlot : MonoBehaviour
     private List<IItem> mana_P = new List<IItem>();
     private List<IItem> maxMana_P = new List<IItem>();
 
+    [Header("포션 이펙트")]    
+    [SerializeField] private GameObject health_E;
+    [SerializeField] private GameObject MaxHealth_E;
+    [SerializeField] private GameObject mana_E;
+    [SerializeField] private GameObject MaxMana_E;
+    private int effectType; 
+
+
     private bool on = false;
     
     private void Start()
@@ -173,11 +181,12 @@ public class QuickSlot : MonoBehaviour
         //선택 아이템
         if (Input.GetKeyDown(KeyCode.Tab) && !on)
         {
-            SelectItem();            
+            SelectItem();
         }
 
         //플레이어가 정지상태가 아니며 포션의 수량이 0보다 클 때 실행
-        if (Input.GetKeyDown(KeyCode.Q)&&!playerAttack.hold)
+        if (Input.GetKeyDown(KeyCode.Q)&&!playerAttack.hold
+            &&playerAttack.attackEnabled&&!player.isRolling)
         {
             List<IItem>[] potionLists = { health_P, maxHealth_P, mana_P, maxMana_P };
             if (potionLists[selcetHold].Count>0)
@@ -190,7 +199,6 @@ public class QuickSlot : MonoBehaviour
         //아이템 갯수 출력
         ItemCount();
         ShowItemInfo();
-
     }
 
     #region // 퀵슬롯 커서 움직임 로직(selectIndex 반환)
@@ -271,40 +279,36 @@ public class QuickSlot : MonoBehaviour
                 {
                     data.UseItem(health_P[0]);
                 }
-                return;
+                break;
             case 1:
                 if (maxHealth_P.Count > 0)
                 {
                     data.UseItem(maxHealth_P[0]);
                 }
-                return;
+                break;
             case 2:
                 if (mana_P.Count>0)
                 {
                     data.UseItem(mana_P[0]);
                 }                
-                return;
+                break;
             case 3:
                 if (maxMana_P.Count>0)
                 {
                     data.UseItem(maxMana_P[0]);
                 }
-                return;
-            default:
                 break;
         }
+        StartCoroutine(PotionEffect(selcetHold));
     }
     #endregion
 
     private IEnumerator Drinking()
     {        
-        playerAttack.hold = true;
+        
         playerAttack.attackEnabled = false;
         shield.SetActive(false);
-
-        yield return new WaitForSeconds(2.4f);
-
-        playerAttack.hold = false;
+        yield return new WaitForSeconds(1.8f);        
         playerAttack.attackEnabled= true;
         shield.SetActive(true);
         ani.SetTrigger("Default");
@@ -315,6 +319,29 @@ public class QuickSlot : MonoBehaviour
             yield return null;
         }
         UseItemSet();
+    }
+    private IEnumerator PotionEffect(int type)
+    {
+        switch (type)
+        {
+            case 0 :
+                health_E.SetActive(true);
+                break;
+            case 1:
+                MaxHealth_E.SetActive(true);
+                break;
+            case 2:
+                mana_E.SetActive(true);
+                break;
+            case 3:
+                MaxMana_E.SetActive(true);
+                break;                
+        }
+        yield return new WaitForSeconds(3f);
+        health_E.SetActive(false);
+        MaxHealth_E.SetActive(false);
+        mana_E.SetActive(false);
+        MaxMana_E.SetActive(false);
     }
 }
 
