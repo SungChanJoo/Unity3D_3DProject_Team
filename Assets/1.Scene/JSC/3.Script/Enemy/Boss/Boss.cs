@@ -28,7 +28,6 @@ public class Boss : Enemy
     [SerializeField] protected float jumpPower = 5f;
     [SerializeField] protected float nextBehaviorTimebet = 10f;
     protected float lastBehaviorTime;
-    protected Rigidbody enemyR;
     protected float totalDamage = 0;
 
     [SerializeField] protected GameObject enemyStrongEffect;
@@ -77,7 +76,7 @@ public class Boss : Enemy
         base.Awake();
         agent.avoidancePriority = UnityEngine.Random.Range(0, 100);
         weapon.GetComponent<BoxCollider>().enabled = false;
-        enemyR = GetComponent<Rigidbody>();
+        enemyRigid = GetComponent<Rigidbody>();
         GetComponent<BoxCollider>().enabled = false;
         enemyStrongEffect.SetActive(false);
         bossState = State.Idle;
@@ -154,7 +153,7 @@ public class Boss : Enemy
     }
     protected void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out PlayerData e))
+        if (other.TryGetComponent(out PlayerData e) && other.CompareTag("Player"))
 
         {
             if (player.Equals(e))

@@ -14,7 +14,7 @@ public class CinemachineManager : MonoBehaviour
 
     [SerializeField] private List<TimelineController> timelineControllers;
 
-    [SerializeField] private GameObject playerCam;
+    [SerializeField] private List<GameObject> playerCams;
 
     [SerializeField] private List<GameObject> UI;
 
@@ -53,7 +53,11 @@ public class CinemachineManager : MonoBehaviour
     public void LoadBossCam()
     {
         SetUI(false);
-        playerCam.SetActive(false);
+        for(int i=0; i< playerCams.Count; i++)
+        {
+            playerCams[i].SetActive(false);
+
+        }
         timelineControllers[index].Play();
         if (bossName == BossName.Knight)
         {
@@ -68,7 +72,11 @@ public class CinemachineManager : MonoBehaviour
     public void OnEndCam()
     {
         SetUI(true);
-        playerCam.SetActive(true);
+        for (int i = 0; i < playerCams.Count; i++)
+        {
+            playerCams[i].SetActive(true);
+
+        }
         if (bossName == BossName.Knight)
         {
             knight.canFight = true;

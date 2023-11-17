@@ -93,9 +93,8 @@ public class AnyMonster : Enemy
 
     protected void OnTriggerEnter(Collider other)
     {
-            if (other.TryGetComponent(out PlayerData e))
-
-            {
+        if (other.TryGetComponent(out PlayerData e) && other.CompareTag("Player"))
+        {
                 if (player.Equals(e))
                 {
                     //ClosestPoint -> ´ê´Â À§Ä¡
@@ -106,7 +105,7 @@ public class AnyMonster : Enemy
 
                     e.TakeDamage(damage, force, hitPoint, hitNormal);
                 }
-            }
+        }
     }
     
     void OnStartAttack()
