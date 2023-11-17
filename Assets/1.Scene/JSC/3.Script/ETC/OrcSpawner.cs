@@ -14,7 +14,7 @@ public class OrcSpawner : MonoBehaviour
 
     private void Awake()
     {
-        for (int i = 0; i < Random.Range(6, 10); i++)
+        for (int i = 0; i < Random.Range(2, 5); i++)
         {
             int rand = Random.Range(0,100);
             GameObject orc;

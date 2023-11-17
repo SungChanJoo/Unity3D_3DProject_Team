@@ -22,7 +22,7 @@ public class CinemachineManager : MonoBehaviour
     [SerializeField] private Knight knight;
     [SerializeField] private Skeleton skeleton;
     private BossName bossName;
-    private int index;
+    public int Index;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -35,7 +35,7 @@ public class CinemachineManager : MonoBehaviour
             Destroy(gameObject);
         }
         gameObject.SetActive(false);
-        index = 0;
+        Index = 0;
         bosses[0].GetComponent<Knight>().TryGetComponent(out knight);
         bosses[1].GetComponent<Skeleton>().TryGetComponent(out skeleton);
         bossName = BossName.Knight;
@@ -58,7 +58,7 @@ public class CinemachineManager : MonoBehaviour
             playerCams[i].SetActive(false);
 
         }
-        timelineControllers[index].Play();
+        timelineControllers[Index].Play();
         if (bossName == BossName.Knight)
         {
             knight.canFight = false;
@@ -85,8 +85,13 @@ public class CinemachineManager : MonoBehaviour
         {
             skeleton.canFight = true;
         }
-        index++;
-        bossName = (BossName)index;
+        bossName = (BossName)Index;
+        
+        Index++;
+        if(Index==2)
+        {
+            Index = 1;
+        }
     }
 
     private void SetUI(bool state)

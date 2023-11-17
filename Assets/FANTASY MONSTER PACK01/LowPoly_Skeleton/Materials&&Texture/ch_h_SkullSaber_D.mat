@@ -124,7 +124,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.35
     - _GlossyReflections: 1
-    - _Metallic: 0.12
+    - _Metallic: 1
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
@@ -133,7 +133,7 @@ Material:
     - _ReflectionMips: 3.8
     - _RimInner: -1
     - _Shininess: 0.33
-    - _Smoothness: 0.35
+    - _Smoothness: 0.529
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SpecularIntensity: 1
@@ -151,7 +151,7 @@ Material:
     m_Colors:
     - _AlbedoAdd: {r: 0, g: 0, b: 0, a: 0}
     - _AlbedoMul: {r: 1, g: 0.6174308, b: 0.102941155, a: 1}
-    - _BaseColor: {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DetailMap_ST: {r: 1, g: 1, b: 0, a: 0}
     - _DetailScale: {r: 2, g: 0, b: 1, a: 0}
