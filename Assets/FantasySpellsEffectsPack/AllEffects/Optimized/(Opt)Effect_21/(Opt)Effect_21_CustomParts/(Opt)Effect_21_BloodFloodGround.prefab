@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_inputMaterial: {fileID: 2100000, guid: 8a42e63cf572c4979aee5e477a558c5b, type: 2}
-  m_timeToReduce: 3
+  m_timeToReduce: 5
   m_reduceFactor: 1
 --- !u!1 &1216383810089710
 GameObject:
