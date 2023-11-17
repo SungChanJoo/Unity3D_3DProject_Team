@@ -32,7 +32,7 @@ public class Knight : Boss
         BossApearEffect.SetActive(true);
         yield return new WaitForSeconds(2.5f);
 
-        while (Vector3.SqrMagnitude(transform.position - SpawnPos.transform.position)>5)
+        while (Vector3.SqrMagnitude(transform.position - SpawnPos.transform.position)>10)
         {
             agent.enabled = false;
             transform.position = Vector3.Lerp(transform.position, SpawnPos.position, 0.3f*Time.deltaTime);
@@ -42,6 +42,7 @@ public class Knight : Boss
 
         BossScene.SetActive(true);
         CinemachineManager.Instance.LoadBossCam();
+        GameManager.Instance.SkyBoxNight();
         player.transform.position = Vector3.zero;
         SpawnBoss.SetActive(true);
         SpawnBossField.SetActive(true);
