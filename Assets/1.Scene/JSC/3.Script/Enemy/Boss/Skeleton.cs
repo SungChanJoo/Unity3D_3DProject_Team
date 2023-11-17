@@ -367,7 +367,7 @@ public class Skeleton : Boss
     {
         isAttack = true;
 
-        enemyR.useGravity = false;
+        enemyRigid.useGravity = false;
         //enemyR.isKinematic = true;
         agent.enabled = false;
         //Debug.Log("JumpAttack 했어용");
@@ -410,7 +410,7 @@ public class Skeleton : Boss
         }
 
         enemyAni.SetTrigger("JumpEnd");
-        enemyR.useGravity = true;
+        enemyRigid.useGravity = true;
         //enemyR.isKinematic = false;
         agent.enabled = true;
         agent.isStopped = true;

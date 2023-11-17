@@ -13,18 +13,41 @@ public class Knight : Boss
 
     [Header("DeadEvent")]
     [SerializeField] private GameObject SpawnBoss;
+    [SerializeField] private Transform SpawnPos;
+    [SerializeField] private GameObject BossScene;
+    [SerializeField] private GameObject BossApearEffect;
     [SerializeField] private GameObject SpawnBossField;
     [SerializeField] private GameObject SpawnBossBackgroundEffect;
     protected override void Awake()
     {
         base.Awake();
-        OnDead += () => { SpawnBoss.SetActive(true);
-                          SpawnBossField.SetActive(true);
-                          SpawnBossBackgroundEffect.SetActive(true);
-        };
+
+        OnDead += () => StartCoroutine(CallNextBoss_co());
 
     }
 
+    IEnumerator CallNextBoss_co()
+    {
+        enemyRigid.useGravity = false;
+        BossApearEffect.SetActive(true);
+        yield return new WaitForSeconds(2.5f);
+
+        while (Vector3.SqrMagnitude(transform.position - SpawnPos.transform.position)>5)
+        {
+            agent.enabled = false;
+            transform.position = Vector3.Lerp(transform.position, SpawnPos.position, 0.3f*Time.deltaTime);
+            yield return null;
+        }
+        BossApearEffect.SetActive(false);
+
+        BossScene.SetActive(true);
+        CinemachineManager.Instance.LoadBossCam();
+        player.transform.position = Vector3.zero;
+        SpawnBoss.SetActive(true);
+        SpawnBossField.SetActive(true);
+        SpawnBossBackgroundEffect.SetActive(true);
+        Destroy(gameObject);
+    }
 
     protected override void OnStartAttack()
     {
@@ -253,7 +276,7 @@ public class Knight : Boss
     {
         isAttack = true;
 
-        enemyR.useGravity = false;
+        enemyRigid.useGravity = false;
         //enemyR.isKinematic = true;
         agent.enabled = false;
         //Debug.Log("JumpAttack Çß¾î¿ë");
@@ -296,7 +319,7 @@ public class Knight : Boss
         }
 
         enemyAni.SetTrigger("JumpEnd");
-        enemyR.useGravity = true;
+        enemyRigid.useGravity = true;
         //enemyR.isKinematic = false;
         agent.enabled = true;
         agent.isStopped = true;
