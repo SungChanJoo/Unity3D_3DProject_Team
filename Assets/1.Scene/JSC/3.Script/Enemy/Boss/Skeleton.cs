@@ -33,6 +33,8 @@ public class Skeleton : Boss
     void OnStartDodge()
     {
         skeletonCapCol.enabled = false;
+        transform.Translate(transform.position * -1f * 20f * Time.deltaTime);
+
     }
     void OnEndDodge()
     {
@@ -139,15 +141,17 @@ public class Skeleton : Boss
                         {
                             if (PlayerDetectRange(attackDistance))
                             {
-                                if (rand > 65) // 35% 확률
+                                //Dodge();
+
+                                if (rand > 70) // 35% 확률
                                 {
                                     BasicAttack();
                                 }
-                                else if (rand > 30) //35% 확률
+                                else if (rand > 40) //35% 확률
                                 {
                                     ComboAttack();
                                 }
-                                else if (rand > 15)
+                                else if (rand > 20)
                                 {
                                     Dodge();
                                 }
@@ -291,9 +295,12 @@ public class Skeleton : Boss
     }
     private void Dodge()
     {
-        agent.isStopped = true;
+        agent.enabled = false;
+
         isAttack = true;
         enemyAni.SetBool("isMove", !isAttack);
+       //Vector3 speed = Vector3.zero;
+       //Vector3.SmoothDamp(transform.position, transform.forward * -1f*1000f, ref speed, 0.01f);
         enemyAni.SetTrigger("Dodge");
         //StartCoroutine(ThrowSword_co());
     }

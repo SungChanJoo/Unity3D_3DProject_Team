@@ -5,9 +5,10 @@ using UnityEngine;
 public class SpawnBoss : MonoBehaviour
 {
     [SerializeField] private GameObject boss;
-
+    [SerializeField] private GameObject bossScene;
     private void OnTriggerEnter(Collider other)
     {
+        bossScene.SetActive(true);
         LoadBossScene();
         Destroy(gameObject);
     }

@@ -7,6 +7,6 @@ public class CinemachineCallBack : MonoBehaviour
     void OnEndCam()
     {
         CinemachineManager.Instance.OnEndCam();
-        Destroy(gameObject);
+        Destroy(gameObject,2f);
     }
 }

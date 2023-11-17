@@ -154,7 +154,7 @@ public class Boss : Enemy
     }
     protected void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out PlayerData e))
+        if (other.TryGetComponent(out PlayerData e) && other.CompareTag("Player"))
 
         {
             if (player.Equals(e))
