@@ -361,14 +361,12 @@ public class CameraController : MonoBehaviour
         this.gameObject.tag = "Enemy";
         
         // 구르기 지속 시간
-        while (timer < 1f)
+        while (timer < 0.8f)
         {
             timer += Time.deltaTime;
-            if (timer > 0.1f && timer < 1f)
+            if (timer > 0.1f && timer < 0.8f)
             {
-                // 구르는 방향으로 순간적으로 이동
-                //transform.position += directionRoll.normalized * rollSpeed * Time.deltaTime;
-                //transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+                // 구르는 방향으로 이동                
                 float distanceToMove = rollSpeed * Time.deltaTime;
                 Vector3 newPosition = transform.position + directionRoll.normalized * distanceToMove;
 
@@ -378,7 +376,7 @@ public class CameraController : MonoBehaviour
         }
         animator.SetTrigger("Default");
         isRolling = false;        
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
         this.gameObject.tag = "Player";
 
     }
