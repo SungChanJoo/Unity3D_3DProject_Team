@@ -9,18 +9,22 @@ public class PlayerAttack : MonoBehaviour
     private Animator tempAnimator;
     private CameraController controller;
 
-    //스킬 사용중인가
-    public bool attackEanbled = true;
+    //기본 공격, 스킬 사용중인가
     public bool skillEnabled = true;
+    public bool attackEnabled = true;
+    public bool shield = false;
+    public bool charging = false;
 
     //가드상태를 유지할 때
     public bool onDefence = false;
     public bool hold = false;
     public bool perfectParrying = false;    
+
+
     private bool mana;
     private bool performedChargeAttack = false;
-
     private float chargingTimer = 0;
+
 
     private void Awake()
     {
@@ -34,88 +38,81 @@ public class PlayerAttack : MonoBehaviour
         hold = false;                
         data.CurrentWeapon.DisableDamaging();        
     }
-    private void MoveHold()
-    {
-        hold = !hold;
-        
-    }
-    private void MoveHoldFalse()
-    {
-        hold = false;
-    }
-    private void SkillEabled()
-    {
-        skillEnabled = true;        
-    }
-    private void SkillEabledFalse()
-    {
-        skillEnabled = false;
-    }
+    
 
     void Update()
     {
-        if (attackEanbled&&!controller.isRolling)
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Debug.Log(chargingTimer);
+        }
+        if (attackEnabled&&!controller.isRolling&&!onDefence)
         {
 
-            if (Input.GetMouseButtonDown(0))            // 왼쪽 마우스 버튼을 누르면
+            if (Input.GetMouseButtonDown(0)&&!charging) // 왼쪽 마우스 버튼을 누르면
             {
                 tempAnimator.SetTrigger("Charge");      // 차지 애니메이션
                 performedChargeAttack = false;          // 새로이 차지 공격할 수 있게 됨
+                charging = true;
+                skillEnabled = false;
             }
             else if (Input.GetMouseButton(0))           // 왼쪽 마우스 버튼을 (계속) 누르고 있는 중일 때
             {
                 chargingTimer += Time.deltaTime;        // 차지
                 hold = true;
+                skillEnabled = false;
                 if (CheckIfCharged()                    // 만약 다 차지가 된 상태이고
                     && !performedChargeAttack)          // 이미 해당 마우스 누름으로 인해 차지 공격을 한 상태가 아니라면
                     ChargeAttack();                     // 차지 공격
             }
             else if (Input.GetMouseButtonUp(0))         // 왼쪽 마우스 버튼에서 손을 떼었을 때
             {
+                skillEnabled = false;
                 if (!CheckIfCharged())                  // 차지가 된 게 아니라면 (차지공격을 하지 않았다면) 
                     Attack();                           // 일반 공격
             
                 ResetChargingTimer();                   // 차지 타이머 리셋
             }
+
+            if (skillEnabled)
+            {
+                if (Input.GetKeyDown(KeyCode.Alpha1))                   
+                    Skill1();
+    
+                else if (Input.GetKeyDown(KeyCode.Alpha2))
+                    Skill2();                        
+            }            
         }
 
-        if (skillEnabled&& !controller.isRolling)
+        if (shield&&!controller.isRolling)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))                   
-                Skill1();
-        
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-                Skill2();                        
-            
             Shield();
-        }
-        if (data.invincibility)
-        {
-            
-        }
+        }               
         
     }
 
     private void ResetChargingTimer() => chargingTimer = 0;
 
-    private bool CheckIfCharged() => chargingTimer >= 1;
+    private bool CheckIfCharged() => chargingTimer >= 1f;
 
     public void Attack()
     {
-
-        tempAnimator.SetTrigger("Attack");
+        shield = false;
         hold = true;
+        tempAnimator.SetTrigger("Attack");
         data.CurrentWeapon.Attack();
         
     }
 
     public void ChargeAttack()
     {
-        tempAnimator.SetTrigger("ChargeAttack");
+        shield = false;
         hold = true;
+        tempAnimator.SetTrigger("ChargeAttack");
         data.CurrentWeapon.ChargeAttack();
 
         performedChargeAttack = true;
+        ResetChargingTimer();
     }
 
     public void Shield()
@@ -126,12 +123,15 @@ public class PlayerAttack : MonoBehaviour
             tempAnimator.SetTrigger("Shield");
             hold = true;
             onDefence = true;
-           
-        }
+            attackEnabled = false;
+            skillEnabled = false;
+        }        
         else if (Input.GetMouseButtonUp(1))
         {
             hold = false;
             onDefence = false;
+            attackEnabled = true;
+            skillEnabled = true;
         }
         tempAnimator.SetBool("Hold", onDefence);
 
@@ -156,6 +156,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void Skill1()
     {
+        shield = false;
         mana =data.UseMana(20);
         if (mana)
         {            
@@ -171,6 +172,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void Skill2()
     {
+        shield = false;
         mana = data.UseMana(20);
         if (mana)
         {
@@ -199,4 +201,36 @@ public class PlayerAttack : MonoBehaviour
     {
         data.CurrentWeapon.AdditionalSkill2();
     }
+
+    #region // 애니메이션 이벤트 조건
+    private void MoveHold()
+    {
+        hold = !hold;
+
+    }
+    private void MoveHoldFalse()
+    {
+        hold = false;
+    }
+    private void AttackEabled()
+    {
+        attackEnabled = true;
+    }
+    private void AttackEabledFalse()
+    {
+        attackEnabled = false;
+    }
+    private void ShieldTrue()
+    {
+        shield = true;
+    }
+    private void SkillEnabled()
+    {
+        skillEnabled = true;
+    }
+    private void Charging()
+    {
+        charging = false;
+    }
+    #endregion
 }

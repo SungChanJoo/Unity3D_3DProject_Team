@@ -45,6 +45,7 @@ public class QuickSlot : MonoBehaviour
     private List<IItem> mana_P = new List<IItem>();
     private List<IItem> maxMana_P = new List<IItem>();
 
+    private bool on = false;
     
     private void Start()
     {
@@ -131,9 +132,18 @@ public class QuickSlot : MonoBehaviour
     private void MoveSlotKey()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
-        {            
-            ui_obj.SetActive(!ui_obj.activeSelf);
-            selectUI_obj.SetActive(!selectUI_obj.activeSelf);
+        {
+            on = !on;
+            if (on)
+            {
+                ui_obj.SetActive(true);
+                selectUI_obj.SetActive(true);
+            }
+            else
+            {
+                ui_obj.SetActive(false);
+                selectUI_obj.SetActive(false);
+            }
         }
         //UI Object가 true인 경우
         if (ui_obj.activeSelf)
@@ -159,13 +169,11 @@ public class QuickSlot : MonoBehaviour
                 MoveSelectUI(selectIndex - slotSideLength);
             }
 
-            //선택 아이템
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                SelectItem();
-                ui_obj.SetActive(false);
-                selectUI_obj.SetActive(false);
-            }
+        }
+        //선택 아이템
+        if (Input.GetKeyDown(KeyCode.Tab) && !on)
+        {
+            SelectItem();            
         }
 
         //플레이어가 정지상태가 아니며 포션의 수량이 0보다 클 때 실행
@@ -291,13 +299,13 @@ public class QuickSlot : MonoBehaviour
     private IEnumerator Drinking()
     {        
         playerAttack.hold = true;
-        playerAttack.skillEnabled = false;
+        playerAttack.attackEnabled = false;
         shield.SetActive(false);
 
         yield return new WaitForSeconds(2.4f);
 
         playerAttack.hold = false;
-        playerAttack.skillEnabled = true;
+        playerAttack.attackEnabled= true;
         shield.SetActive(true);
         ani.SetTrigger("Default");
         //시전 중 맞을 시 반환

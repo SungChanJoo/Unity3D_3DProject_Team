@@ -282,7 +282,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.019168148
         inSlope: 0.27262348
         outSlope: 0.27262348
@@ -400,7 +400,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.9031657
         inSlope: 0.09927918
         outSlope: 0.09927918
@@ -1891,7 +1891,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.56246424
         inSlope: 1.8653135
         outSlope: 1.8653135
@@ -2388,7 +2388,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.13466588
         inSlope: -0.8739533
         outSlope: -0.8739533
@@ -2668,7 +2668,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.36964554
         inSlope: -0.6978284
         outSlope: -0.6978284
@@ -3147,7 +3147,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.5728849
         inSlope: 0.3918515
         outSlope: 0.3918515
@@ -5370,7 +5370,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.3139002
         inSlope: 1.042588
         outSlope: 1.042588
@@ -6625,7 +6625,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.26715225
         inSlope: -0.68970263
         outSlope: -0.68970263
@@ -6869,7 +6869,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.5343533
         inSlope: -0.6992986
         outSlope: -0.6992986
@@ -7158,7 +7158,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.3459732
         inSlope: -0.8529707
         outSlope: -0.8529707
@@ -8079,7 +8079,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.25791597
         inSlope: -0.9532629
         outSlope: -0.9532629
@@ -8458,7 +8458,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.09839974
         inSlope: -1.7349309
         outSlope: -1.7349309
@@ -8729,7 +8729,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.45355168
         inSlope: 0.64365315
         outSlope: 0.64365315
@@ -9704,7 +9704,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.0015809081
         inSlope: -0.11076553
         outSlope: -0.11076553
@@ -10607,7 +10607,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.050640065
         inSlope: -0.30849403
         outSlope: -0.30849403
@@ -10896,7 +10896,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.08185083
         inSlope: 0.50383925
         outSlope: 0.50383925
@@ -11239,7 +11239,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.011114502
         inSlope: -0.095339864
         outSlope: -0.095339864
@@ -12467,7 +12467,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.09183512
         inSlope: 0.32288763
         outSlope: 0.32288763
@@ -12765,7 +12765,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.08189749
         inSlope: 0.33080557
         outSlope: 0.33080557
@@ -13027,7 +13027,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.005846131
         inSlope: 0.012352344
         outSlope: 0.012352344
@@ -13451,7 +13451,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.0000004268868
         inSlope: -0.000005122645
         outSlope: -0.000005122645
@@ -13866,7 +13866,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.00000052193576
         inSlope: 0.0000037069353
         outSlope: 0.0000037069353
@@ -14290,7 +14290,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.00000012681538
         inSlope: 0.000010346555
         outSlope: 0.000010346555
@@ -14756,7 +14756,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.0681494
         inSlope: -0.100087605
         outSlope: -0.100087605
@@ -15469,7 +15469,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.14256366
         inSlope: 2.4335396
         outSlope: 2.4335396
@@ -15722,7 +15722,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.81882256
         inSlope: -3.074675
         outSlope: -3.074675
@@ -16011,7 +16011,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.1698813
         inSlope: -1.8333149
         outSlope: -1.8333149
@@ -16345,7 +16345,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.6455904
         inSlope: -4.8173876
         outSlope: -4.8173876
@@ -16733,7 +16733,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.94193894
         inSlope: 5.5511475
         outSlope: 5.5511475
@@ -18105,7 +18105,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.1675306
         inSlope: 2.0859094
         outSlope: 2.0859094
@@ -18764,7 +18764,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.13746105
         inSlope: -1.9169014
         outSlope: -1.9169014
@@ -19134,7 +19134,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.17524226
         inSlope: -1.2945491
         outSlope: -1.2945491
@@ -20948,7 +20948,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.06396095
         inSlope: -1.8507187
         outSlope: -1.8507187
@@ -21706,7 +21706,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.021638058
         inSlope: -1.8443613
         outSlope: -1.8443613
@@ -22121,7 +22121,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.24435252
         inSlope: -1.6303227
         outSlope: -1.6303227
@@ -22518,7 +22518,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.12335723
         inSlope: -1.4908161
         outSlope: -1.4908161
@@ -22933,7 +22933,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.0023950667
         inSlope: -0.026407667
         outSlope: -0.026407667
@@ -23303,7 +23303,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.09884891
         inSlope: 0.7456908
         outSlope: 0.7456908
@@ -23917,7 +23917,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.09112491
         inSlope: 8.457336
         outSlope: 8.457336
@@ -24305,7 +24305,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.11010019
         inSlope: -1.1666571
         outSlope: -1.1666571
@@ -24657,7 +24657,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.20251866
         inSlope: 0.90339917
         outSlope: 0.90339917
@@ -25045,7 +25045,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.13552423
         inSlope: 0.5904021
         outSlope: 0.5904021
@@ -25442,7 +25442,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.093538545
         inSlope: 1.0197794
         outSlope: 1.0197794
@@ -25830,7 +25830,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.35769516
         inSlope: -0.39314675
         outSlope: -0.39314675
@@ -26227,7 +26227,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.11532344
         inSlope: 0.25221583
         outSlope: 0.25221583
@@ -26525,7 +26525,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.8341426
         inSlope: -5.7456245
         outSlope: -5.7456245
@@ -28892,7 +28892,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.019168148
         inSlope: 0.27262348
         outSlope: 0.27262348
@@ -29010,7 +29010,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.9031657
         inSlope: 0.09927918
         outSlope: 0.09927918
@@ -30501,7 +30501,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.56246424
         inSlope: 1.8653135
         outSlope: 1.8653135
@@ -30998,7 +30998,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.13466588
         inSlope: -0.8739533
         outSlope: -0.8739533
@@ -31278,7 +31278,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.36964554
         inSlope: -0.6978284
         outSlope: -0.6978284
@@ -31757,7 +31757,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.5728849
         inSlope: 0.3918515
         outSlope: 0.3918515
@@ -33980,7 +33980,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.3139002
         inSlope: 1.042588
         outSlope: 1.042588
@@ -35235,7 +35235,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.26715225
         inSlope: -0.68970263
         outSlope: -0.68970263
@@ -35479,7 +35479,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.5343533
         inSlope: -0.6992986
         outSlope: -0.6992986
@@ -35768,7 +35768,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.3459732
         inSlope: -0.8529707
         outSlope: -0.8529707
@@ -36689,7 +36689,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.25791597
         inSlope: -0.9532629
         outSlope: -0.9532629
@@ -37068,7 +37068,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.09839974
         inSlope: -1.7349309
         outSlope: -1.7349309
@@ -37339,7 +37339,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.45355168
         inSlope: 0.64365315
         outSlope: 0.64365315
@@ -38314,7 +38314,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.0015809081
         inSlope: -0.11076553
         outSlope: -0.11076553
@@ -39217,7 +39217,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.050640065
         inSlope: -0.30849403
         outSlope: -0.30849403
@@ -39506,7 +39506,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.08185083
         inSlope: 0.50383925
         outSlope: 0.50383925
@@ -39849,7 +39849,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.011114502
         inSlope: -0.095339864
         outSlope: -0.095339864
@@ -41077,7 +41077,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.09183512
         inSlope: 0.32288763
         outSlope: 0.32288763
@@ -41375,7 +41375,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.08189749
         inSlope: 0.33080557
         outSlope: 0.33080557
@@ -41637,7 +41637,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.005846131
         inSlope: 0.012352344
         outSlope: 0.012352344
@@ -42061,7 +42061,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.0000004268868
         inSlope: -0.000005122645
         outSlope: -0.000005122645
@@ -42476,7 +42476,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.00000052193576
         inSlope: 0.0000037069353
         outSlope: 0.0000037069353
@@ -42900,7 +42900,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.00000012681538
         inSlope: 0.000010346555
         outSlope: 0.000010346555
@@ -43366,7 +43366,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.0681494
         inSlope: -0.100087605
         outSlope: -0.100087605
@@ -44079,7 +44079,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.14256366
         inSlope: 2.4335396
         outSlope: 2.4335396
@@ -44332,7 +44332,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.81882256
         inSlope: -3.074675
         outSlope: -3.074675
@@ -44621,7 +44621,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.1698813
         inSlope: -1.8333149
         outSlope: -1.8333149
@@ -44955,7 +44955,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.6455904
         inSlope: -4.8173876
         outSlope: -4.8173876
@@ -45343,7 +45343,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.94193894
         inSlope: 5.5511475
         outSlope: 5.5511475
@@ -46715,7 +46715,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.1675306
         inSlope: 2.0859094
         outSlope: 2.0859094
@@ -47374,7 +47374,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.13746105
         inSlope: -1.9169014
         outSlope: -1.9169014
@@ -47744,7 +47744,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.17524226
         inSlope: -1.2945491
         outSlope: -1.2945491
@@ -49558,7 +49558,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.06396095
         inSlope: -1.8507187
         outSlope: -1.8507187
@@ -50316,7 +50316,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.021638058
         inSlope: -1.8443613
         outSlope: -1.8443613
@@ -50731,7 +50731,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.24435252
         inSlope: -1.6303227
         outSlope: -1.6303227
@@ -51128,7 +51128,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.12335723
         inSlope: -1.4908161
         outSlope: -1.4908161
@@ -51543,7 +51543,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.0023950667
         inSlope: -0.026407667
         outSlope: -0.026407667
@@ -51913,7 +51913,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.09884891
         inSlope: 0.7456908
         outSlope: 0.7456908
@@ -52527,7 +52527,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.09112491
         inSlope: 8.457336
         outSlope: 8.457336
@@ -52915,7 +52915,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.11010019
         inSlope: -1.1666571
         outSlope: -1.1666571
@@ -53267,7 +53267,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.20251866
         inSlope: 0.90339917
         outSlope: 0.90339917
@@ -53655,7 +53655,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.13552423
         inSlope: 0.5904021
         outSlope: 0.5904021
@@ -54052,7 +54052,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.093538545
         inSlope: 1.0197794
         outSlope: 1.0197794
@@ -54440,7 +54440,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.35769516
         inSlope: -0.39314675
         outSlope: -0.39314675
@@ -54837,7 +54837,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: -0.11532344
         inSlope: 0.25221583
         outSlope: 0.25221583
@@ -55135,7 +55135,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.3666668
+        time: 1.3666667
         value: 0.8341426
         inSlope: -5.7456245
         outSlope: -5.7456245
@@ -56301,22 +56301,36 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0
-    functionName: SkillEabled
+  - time: 1.3
+    functionName: SkillEnabled
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.1666666
+  - time: 1.3333334
     functionName: OnAttackingAnimationCompleted
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.1666666
-    functionName: SkillEabled
+  - time: 1.3333334
+    functionName: AttackEabled
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.3333334
+    functionName: Charging
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.3333334
+    functionName: ShieldTrue
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
