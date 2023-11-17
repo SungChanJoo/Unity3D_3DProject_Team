@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class SpawnBoss : MonoBehaviour
 {
-
+    [SerializeField] private GameObject boss;
+    [SerializeField] private GameObject bossScene;
     private void OnTriggerEnter(Collider other)
     {
-        CinemachineManager.Instance.LoadBossCam();
-        Debug.Log("왜 오류가 날까용");
-        GetComponent<BoxCollider>().enabled = false;
+        bossScene.SetActive(true);
+        LoadBossScene();
         Destroy(gameObject);
+    }
+    public void LoadBossScene()
+    {
+        CinemachineManager.Instance.LoadBossCam();
+        GetComponent<BoxCollider>().enabled = false;
+        boss.SetActive(true);
     }
 }

@@ -13,10 +13,18 @@ public class Skeleton : Boss
     [SerializeField] private GameObject FireField;
     //[SerializeField] private GameObject ThrowSword;
 
+    [Header("등장 이펙트")]
+    [SerializeField] private List<GameObject> appearEffects;
+
     protected override void Awake()
     {
         base.Awake();
         skeletonCapCol = GetComponent<CapsuleCollider>();
+        for(int i = 0; i< appearEffects.Count; i++)
+        {
+            appearEffects[i].SetActive(false);
+        }
+        
     }
     void OnSpawn()
     {
@@ -25,12 +33,15 @@ public class Skeleton : Boss
     void OnStartDodge()
     {
         skeletonCapCol.enabled = false;
+        transform.Translate(transform.position * -1f * 20f * Time.deltaTime);
+
     }
     void OnEndDodge()
     {
         skeletonCapCol.enabled = true;
 
     }
+
     protected override void OnStartAttack()
     {
         base.OnStartAttack();
@@ -51,14 +62,26 @@ public class Skeleton : Boss
             jumpEffects[2].SetActive(false);
             jumpEffects[3].SetActive(false);
         }
-        if (StrongEffect.activeSelf)
-        {
-            StrongEffect.SetActive(false);
-        }
+
 /*        if (SwordForceEffect.activeSelf)
         {
             SwordForceEffect.SetActive(false);
         }*/
+    }
+    protected override void OnEndAni()
+    {
+        base.OnEndAni();
+        enemyAni.SetBool("isPoint", false);
+
+
+    }
+
+    void OnEndEffect()
+    {
+        if (StrongEffect.activeSelf)
+        {
+            StrongEffect.SetActive(false);
+        }
     }
 
     private IEnumerator UpdataTargetPosition()
@@ -118,15 +141,17 @@ public class Skeleton : Boss
                         {
                             if (PlayerDetectRange(attackDistance))
                             {
-                                if (rand > 65) // 35% 확률
+                                //Dodge();
+
+                                if (rand > 70) // 35% 확률
                                 {
                                     BasicAttack();
                                 }
-                                else if (rand > 30) //35% 확률
+                                else if (rand > 40) //35% 확률
                                 {
                                     ComboAttack();
                                 }
-                                else if (rand > 15)
+                                else if (rand > 20)
                                 {
                                     Dodge();
                                 }
@@ -210,6 +235,10 @@ public class Skeleton : Boss
     }
     protected void Start()
     {
+        for (int i = 0; i < appearEffects.Count; i++)
+        {
+            appearEffects[i].SetActive(true);
+        }
         if (isAI)
         {
             StartCoroutine(UpdataTargetPosition());
@@ -266,9 +295,12 @@ public class Skeleton : Boss
     }
     private void Dodge()
     {
-        agent.isStopped = true;
+        agent.enabled = false;
+
         isAttack = true;
         enemyAni.SetBool("isMove", !isAttack);
+       //Vector3 speed = Vector3.zero;
+       //Vector3.SmoothDamp(transform.position, transform.forward * -1f*1000f, ref speed, 0.01f);
         enemyAni.SetTrigger("Dodge");
         //StartCoroutine(ThrowSword_co());
     }
@@ -285,7 +317,6 @@ public class Skeleton : Boss
 
         GameObject firefield = Instantiate(FireField, transform.position, FireField.transform.rotation);
         Destroy(firefield, 10f);
-        //왜 이 스크립트가 반영이 안瑛뺑...
 
         //Instantiate(FireField, transform.position, )
 
@@ -336,7 +367,7 @@ public class Skeleton : Boss
     {
         isAttack = true;
 
-        enemyR.useGravity = false;
+        enemyRigid.useGravity = false;
         //enemyR.isKinematic = true;
         agent.enabled = false;
         //Debug.Log("JumpAttack 했어용");
@@ -379,7 +410,7 @@ public class Skeleton : Boss
         }
 
         enemyAni.SetTrigger("JumpEnd");
-        enemyR.useGravity = true;
+        enemyRigid.useGravity = true;
         //enemyR.isKinematic = false;
         agent.enabled = true;
         agent.isStopped = true;

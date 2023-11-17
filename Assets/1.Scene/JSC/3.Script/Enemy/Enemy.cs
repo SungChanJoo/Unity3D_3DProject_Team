@@ -75,6 +75,7 @@ public class Enemy : MonoBehaviour, IDamageable
         if (OnDead != null)
         {
             OnDead();
+            Debug.Log("죽음 이벤트 호출!");
         }
         IsDead = true;
 
@@ -86,11 +87,8 @@ public class Enemy : MonoBehaviour, IDamageable
             c.enabled = false;
         }
 
-        agent.isStopped = true;
         agent.enabled = false;
         enemyAni.SetTrigger("Death");
-
-        Destroy(gameObject, 2f);
     }
 
 }

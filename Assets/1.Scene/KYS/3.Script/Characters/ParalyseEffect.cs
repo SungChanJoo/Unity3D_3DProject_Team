@@ -27,6 +27,4 @@ class ParalyseEffect : StatusEffect
         if (target.TryGetComponent(out CameraController player))
             player.isParalysed = false;
     }
-
-    public override void ApplyEffect() { }
 }

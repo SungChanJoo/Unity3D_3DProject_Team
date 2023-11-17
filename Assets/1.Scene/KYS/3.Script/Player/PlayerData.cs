@@ -21,6 +21,10 @@ public class PlayerData : MonoBehaviour, IDamageable
         
     public Action<List<IItem>> ItemChangedEvent;
 
+    public bool stop = false;
+
+    private Rigidbody rigid;
+
     // 아이템 추가용
     private void OnTriggerEnter(Collider other)
     {
@@ -117,7 +121,7 @@ public class PlayerData : MonoBehaviour, IDamageable
     private bool isDead = false;
 
     //무적조건
-    public bool invincibility = false;
+    
     public bool IsDead
     {
         get => isDead;
@@ -133,7 +137,9 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     private void Awake()
     {
-        MaxHealth = 100;
+        rigid = GetComponent<Rigidbody>();
+
+        MaxHealth = 10000;
         MaxMana = 100;
         MaxStamina = 100;
 
@@ -184,6 +190,7 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)
     {
+        stop = true;
         if (currentHealth - damage <= 0)
         {
             Die();
@@ -197,6 +204,8 @@ public class PlayerData : MonoBehaviour, IDamageable
             {
                 TakeDamage(damage * 0.3f);
                 attack.hold = true;
+                rigid.AddForce(-transform.forward * 100f,ForceMode.Impulse);
+                Debug.Log("맞음");
             }
             else if (attack.perfectParrying)
             {
@@ -209,26 +218,24 @@ public class PlayerData : MonoBehaviour, IDamageable
             {
                 TakeDamage(damage);
                 tempAnimator.SetTrigger("Hit");
-                attack.skillEnabled = false;
+                attack.attackEnabled= false;
                 attack.hold = true;
+                attack.charging = false;
             }
+            
 
-
-        }
-        else if (invincibility)
-        {
-            //여기에 뭔가해야함 반대로 여기서 공격을 해야한다던지
-            return;
-
-        }
+        }        
         else
         {
 
             TakeDamage(damage);
             tempAnimator.SetTrigger("Hit");
-            attack.skillEnabled = false;
+            attack.attackEnabled= false;
             attack.hold = true;
         }
+        StartCoroutine(TakeDamgeAni());
+
+
     }
 
     public void IncreaseMaxHealth(float modifier) => MaxHealth += modifier;
@@ -295,12 +302,16 @@ public class PlayerData : MonoBehaviour, IDamageable
     }
 
     private IEnumerator Invincibility()
-    {
-        attack.skillEnabled = false;
-        invincibility = true;
+    {        
+        this.gameObject.tag = "Enemy";
         yield return new WaitForSeconds(2f);
         attack.hold = false;
-        invincibility = false;
-        attack.skillEnabled = true;
+        this.gameObject.tag = "Player";        
+    }
+    private IEnumerator TakeDamgeAni()
+    {
+        
+        yield return new WaitForSeconds(0.667f);
+        attack.attackEnabled = true;
     }
 }

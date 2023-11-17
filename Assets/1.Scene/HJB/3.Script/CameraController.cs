@@ -28,8 +28,8 @@ public class CameraController : MonoBehaviour
     //플레이어의 현재 상태
     private bool haveTarget = false;
     private bool isRun = false;
-    private bool isRolling = false;
     private bool state = false;
+    public bool isRolling = false;
     public bool isParalysed = false;
 
     //플레이어 forward를 정하기위한 카메라 방향값
@@ -60,6 +60,11 @@ public class CameraController : MonoBehaviour
     private PlayerAttack attack;
     private PlayerData data;
 
+    //LockOnTargetUI 이미지
+    [SerializeField] private GameObject lockOnTargetUI;
+
+    
+
     private bool check = true;
     private void Awake()
     {
@@ -83,9 +88,7 @@ public class CameraController : MonoBehaviour
         LockOnTargetCheck();
         TargetDetection();
         move();
-
-        //카메라 플레이어 위치 추적
-        cameraPoint.position = Vector3.MoveTowards(cameraPoint.position, transform.position, 20f*Time.deltaTime);                
+                
     }
 
     //여기서 모든 상태를 하나로 묶어서 관리를 해야하나
@@ -99,6 +102,7 @@ public class CameraController : MonoBehaviour
         else
         {
             state = false;
+            
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
@@ -112,7 +116,7 @@ public class CameraController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(2)&&targetList.Count!=0)
         {
-            haveTarget = !haveTarget;
+            haveTarget = !haveTarget;            
             Debug.Log("타겟버튼눌림");
         }
         else if(Input.GetMouseButtonDown(2)&&targetList.Count==0)
@@ -132,14 +136,17 @@ public class CameraController : MonoBehaviour
         {
             //락온이 활성화 상태이면 적을 찾기
             virtualCamera.Priority = 5;
+            lockOnTargetUI.SetActive(true);            
         }
         else
         {   //락온이 비활성화면 카메라 회전이 가능하고 카메라의 고정기능을 null로 반환
-
+            virtualCamera.Follow = cameraPoint;
             RotateCamera();
             virtualCamera.Priority = 20;
+            lockOnTargetUI.SetActive(false);
         }
 
+        //target과 Player의 거리가 멀어지면
         if (targetEnemy!=null)
         {
             float distance = (targetEnemy.transform.position - transform.position).sqrMagnitude;
@@ -149,6 +156,10 @@ public class CameraController : MonoBehaviour
                 haveTarget = false;
             }                  
         }
+
+        //평시 카메라 위치 조정
+        Vector3 cameraY = transform.position + new Vector3(0, 1f, 0);
+        cameraPoint.position = Vector3.MoveTowards(cameraPoint.position, cameraY, 20f * Time.deltaTime);
     }
     #endregion
 
@@ -254,6 +265,27 @@ public class CameraController : MonoBehaviour
         {            
             StartCoroutine(Rolling());
         }
+
+        //경사면을 오르기 위한 검출
+        Debug.DrawRay(transform.position, Vector3.down * 0.3f, Color.red);
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.3f))
+        {
+            if (hit.collider.CompareTag("Stairs"))
+            {
+                
+                rigid.useGravity = false;                
+                rigid.velocity = Vector3.zero;
+            }
+            else
+            {                
+                rigid.useGravity = true;
+            }
+        }
+        else
+        {
+            rigid.useGravity = true;
+        }
     }
 
     #region // 카메라 회전 및 각 제어
@@ -267,13 +299,19 @@ public class CameraController : MonoBehaviour
         //카메라 회전각 제어
         if (x < 180f)
         {
-            x = Mathf.Clamp(x, -1f,17f);
+            x = Mathf.Clamp(x, -1f,60f);
         }
         else
         {
             x = Mathf.Clamp(x, 320f, 361f);
         }
         cameraPoint.rotation = Quaternion.Euler(x, camAngle.y + mouseDelta.x, 0f);
+
+
+        //평시 카메라 따라오게 하기
+        
+
+
     }
     #endregion
 
@@ -319,27 +357,28 @@ public class CameraController : MonoBehaviour
         animator.SetTrigger("rolling");
 
         Vector3 directionRoll = moveDir;
-
-        _collider.enabled = false;
+        //다른 레이어 넣을 것.
+        this.gameObject.tag = "Enemy";
+        
         // 구르기 지속 시간
-        while (timer < 1f)
+        while (timer < 0.8f)
         {
             timer += Time.deltaTime;
-            if (timer > 0.1f && timer < 1f)
+            if (timer > 0.1f && timer < 0.8f)
             {
-                // 구르는 방향으로 순간적으로 이동
-                //transform.position += directionRoll.normalized * rollSpeed * Time.deltaTime;
-                //transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+                // 구르는 방향으로 이동                
                 float distanceToMove = rollSpeed * Time.deltaTime;
                 Vector3 newPosition = transform.position + directionRoll.normalized * distanceToMove;
 
-                rigid.MovePosition(new Vector3(newPosition.x, -2.384186e-07f, newPosition.z));
+                rigid.MovePosition(new Vector3(newPosition.x,transform.position.y, newPosition.z));
             }
             yield return null;
         }
-        animator.SetTrigger("Default");               
-        _collider.enabled = true;
-        isRolling = false;
+        animator.SetTrigger("Default");
+        isRolling = false;        
+        yield return new WaitForSeconds(0.3f);
+        this.gameObject.tag = "Player";
+
     }
     #endregion
 
@@ -365,7 +404,7 @@ public class CameraController : MonoBehaviour
         {
             if (objs[i].CompareTag("Enemy"))
             { 
-                float targetRadian = Vector3.Dot(moveCamera.forward,
+                float targetRadian = Vector3.Dot(cameraPoint.forward,
                     (objs[i].transform.position - transform.position).normalized);
                 if (targetRadian > radianRange)
                 {
@@ -400,7 +439,7 @@ public class CameraController : MonoBehaviour
     {
         GameObject closestEnemy = null;
         float maxDot = -Mathf.Infinity;
-        Vector3 cameraForward = moveCamera.forward;
+        Vector3 cameraForward = cameraPoint.forward;
         Vector3 playerPosition = transform.position;
 
         foreach (GameObject enemy in targetList)
