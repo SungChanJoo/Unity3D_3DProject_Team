@@ -29,6 +29,7 @@ public class CameraController : MonoBehaviour
     private bool haveTarget = false;
     private bool isRun = false;
     private bool state = false;
+    public bool rolling = true;
     public bool isRolling = false;
     public bool isParalysed = false;
 
@@ -77,7 +78,7 @@ public class CameraController : MonoBehaviour
     }
     private void Start()
     {
-        //Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;
     }
     private void Update()
     {        
@@ -117,7 +118,6 @@ public class CameraController : MonoBehaviour
         if (Input.GetMouseButtonDown(2)&&targetList.Count!=0)
         {
             haveTarget = !haveTarget;            
-            Debug.Log("타겟버튼눌림");
         }
         else if(Input.GetMouseButtonDown(2)&&targetList.Count==0)
         {
@@ -261,7 +261,7 @@ public class CameraController : MonoBehaviour
         animator.SetBool("lockOn", haveTarget);
         animator.SetBool("runing", isRun);
         //구르기        
-        if (!state &&move&& Input.GetKeyDown(KeyCode.Space)&& true==data.UseStamina(30f))
+        if (!state&&rolling &&move&& Input.GetKeyDown(KeyCode.Space)&& true==data.UseStamina(30f))
         {            
             StartCoroutine(Rolling());
         }
@@ -361,10 +361,10 @@ public class CameraController : MonoBehaviour
         this.gameObject.tag = "Enemy";
         
         // 구르기 지속 시간
-        while (timer < 0.8f)
+        while (timer < 1f)
         {
             timer += Time.deltaTime;
-            if (timer > 0.1f && timer < 0.8f)
+            if (timer > 0.1f && timer < 1f)
             {
                 // 구르는 방향으로 이동                
                 float distanceToMove = rollSpeed * Time.deltaTime;
