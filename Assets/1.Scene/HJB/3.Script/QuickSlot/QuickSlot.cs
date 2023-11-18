@@ -50,7 +50,7 @@ public class QuickSlot : MonoBehaviour
     [SerializeField] private GameObject MaxHealth_E;
     [SerializeField] private GameObject mana_E;
     [SerializeField] private GameObject MaxMana_E;
-    private int effectType; 
+    
 
 
     private bool on = false;
@@ -304,11 +304,12 @@ public class QuickSlot : MonoBehaviour
     #endregion
 
     private IEnumerator Drinking()
-    {        
-        
+    {
+        player.rolling = false;
         playerAttack.attackEnabled = false;
         shield.SetActive(false);
-        yield return new WaitForSeconds(1.8f);        
+        yield return new WaitForSeconds(1.8f);
+        player.rolling = true;
         playerAttack.attackEnabled= true;
         shield.SetActive(true);
         ani.SetTrigger("Default");
