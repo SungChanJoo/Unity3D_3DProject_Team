@@ -106,6 +106,12 @@ public class AnyMonster : Enemy
                     e.TakeDamage(damage, force, hitPoint, hitNormal);
                 }
         }
+        if(other.TryGetComponent(out StatusEffectedCharacter s))
+        {
+            s.AddStatusEffect(StatusEffectType.Dizzy);
+            s.AddStatusEffect(StatusEffectType.Paralysed);
+            s.AddStatusEffect(StatusEffectType.Poisoned);
+        }
     }
     
     void OnStartAttack()
