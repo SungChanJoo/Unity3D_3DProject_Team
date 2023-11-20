@@ -17,6 +17,10 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     [SerializeField] private GameOver gameOver;
 
+    [SerializeField] private AudioSource audioSource;
+
+    [SerializeField] private AudioClip getHitClip;
+
     private List<IItem> items = new List<IItem>();
         
     public Action<List<IItem>> ItemChangedEvent;
@@ -190,6 +194,8 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)
     {
+        audioSource.PlayOneShot(getHitClip);
+
         stop = true;
         if (currentHealth - damage <= 0)
         {

@@ -1,9 +1,24 @@
 using System.Collections;
 using UnityEngine;
-
+public enum AttackSound
+{
+    Attack,
+    ChargeAttack,
+    Skill1,
+    Skill2,
+    Parrying
+}
 public class PlayerAttack : MonoBehaviour
 {
-    
+    [SerializeField] private AudioSource audioSource;
+
+    [SerializeField] private AudioClip attackClip;
+    [SerializeField] private AudioClip chargeAttackClip;
+    [SerializeField] private AudioClip skill1Clip;
+    [SerializeField] private AudioClip skill2Clip;
+    [SerializeField] private AudioClip skill2AdditionalClip;
+    [SerializeField] private AudioClip shieldClip;
+
     // AttackRate, CurrentWeapon 등의 정보 받아와서 사용
     private PlayerData data;
     private Animator tempAnimator;
@@ -37,6 +52,30 @@ public class PlayerAttack : MonoBehaviour
     {
         hold = false;                
         data.CurrentWeapon.DisableDamaging();        
+    }
+
+    public void OnPlayAttackSound(AttackSound soundType)
+    {
+        switch (soundType)
+        {
+            case AttackSound.Attack:
+                audioSource.PlayOneShot(attackClip);
+                break;
+            case AttackSound.ChargeAttack:
+                audioSource.PlayOneShot(chargeAttackClip);
+                break;
+            case AttackSound.Skill1:
+                audioSource.PlayOneShot(skill1Clip);
+                break;
+            case AttackSound.Skill2:
+                audioSource.PlayOneShot(skill2Clip);
+                break;
+            case AttackSound.Parrying:
+                audioSource.PlayOneShot(shieldClip);
+                break;
+            default:
+                break;
+        }
     }
     
 
@@ -101,7 +140,6 @@ public class PlayerAttack : MonoBehaviour
         hold = true;
         tempAnimator.SetTrigger("Attack");
         data.CurrentWeapon.Attack();
-        
     }
 
     public void ChargeAttack()
@@ -188,9 +226,11 @@ public class PlayerAttack : MonoBehaviour
 
     // Option 1
     // 장점 : 추후 Skill2 외의 공격에서도 추가적 대미지를 주는 이벤트가 필요할 때 재사용 할 수 있음
+    // update => audioSource.PlayOneShot(attackClip);을 추가해서 재사용 불가능. 재사용 할려면 알맞게 수정해야함
     // 단점 : 이벤트 쪽에서 필수적으로 대미지 값을 지정해서 넘겨줘야 함
     public void OnAdditionalAttack(float damage)
     {
+        audioSource.PlayOneShot(skill2AdditionalClip);
         data.CurrentWeapon.AdditionalAttack(damage);
     }
 
@@ -199,6 +239,7 @@ public class PlayerAttack : MonoBehaviour
     // 단점 : Skill2에만 사용할 수 있는 메소드임
     public void OnAdditionalSkill2()
     {
+        audioSource.PlayOneShot(skill2AdditionalClip);
         data.CurrentWeapon.AdditionalSkill2();
     }
 
