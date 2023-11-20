@@ -25,6 +25,10 @@ public class PlayerAttack : MonoBehaviour
     private bool performedChargeAttack = false;
     private float chargingTimer = 0;
 
+    [SerializeField] private ParticleSystem skill_1E;
+    [SerializeField] private ParticleSystem skill_2E;
+    [SerializeField] private Transform skill_2E_Position;
+
 
     private void Awake()
     {
@@ -37,8 +41,7 @@ public class PlayerAttack : MonoBehaviour
     {
         hold = false;                
         data.CurrentWeapon.DisableDamaging();        
-    }
-    
+    }    
 
     void Update()
     {
@@ -87,10 +90,10 @@ public class PlayerAttack : MonoBehaviour
         if (shield&&!controller.isRolling)
         {
             Shield();
-        }               
+        }
         
     }
-
+    
     private void ResetChargingTimer() => chargingTimer = 0;
 
     private bool CheckIfCharged() => chargingTimer >= 1f;
@@ -233,4 +236,19 @@ public class PlayerAttack : MonoBehaviour
         charging = false;
     }
     #endregion
+
+    private IEnumerator Skill_1E()
+    {
+        skill_1E.Play();
+        yield return new WaitForSeconds(1f);
+        skill_1E.Stop();
+    }
+    private IEnumerator Skill_2E()
+    {
+        skill_2E_Position.position = transform.position;
+        skill_2E_Position.rotation = transform.rotation;
+        skill_2E.Play();
+        yield return new WaitForSeconds(0.7f);
+        skill_2E.Stop();
+    }
 }
