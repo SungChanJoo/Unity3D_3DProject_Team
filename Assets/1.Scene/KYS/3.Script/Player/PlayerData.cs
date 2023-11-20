@@ -143,7 +143,7 @@ public class PlayerData : MonoBehaviour, IDamageable
     {
         rigid = GetComponent<Rigidbody>();
 
-        MaxHealth = 10000;
+        MaxHealth = 10;
         MaxMana = 100;
         MaxStamina = 100;
 
@@ -176,6 +176,8 @@ public class PlayerData : MonoBehaviour, IDamageable
     public void Die()
     {
         IsDead = true;
+        
+        tempAnimator.SetTrigger("Die");
         gameOver.LoadGameOver(); //gameover UI 호출
     }
 
@@ -200,44 +202,51 @@ public class PlayerData : MonoBehaviour, IDamageable
         if (currentHealth - damage <= 0)
         {
             Die();
+            this.gameObject.tag = "Enemy";
             Debug.Log("플레이어 뒤짐");
             return;
         }
-        if (attack.onDefence)
+        else
         {
 
-            if (UseStamina(10f) && !attack.perfectParrying)
+
+            if (attack.onDefence)
             {
-                TakeDamage(damage * 0.3f);
-                attack.hold = true;
-                rigid.AddForce(-transform.forward * 100f,ForceMode.Impulse);
-                Debug.Log("맞음");
-            }
-            else if (attack.perfectParrying)
-            {
-                attack.hold = true;
-                tempAnimator.SetTrigger("Parry");
-                StartCoroutine(Invincibility());
+
+                if (UseStamina(10f) && !attack.perfectParrying)
+                {
+                    TakeDamage(damage * 0.3f);
+                    attack.hold = true;
+                    rigid.AddForce(-transform.forward * 100f, ForceMode.Impulse);
+                    Debug.Log("맞음");
+                }
+                else if (attack.perfectParrying)
+                {
+                    attack.hold = true;
+                    tempAnimator.SetTrigger("Parry");
+                    StartCoroutine(Invincibility());
+
+                }
+                else
+                {
+
+                    TakeDamage(damage);
+                    tempAnimator.SetTrigger("Hit");
+                    attack.attackEnabled = false;
+                    attack.hold = true;
+                    attack.charging = false;
+                }
+
 
             }
             else
             {
+
                 TakeDamage(damage);
                 tempAnimator.SetTrigger("Hit");
-                attack.attackEnabled= false;
+                attack.attackEnabled = false;
                 attack.hold = true;
-                attack.charging = false;
             }
-            
-
-        }        
-        else
-        {
-
-            TakeDamage(damage);
-            tempAnimator.SetTrigger("Hit");
-            attack.attackEnabled= false;
-            attack.hold = true;
         }
         StartCoroutine(TakeDamgeAni());
 
