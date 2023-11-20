@@ -1,9 +1,23 @@
 using System.Collections;
 using UnityEngine;
-
+public enum AttackSound
+{
+    Attack,
+    ChargeAttack,
+    Skill1,
+    Skill2,
+    Parrying
+}
 public class PlayerAttack : MonoBehaviour
 {
-    
+    [SerializeField] private AudioSource audioSource;
+
+    [SerializeField] private AudioClip attackClip;
+    [SerializeField] private AudioClip chargeAttackClip;
+    [SerializeField] private AudioClip skill1Clip;
+    [SerializeField] private AudioClip skill2Clip;
+    [SerializeField] private AudioClip shieldClip;
+
     // AttackRate, CurrentWeapon 등의 정보 받아와서 사용
     private PlayerData data;
     private Animator tempAnimator;
@@ -101,11 +115,14 @@ public class PlayerAttack : MonoBehaviour
         hold = true;
         tempAnimator.SetTrigger("Attack");
         data.CurrentWeapon.Attack();
-        
+
+        audioSource.PlayOneShot(attackClip);
     }
 
     public void ChargeAttack()
     {
+        audioSource.PlayOneShot(chargeAttackClip);
+
         shield = false;
         hold = true;
         tempAnimator.SetTrigger("ChargeAttack");
@@ -163,6 +180,8 @@ public class PlayerAttack : MonoBehaviour
             tempAnimator.SetTrigger("Skill1");
             data.CurrentWeapon.Skill1();
             hold = true;
+
+            audioSource.PlayOneShot(skill1Clip);
         }
         else
         {
@@ -179,6 +198,8 @@ public class PlayerAttack : MonoBehaviour
             tempAnimator.SetTrigger("Skill2");
             data.CurrentWeapon.Skill2();
             hold = true;
+
+            audioSource.PlayOneShot(skill2Clip);
         }
         else
         {
