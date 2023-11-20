@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/1.Scene/JSC/1.Scene/JSC_Test_GameOver.unity
     guid: 74d23f327afff9644a0dbefdc127e12b
+  - enabled: 1
+    path: Assets/1.Scene/JSC/1.Scene/JSC_Test_MainGame.unity
+    guid: 3ebeb215f661cd44a905f446f88ceb93
   m_configObjects: {}

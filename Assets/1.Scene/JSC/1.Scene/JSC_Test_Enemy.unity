@@ -11850,7 +11850,25 @@ MonoBehaviour:
   nightMat: {fileID: 2100000, guid: c494c335823f54b52b2e87e1b7a63a23, type: 2}
   introSceneName: 
   bossRoomSceneName: 
+  currentSceneName: 
+  nextSceneName: 
   endUI: {fileID: 1610944517}
+  player: {fileID: 0}
+  playerData:
+    maxMana: 0
+    currentMana: 0
+    maxStamina: 0
+    currentStamina: 0
+    maxHealth: 0
+    currentHealth: 0
+    walkSpeed: 0
+    runSpeed: 0
+    PlayerPosition_x: 0
+    PlayerPosition_y: 0
+    PlayerPosition_z: 0
+    Difficulty: 0
+    SceneName: 
+  difficulty: 0
 --- !u!4 &1048072312
 Transform:
   m_ObjectHideFlags: 0
@@ -13315,7 +13333,7 @@ GameObject:
   - component: {fileID: 1194800664}
   - component: {fileID: 1194800668}
   m_Layer: 6
-  m_Name: Knight_01_01
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24350,7 +24368,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5024048132110462042, guid: c3556a43174e74b4296b201be74a1977, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5024048132110686490, guid: c3556a43174e74b4296b201be74a1977, type: 3}
       propertyPath: m_LocalPosition.x

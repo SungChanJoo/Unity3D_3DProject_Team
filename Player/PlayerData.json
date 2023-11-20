@@ -1,0 +1,15 @@
+{
+  "maxMana": 100.0,
+  "currentMana": 9900.0,
+  "maxStamina": 100.0,
+  "currentStamina": 100.0,
+  "maxHealth": 10000.0,
+  "currentHealth": 9900.0,
+  "walkSpeed": 0.0,
+  "runSpeed": 0.0,
+  "PlayerPosition_x": -2.38762951,
+  "PlayerPosition_y": 1.8695259E-07,
+  "PlayerPosition_z": -0.842379868,
+  "Difficulty": 1,
+  "SceneName": "JSC_Test_Enemy"
+}

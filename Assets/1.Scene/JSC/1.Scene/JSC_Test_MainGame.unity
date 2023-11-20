@@ -2667,6 +2667,19 @@ MonoBehaviour:
   introSceneName: 
   bossRoomSceneName: JSC_Test_Enemy
   endUI: {fileID: 0}
+  player: {fileID: 1209869955}
+  playerData:
+    maxMana: 0
+    currentMana: 0
+    maxStamina: 0
+    currentStamina: 0
+    maxHealth: 0
+    currentHealth: 0
+    walkSpeed: 0
+    runSpeed: 0
+    PlayerPosition: {x: 0, y: 0, z: 0}
+    Difficulty: 0
+  difficulty: 0
 --- !u!4 &465901970
 Transform:
   m_ObjectHideFlags: 0
