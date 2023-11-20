@@ -64,7 +64,10 @@ public class CameraController : MonoBehaviour
     //LockOnTargetUI 이미지
     [SerializeField] private GameObject lockOnTargetUI;
 
-    
+    [Header("Audio 추가")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip footstepClip;
+    private float footstepTimer = 0;
 
     private bool check = true;
     private void Awake()
@@ -285,6 +288,27 @@ public class CameraController : MonoBehaviour
         else
         {
             rigid.useGravity = true;
+        }
+
+        // 해당 속도 이상을 가지고 있어야 발소리를 플레이한다.
+        float minimumFootstepSoundVelocity = isRun ? 0.5f : 0.1f;
+
+        if (Mathf.Abs(moveInputX) >= minimumFootstepSoundVelocity
+            || Mathf.Abs(moveInputZ) >= minimumFootstepSoundVelocity)
+        {
+            PlayFootstepSound();
+        }
+    }
+
+    private void PlayFootstepSound()
+    {
+        footstepTimer += Time.deltaTime;
+        float interval = isRun ? .35f : 0.5f;
+
+        if (footstepTimer > interval)
+        {
+            audioSource.PlayOneShot(footstepClip);
+            footstepTimer = 0;
         }
     }
 
