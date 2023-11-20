@@ -166,18 +166,6 @@ public class CameraController : MonoBehaviour
     }
     #endregion
 
-    private void PlayFootstepSound()
-    {
-        footstepTimer += Time.deltaTime;
-        float interval = isRun ? .25f : .35f;
-
-        if (footstepTimer > interval)
-        {
-            audioSource.PlayOneShot(footstepClip);
-            footstepTimer = 0;
-        }
-    }
-
     private void move()
     {               
         //플레이어 이동속도 결정
@@ -302,10 +290,25 @@ public class CameraController : MonoBehaviour
             rigid.useGravity = true;
         }
 
-        if (Mathf.Abs(moveInputX) >= 0.5
-            || Mathf.Abs(moveInputZ) >= 0.5)
+        // 해당 속도 이상을 가지고 있어야 발소리를 플레이한다.
+        float minimumFootstepSoundVelocity = isRun ? 0.5f : 0.1f;
+
+        if (Mathf.Abs(moveInputX) >= minimumFootstepSoundVelocity
+            || Mathf.Abs(moveInputZ) >= minimumFootstepSoundVelocity)
         {
             PlayFootstepSound();
+        }
+    }
+
+    private void PlayFootstepSound()
+    {
+        footstepTimer += Time.deltaTime;
+        float interval = isRun ? .35f : 0.5f;
+
+        if (footstepTimer > interval)
+        {
+            audioSource.PlayOneShot(footstepClip);
+            footstepTimer = 0;
         }
     }
 
