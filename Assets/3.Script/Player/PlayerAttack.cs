@@ -19,18 +19,18 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private AudioClip skill2AdditionalClip;
     [SerializeField] private AudioClip shieldClip;
 
-    // AttackRate, CurrentWeapon µîÀÇ Á¤º¸ ¹Þ¾Æ¿Í¼­ »ç¿ë
+    // AttackRate, CurrentWeapon ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿Í¼ï¿½ ï¿½ï¿½ï¿½
     private PlayerData data;
     private Animator tempAnimator;
     private CameraController controller;
 
-    //±âº» °ø°Ý, ½ºÅ³ »ç¿ëÁßÀÎ°¡
+    //ï¿½âº» ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½
     public bool skillEnabled = true;
     public bool attackEnabled = true;
     public bool shield = false;
     public bool charging = false;
 
-    //°¡µå»óÅÂ¸¦ À¯ÁöÇÒ ¶§
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     public bool onDefence = false;
     public bool hold = false;
     public bool perfectParrying = false;    
@@ -39,6 +39,10 @@ public class PlayerAttack : MonoBehaviour
     private bool mana;
     private bool performedChargeAttack = false;
     private float chargingTimer = 0;
+
+    [SerializeField] private ParticleSystem skill_1E;
+    [SerializeField] private ParticleSystem skill_2E;
+    [SerializeField] private Transform skill_2E_Position;
 
 
     private void Awake()
@@ -88,29 +92,29 @@ public class PlayerAttack : MonoBehaviour
         if (attackEnabled&&!controller.isRolling&&!onDefence)
         {
 
-            if (Input.GetMouseButtonDown(0)&&!charging) // ¿ÞÂÊ ¸¶¿ì½º ¹öÆ°À» ´©¸£¸é
+            if (Input.GetMouseButtonDown(0)&&!charging) // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ì½º ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             {
-                tempAnimator.SetTrigger("Charge");      // Â÷Áö ¾Ö´Ï¸ÞÀÌ¼Ç
-                performedChargeAttack = false;          // »õ·ÎÀÌ Â÷Áö °ø°ÝÇÒ ¼ö ÀÖ°Ô µÊ
+                tempAnimator.SetTrigger("Charge");      // ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½
+                performedChargeAttack = false;          // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½ï¿½
                 charging = true;
                 skillEnabled = false;
             }
-            else if (Input.GetMouseButton(0))           // ¿ÞÂÊ ¸¶¿ì½º ¹öÆ°À» (°è¼Ó) ´©¸£°í ÀÖ´Â ÁßÀÏ ¶§
+            else if (Input.GetMouseButton(0))           // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ì½º ï¿½ï¿½Æ°ï¿½ï¿½ (ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
             {
-                chargingTimer += Time.deltaTime;        // Â÷Áö
+                chargingTimer += Time.deltaTime;        // ï¿½ï¿½ï¿½ï¿½
                 hold = true;
                 skillEnabled = false;
-                if (CheckIfCharged()                    // ¸¸¾à ´Ù Â÷Áö°¡ µÈ »óÅÂÀÌ°í
-                    && !performedChargeAttack)          // ÀÌ¹Ì ÇØ´ç ¸¶¿ì½º ´©¸§À¸·Î ÀÎÇØ Â÷Áö °ø°ÝÀ» ÇÑ »óÅÂ°¡ ¾Æ´Ï¶ó¸é
-                    ChargeAttack();                     // Â÷Áö °ø°Ý
+                if (CheckIfCharged()                    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì°ï¿½
+                    && !performedChargeAttack)          // ï¿½Ì¹ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ì½º ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Â°ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½
+                    ChargeAttack();                     // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             }
-            else if (Input.GetMouseButtonUp(0))         // ¿ÞÂÊ ¸¶¿ì½º ¹öÆ°¿¡¼­ ¼ÕÀ» ¶¼¾úÀ» ¶§
+            else if (Input.GetMouseButtonUp(0))         // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ì½º ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
             {
                 skillEnabled = false;
-                if (!CheckIfCharged())                  // Â÷Áö°¡ µÈ °Ô ¾Æ´Ï¶ó¸é (Â÷Áö°ø°ÝÀ» ÇÏÁö ¾Ê¾Ò´Ù¸é) 
-                    Attack();                           // ÀÏ¹Ý °ø°Ý
+                if (!CheckIfCharged())                  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò´Ù¸ï¿½) 
+                    Attack();                           // ï¿½Ï¹ï¿½ ï¿½ï¿½ï¿½ï¿½
             
-                ResetChargingTimer();                   // Â÷Áö Å¸ÀÌ¸Ó ¸®¼Â
+                ResetChargingTimer();                   // ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
             }
 
             if (skillEnabled)
@@ -126,10 +130,10 @@ public class PlayerAttack : MonoBehaviour
         if (shield&&!controller.isRolling)
         {
             Shield();
-        }               
+        }
         
     }
-
+    
     private void ResetChargingTimer() => chargingTimer = 0;
 
     private bool CheckIfCharged() => chargingTimer >= 1f;
@@ -173,10 +177,10 @@ public class PlayerAttack : MonoBehaviour
         }
         tempAnimator.SetBool("Hold", onDefence);
 
-        //¸·±â »ç¿ëÁß È¦µå°¡ Æ®·çÀÌ¸é µ¥¹ÌÁö °¨¼ÒÇÏ°í
-        //¾Ö´Ï¸ÞÀÌ¼Ç ÀÌº¥Æ® °É¾îµÐ ÇÁ·¹ÀÓºÎÅÍ ¾à 0.2ÃÊ°£
-        //perfectParrying¸¦ false·Î ¹Ù²Ù°í parry¸¦ true·Î ¹Ù²Ù¾î
-        //´Ù¸¥ ¸ð¼ÇÀ» ½ÇÇàÇÏ°í µ¥¹ÌÁö °¨¼Ò ¾øÀÌ ÁøÇà
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ È¦ï¿½å°¡ Æ®ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½
+        //ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½Ìºï¿½Æ® ï¿½É¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Óºï¿½ï¿½ï¿½ ï¿½ï¿½ 0.2ï¿½Ê°ï¿½
+        //perfectParryingï¿½ï¿½ falseï¿½ï¿½ ï¿½Ù²Ù°ï¿½ parryï¿½ï¿½ trueï¿½ï¿½ ï¿½Ù²Ù¾ï¿½
+        //ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
     public void ParryEvent()
     {
@@ -204,7 +208,7 @@ public class PlayerAttack : MonoBehaviour
         }
         else
         {
-            Debug.Log("¸¶³ª°¡ ºÎÁ·ÇÕ´Ï´Ù.");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
         }
     }
 
@@ -220,14 +224,14 @@ public class PlayerAttack : MonoBehaviour
         }
         else
         {
-            Debug.Log("¸¶³ª°¡ ºÎÁ·ÇÕ´Ï´Ù.");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
         }
     }
 
     // Option 1
-    // ÀåÁ¡ : ÃßÈÄ Skill2 ¿ÜÀÇ °ø°Ý¿¡¼­µµ Ãß°¡Àû ´ë¹ÌÁö¸¦ ÁÖ´Â ÀÌº¥Æ®°¡ ÇÊ¿äÇÒ ¶§ Àç»ç¿ë ÇÒ ¼ö ÀÖÀ½
-    // update => audioSource.PlayOneShot(attackClip);À» Ãß°¡ÇØ¼­ Àç»ç¿ë ºÒ°¡´É. Àç»ç¿ë ÇÒ·Á¸é ¾Ë¸Â°Ô ¼öÁ¤ÇØ¾ßÇÔ
-    // ´ÜÁ¡ : ÀÌº¥Æ® ÂÊ¿¡¼­ ÇÊ¼öÀûÀ¸·Î ´ë¹ÌÁö °ªÀ» ÁöÁ¤ÇØ¼­ ³Ñ°ÜÁà¾ß ÇÔ
+    // ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ Skill2 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    // update => audioSource.PlayOneShot(attackClip);ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ ï¿½Ë¸Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½
+    // ï¿½ï¿½ï¿½ï¿½ : ï¿½Ìºï¿½Æ® ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½Ñ°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
     public void OnAdditionalAttack(float damage)
     {
         audioSource.PlayOneShot(skill2AdditionalClip);
@@ -235,15 +239,15 @@ public class PlayerAttack : MonoBehaviour
     }
 
     // Option 2
-    // ÀåÁ¡ : ´ë¹ÌÁö °ªÀ» ½ºÅ©¸³Æ® ÂÊ¿¡¼­, Æ¯È÷ ¹«±â ÂÊ¿¡¼­ Á¦¾îÇÒ ¼ö ÀÖÀ½
-    // ´ÜÁ¡ : Skill2¿¡¸¸ »ç¿ëÇÒ ¼ö ÀÖ´Â ¸Þ¼ÒµåÀÓ
+    // ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ® ï¿½Ê¿ï¿½ï¿½ï¿½, Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    // ï¿½ï¿½ï¿½ï¿½ : Skill2ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Þ¼Òµï¿½ï¿½ï¿½
     public void OnAdditionalSkill2()
     {
         audioSource.PlayOneShot(skill2AdditionalClip);
         data.CurrentWeapon.AdditionalSkill2();
     }
 
-    #region // ¾Ö´Ï¸ÞÀÌ¼Ç ÀÌº¥Æ® Á¶°Ç
+    #region // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½
     private void MoveHold()
     {
         hold = !hold;
@@ -274,4 +278,19 @@ public class PlayerAttack : MonoBehaviour
         charging = false;
     }
     #endregion
+
+    private IEnumerator Skill_1E()
+    {
+        skill_1E.Play();
+        yield return new WaitForSeconds(1f);
+        skill_1E.Stop();
+    }
+    private IEnumerator Skill_2E()
+    {
+        skill_2E_Position.position = transform.position;
+        skill_2E_Position.rotation = transform.rotation;
+        skill_2E.Play();
+        yield return new WaitForSeconds(0.7f);
+        skill_2E.Stop();
+    }
 }
