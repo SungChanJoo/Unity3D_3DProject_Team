@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
             if (SceneManager.GetActiveScene().name != introSceneName && player == null)
             {
                 Debug.Log("³ª ½ÇÇà´ëÂÇ");
-                player = GameObject.Find("Player").GetComponent<PlayerData>();
+                player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerData>();
             }
         }catch(NullReferenceException e)
         {
