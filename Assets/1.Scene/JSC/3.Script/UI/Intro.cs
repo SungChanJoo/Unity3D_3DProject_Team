@@ -7,9 +7,10 @@ using UnityEngine.SceneManagement;
 public class Intro : MonoBehaviour
 {
     [SerializeField] private string sceneName;
-    public void OnGameStart()
+    [SerializeField] private GameObject difficultyUI;
+    public void OnNewGame()
     {
-        SceneManager.LoadScene(sceneName);
+        difficultyUI.SetActive(true);
     }
 
     public void OnGameExit()
