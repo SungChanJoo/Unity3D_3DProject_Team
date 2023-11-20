@@ -16,6 +16,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private AudioClip chargeAttackClip;
     [SerializeField] private AudioClip skill1Clip;
     [SerializeField] private AudioClip skill2Clip;
+    [SerializeField] private AudioClip skill2AdditionalClip;
     [SerializeField] private AudioClip shieldClip;
 
     // AttackRate, CurrentWeapon 등의 정보 받아와서 사용
@@ -209,9 +210,11 @@ public class PlayerAttack : MonoBehaviour
 
     // Option 1
     // 장점 : 추후 Skill2 외의 공격에서도 추가적 대미지를 주는 이벤트가 필요할 때 재사용 할 수 있음
+    // update => audioSource.PlayOneShot(attackClip);을 추가해서 재사용 불가능. 재사용 할려면 알맞게 수정해야함
     // 단점 : 이벤트 쪽에서 필수적으로 대미지 값을 지정해서 넘겨줘야 함
     public void OnAdditionalAttack(float damage)
     {
+        audioSource.PlayOneShot(skill2AdditionalClip);
         data.CurrentWeapon.AdditionalAttack(damage);
     }
 
@@ -220,6 +223,7 @@ public class PlayerAttack : MonoBehaviour
     // 단점 : Skill2에만 사용할 수 있는 메소드임
     public void OnAdditionalSkill2()
     {
+        audioSource.PlayOneShot(skill2AdditionalClip);
         data.CurrentWeapon.AdditionalSkill2();
     }
 
