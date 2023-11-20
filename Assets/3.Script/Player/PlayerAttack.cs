@@ -53,6 +53,30 @@ public class PlayerAttack : MonoBehaviour
         hold = false;                
         data.CurrentWeapon.DisableDamaging();        
     }
+
+    public void OnPlayAttackSound(AttackSound soundType)
+    {
+        switch (soundType)
+        {
+            case AttackSound.Attack:
+                audioSource.PlayOneShot(attackClip);
+                break;
+            case AttackSound.ChargeAttack:
+                audioSource.PlayOneShot(chargeAttackClip);
+                break;
+            case AttackSound.Skill1:
+                audioSource.PlayOneShot(skill1Clip);
+                break;
+            case AttackSound.Skill2:
+                audioSource.PlayOneShot(skill2Clip);
+                break;
+            case AttackSound.Parrying:
+                audioSource.PlayOneShot(shieldClip);
+                break;
+            default:
+                break;
+        }
+    }
     
 
     void Update()
@@ -116,14 +140,10 @@ public class PlayerAttack : MonoBehaviour
         hold = true;
         tempAnimator.SetTrigger("Attack");
         data.CurrentWeapon.Attack();
-
-        audioSource.PlayOneShot(attackClip);
     }
 
     public void ChargeAttack()
     {
-        audioSource.PlayOneShot(chargeAttackClip);
-
         shield = false;
         hold = true;
         tempAnimator.SetTrigger("ChargeAttack");
@@ -181,8 +201,6 @@ public class PlayerAttack : MonoBehaviour
             tempAnimator.SetTrigger("Skill1");
             data.CurrentWeapon.Skill1();
             hold = true;
-
-            audioSource.PlayOneShot(skill1Clip);
         }
         else
         {
@@ -199,8 +217,6 @@ public class PlayerAttack : MonoBehaviour
             tempAnimator.SetTrigger("Skill2");
             data.CurrentWeapon.Skill2();
             hold = true;
-
-            audioSource.PlayOneShot(skill2Clip);
         }
         else
         {
