@@ -64,7 +64,10 @@ public class CameraController : MonoBehaviour
     //LockOnTargetUI 이미지
     [SerializeField] private GameObject lockOnTargetUI;
 
-    
+    [Header("Audio 추가")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip footstepClip;
+    private float footstepTimer = 0;
 
     private bool check = true;
     private void Awake()
@@ -162,6 +165,18 @@ public class CameraController : MonoBehaviour
         cameraPoint.position = Vector3.MoveTowards(cameraPoint.position, cameraY, 20f * Time.deltaTime);
     }
     #endregion
+
+    private void PlayFootstepSound()
+    {
+        footstepTimer += Time.deltaTime;
+        float interval = isRun ? .25f : .35f;
+
+        if (footstepTimer > interval)
+        {
+            audioSource.PlayOneShot(footstepClip);
+            footstepTimer = 0;
+        }
+    }
 
     private void move()
     {               
@@ -285,6 +300,12 @@ public class CameraController : MonoBehaviour
         else
         {
             rigid.useGravity = true;
+        }
+
+        if (Mathf.Abs(moveInputX) >= 0.5
+            || Mathf.Abs(moveInputZ) >= 0.5)
+        {
+            PlayFootstepSound();
         }
     }
 
