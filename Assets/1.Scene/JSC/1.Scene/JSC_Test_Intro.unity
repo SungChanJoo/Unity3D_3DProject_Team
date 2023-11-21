@@ -5289,23 +5289,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nightMat: {fileID: 2100000, guid: 51b74d7bad397457d883c5940f7664d8, type: 2}
   introSceneName: JSC_Test_Intro
-  bossRoomSceneName: JSC_Test_Enemy
+  bossRoomSceneName: JSC_Test_BossRoom
+  endingSceneName: GameEnd
   currentSceneName: 
-  nextSceneName: 
-  endUI: {fileID: 0}
   player: {fileID: 0}
   playerData:
-    maxMana: 0
-    currentMana: 0
-    maxStamina: 0
-    currentStamina: 0
-    maxHealth: 0
-    currentHealth: 0
-    walkSpeed: 0
-    runSpeed: 0
-    PlayerPosition_x: 0
-    PlayerPosition_y: 0
-    PlayerPosition_z: 0
+    maxMana: 100
+    currentMana: 100
+    maxStamina: 100
+    currentStamina: 100
+    maxHealth: 100
+    currentHealth: 100
+    PlayerPosition_x: 20
+    PlayerPosition_y: 2
+    PlayerPosition_z: -121
     Difficulty: 0
     SceneName: 
   difficulty: 1

@@ -31,11 +31,19 @@ public class GameOver : MonoBehaviour
     public void OnRestart()
     {
         Time.timeScale = 1;
-
-        SceneManager.LoadScene(sceneName);
         gameObject.SetActive(false);
 
+        GameManager.Instance.DeleteSaveData();
+        SceneManager.LoadScene(sceneName);
+
     }
+
+    public void OnGameExit()
+    {
+        GameManager.Instance.DeleteSaveData();
+        Application.Quit();
+    }
+
     IEnumerator LoadImage_co()
     {
         float startNum = 0;
@@ -57,6 +65,7 @@ public class GameOver : MonoBehaviour
             yield return null;
         }
         Time.timeScale = 0;
-
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 }

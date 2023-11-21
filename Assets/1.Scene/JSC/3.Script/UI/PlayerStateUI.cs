@@ -23,8 +23,6 @@ public class PlayerStateUI : MonoBehaviour
 
     public void UpdateHp()
     {
-        Debug.Log("플레이어 현재 피 : " + player.CurrentHealth);
-
         hpSlider.value = player.CurrentHealth; 
     }
     public void UpdateStamina()

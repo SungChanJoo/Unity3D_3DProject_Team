@@ -13,9 +13,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] string introSceneName;
     [SerializeField] string bossRoomSceneName;
+    [SerializeField] string endingSceneName;
     [SerializeField] string currentSceneName;
-    [SerializeField] string nextSceneName;
-    [SerializeField] GameObject endUI;
 
     [SerializeField] private PlayerData player;
     [SerializeField] public PlayerDataJson playerData;
@@ -35,14 +34,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if(endUI != null)
-        {
-            endUI.SetActive(false);
-        }
 
     }
-
-
 
     private void Update()
     {
@@ -50,16 +43,15 @@ public class GameManager : MonoBehaviour
         {
             if (SceneManager.GetActiveScene().name != introSceneName && player == null)
             {
-                Debug.Log("나 실행대쪄");
                 player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerData>();
             }
-        }catch(NullReferenceException e)
+
+
+        }
+        catch(NullReferenceException e)
         {
             player = null;
         }
-
-
-
     }
 
     //스카이박스 변경
@@ -70,23 +62,19 @@ public class GameManager : MonoBehaviour
 
     public void PotalToBossRoom()
     {
+        player.transform.position = Vector3.zero;
+        Save();
         SceneManager.LoadScene(bossRoomSceneName);
+
     }
 
-    public void ViewEndingUI()
+    public void LoadEnding()
     {
-        endUI.SetActive(true);
-        Cursor.visible = true;
-        //Cursor.lockState = CursorLockMode.Confined;
-    }
-    public void HideEndingUI()
-    {
-        endUI.SetActive(false);
+        SceneManager.LoadScene(endingSceneName);
     }
 
     public void Restart()
     {
-        HideEndingUI();
         SceneManager.LoadScene(introSceneName);
     }
     public void GameExit()
@@ -104,7 +92,7 @@ public class GameManager : MonoBehaviour
     public void Save()
     {
         playerData.maxMana = player.MaxMana;
-        playerData.currentMana = player.CurrentHealth;
+        playerData.currentMana = player.CurrentMana;
         playerData.maxStamina = player.MaxStamina;
         playerData.currentStamina = player.CurrentStamina;
         playerData.maxHealth = player.MaxHealth;
@@ -125,6 +113,13 @@ public class GameManager : MonoBehaviour
         File.WriteAllText(fileName, toJson);
     }
 
+    public void DeleteSaveData()
+    {
+        string fileName;
+        fileName = Path.Combine("Player/", "PlayerData.json");
+        File.Delete(fileName);
+    }
+
     //플레이어 데이터 불러오기
     public PlayerDataJson Load()
     {
@@ -135,8 +130,7 @@ public class GameManager : MonoBehaviour
             string ReadData = File.ReadAllText(fileName);
             PlayerDataJson playerData = new PlayerDataJson();
             playerData = JsonConvert.DeserializeObject<PlayerDataJson>(ReadData);
-
-            Debug.Log(playerData.maxMana);
+            this.playerData = playerData;
             return playerData;
         }
         catch (DirectoryNotFoundException e)
@@ -156,6 +150,7 @@ public class GameManager : MonoBehaviour
         PlayerDataJson playerData = Load();
         if(playerData != null)
         {
+
             SceneManager.LoadScene(playerData.SceneName);
         }
         else
