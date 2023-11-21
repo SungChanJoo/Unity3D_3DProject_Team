@@ -54,8 +54,7 @@ public class QuickSlot : MonoBehaviour
     //UI 창 온오프 조건
     private bool on = false;
     private bool play_C = false;
-
-    [SerializeField] private GameObject[] hideUI_obj;
+    
 
     private void Start()
     {
@@ -146,8 +145,8 @@ public class QuickSlot : MonoBehaviour
             on = !on;
             if (on)
             {
-                Vector3 selectUI_objY = selectUI_obj.transform.position + new Vector3(0, 500, 0);
-                Vector3 ui_objY = ui_obj.transform.position + new Vector3(0, 500, 0);
+                Vector3 selectUI_objY = selectUI_obj.transform.position + new Vector3(0, 800, 0);
+                Vector3 ui_objY = ui_obj.transform.position + new Vector3(0, 800, 0);
                 StartCoroutine(MoveUI(ui_obj, ui_objY, 0.5f));
                 StartCoroutine(MoveUI(selectUI_obj, selectUI_objY, 0.5f));
                 StartCoroutine(FadeUI(ui_obj, 0f, 1f, 0.5f)); // 투명도를 0에서 1로 변경 (나타나기)
@@ -155,8 +154,8 @@ public class QuickSlot : MonoBehaviour
             }
             else
             {                
-                Vector3 selectUI_objY = selectUI_obj.transform.position + new Vector3(0, -500, 0);
-                Vector3 ui_objY = ui_obj.transform.position + new Vector3(0, -500, 0);
+                Vector3 selectUI_objY = selectUI_obj.transform.position + new Vector3(0, -800, 0);
+                Vector3 ui_objY = ui_obj.transform.position + new Vector3(0, -800, 0);
                 StartCoroutine(MoveUI(ui_obj, ui_objY, 0.5f));
                 StartCoroutine(MoveUI(selectUI_obj, selectUI_objY, 0.5f));
                 StartCoroutine(FadeUI(ui_obj, 1f, 0f, 0.5f)); // 투명도를 1에서 0으로 변경 (사라지기)
