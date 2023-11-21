@@ -121836,7 +121836,7 @@ MonoBehaviour:
   skill_1E: {fileID: 507685674}
   skill_2E: {fileID: 2101176283}
   skill_2E_Position: {fileID: 479385787}
-  slashEffect: {fileID: 0}
+  slashEffect: {fileID: 8878322816615239903, guid: fb32a47d20130a54aba716088ec13ddf, type: 3}
 --- !u!95 &1727400259
 Animator:
   serializedVersion: 3
@@ -122390,7 +122390,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1772209180}
   m_LocalRotation: {x: 0.043097727, y: 0.03703416, z: 0.0048203855, w: 0.9983726}
-  m_LocalPosition: {x: -0.3343896, y: 1.1669862, z: -22.013145}
+  m_LocalPosition: {x: 20.4, y: 0.8269862, z: -124.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1452810621}

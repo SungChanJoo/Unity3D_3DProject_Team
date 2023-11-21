@@ -25281,7 +25281,7 @@ MonoBehaviour:
   skill_1E: {fileID: 1231635874}
   skill_2E: {fileID: 198662300712457694}
   skill_2E_Position: {fileID: 166431258}
-  slashEffect: {fileID: 0}
+  slashEffect: {fileID: 8878322816615239903, guid: fb32a47d20130a54aba716088ec13ddf, type: 3}
 --- !u!95 &793383478
 Animator:
   serializedVersion: 3
