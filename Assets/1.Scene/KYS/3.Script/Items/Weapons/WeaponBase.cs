@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,11 +22,19 @@ public abstract class WeaponBase : MonoBehaviour
         private set => canDamageEnemy = value;
     }
 
+    private GameObject hitEffect;
+    private void Awake()
+    {
+        hitEffect = GameObject.Find("vfxgraph_Hit01");
+        hitEffect.SetActive(false);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (CanDamageEnemy && other.TryGetComponent(out Enemy target))
         {
             target.TakeDamage(currentDamage, 10, Vector3.zero, Vector3.zero);
+            StartCoroutine(HitEffect_co());
             DisableDamaging();
         }
     }
@@ -90,5 +99,13 @@ public abstract class WeaponBase : MonoBehaviour
         currentDamage = Skill2Damage;
         EnableDamaging();
     }
-    
+
+
+    // Hit Effect
+    private IEnumerator HitEffect_co()
+    {
+        hitEffect.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        hitEffect.SetActive(false);
+    }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.VFX;
 public enum AttackSound
 {
     Attack,
@@ -43,6 +44,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private ParticleSystem skill_1E;
     [SerializeField] private ParticleSystem skill_2E;
     [SerializeField] private Transform skill_2E_Position;
+    [SerializeField] private VisualEffect slashEffect;
 
 
     private void Awake()
@@ -144,6 +146,7 @@ public class PlayerAttack : MonoBehaviour
         hold = true;
         tempAnimator.SetTrigger("Attack");
         data.CurrentWeapon.Attack();
+        StartCoroutine(SlashEffect());
     }
 
     public void ChargeAttack()
@@ -292,5 +295,13 @@ public class PlayerAttack : MonoBehaviour
         skill_2E.Play();
         yield return new WaitForSeconds(0.7f);
         skill_2E.Stop();
+    }
+
+    private IEnumerator SlashEffect()
+    {
+        yield return new WaitForSeconds(0.6f);
+        slashEffect.Play();
+        yield return new WaitForSeconds(1f);
+        slashEffect.Stop();
     }
 }
