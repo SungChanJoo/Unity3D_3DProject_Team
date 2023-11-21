@@ -21,6 +21,7 @@ public class AnyMonster : Enemy
     private bool isPatroll = true;
     //private bool isMiss = false;
     protected MosterState state;
+    StatusEffectType statusEffectType;
     protected RaycastHit raycastHit;
     protected Ray centerRay;
     protected Ray rightRay;
@@ -55,6 +56,7 @@ public class AnyMonster : Enemy
         attackDistance = enemyData.AttackDistance;
         timebetAttack = enemyData.TimegetAttack;
         detectRange = enemyData.DetectRange;
+        statusEffectType = enemyData.StatusEffectType;
     }
     protected override void Awake()
     {
@@ -108,9 +110,11 @@ public class AnyMonster : Enemy
         }
         if(other.TryGetComponent(out StatusEffectedCharacter s))
         {
-            s.AddStatusEffect(StatusEffectType.Dizzy);
-            s.AddStatusEffect(StatusEffectType.Paralysed);
-            s.AddStatusEffect(StatusEffectType.Poisoned);
+            float rand = UnityEngine.Random.Range(0,100);
+            if(rand < 50)
+            {
+                s.AddStatusEffect(statusEffectType);
+            }
         }
     }
     

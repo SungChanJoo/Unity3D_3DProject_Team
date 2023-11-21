@@ -12,5 +12,5 @@ public class EnemyData : ScriptableObject
     public float AttackDistance = 2f;   //공격거리
     public float TimegetAttack = 2.267f;  //공격속도
     public float DetectRange = 5f;    //플레이어 감지범위
-
+    public StatusEffectType StatusEffectType;
 }
