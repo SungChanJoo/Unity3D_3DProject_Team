@@ -12,18 +12,17 @@ public enum Difficulty
 [System.Serializable]
 public class PlayerDataJson
 {
-    public float maxMana;
-    public float currentMana;
-    public float maxStamina;
-    public float currentStamina;
-    public float maxHealth;
-    public float currentHealth;
-    public float walkSpeed;
-    public float runSpeed;
+    public float maxMana = 100f;
+    public float currentMana= 100f;
+    public float maxStamina = 100f;
+    public float currentStamina = 100f;
+    public float maxHealth = 100f;
+    public float currentHealth = 100f;
 
-    public float PlayerPosition_x;
-    public float PlayerPosition_y;
-    public float PlayerPosition_z;
+    public float PlayerPosition_x = 20f;
+    public float PlayerPosition_y = 2f;
+    public float PlayerPosition_z = -121f;
+
     public Difficulty Difficulty;
     public string SceneName;
 }

@@ -82,6 +82,9 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        cameraPoint.transform.position = new Vector3(GameManager.Instance.playerData.PlayerPosition_x,
+                                             GameManager.Instance.playerData.PlayerPosition_y,
+                                             GameManager.Instance.playerData.PlayerPosition_z);
     }
     private void Update()
     {        

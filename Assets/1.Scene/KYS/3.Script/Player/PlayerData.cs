@@ -17,6 +17,8 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     [SerializeField] private GameOver gameOver;
 
+    [SerializeField] private PlayerDataJson playerData;
+
     [SerializeField] private AudioSource audioSource;
 
     [SerializeField] private AudioClip getHitClip;
@@ -114,8 +116,6 @@ public class PlayerData : MonoBehaviour, IDamageable
         {
             currentHealth = value;
 
-            if (playerStateUI != null)
-                playerStateUI.UpdateHp();
         }
     }
 
@@ -143,7 +143,7 @@ public class PlayerData : MonoBehaviour, IDamageable
     {
         rigid = GetComponent<Rigidbody>();
 
-        MaxHealth = 10;
+        MaxHealth = 100;
         MaxMana = 100;
         MaxStamina = 100;
 
@@ -155,6 +155,29 @@ public class PlayerData : MonoBehaviour, IDamageable
         CurrentWeapon = tempSword;
         if(playerStateUI != null)
             playerStateUI.InitState(MaxHealth, MaxStamina, MaxMana);
+    }
+
+    private void Start()
+    {
+        try
+        {
+            playerData = GameManager.Instance.Load();
+            MaxHealth = playerData.maxHealth;
+            MaxMana = playerData.maxMana;
+            MaxStamina = playerData.maxStamina;
+
+            CurrentMana = playerData.currentMana;
+            CurrentStamina = playerData.currentStamina;
+            CurrentHealth = playerData.currentHealth;
+
+            transform.position = new Vector3(playerData.PlayerPosition_x,
+                                             playerData.PlayerPosition_y,
+                                             playerData.PlayerPosition_z);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("플레이어 데이터로드 실패, (새 게임이거나 인트로를 통해서 실행하지 않았을 경우");
+        }
     }
 
     private void FixedUpdate()
@@ -197,7 +220,10 @@ public class PlayerData : MonoBehaviour, IDamageable
     public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)
     {
         audioSource.PlayOneShot(getHitClip);
+        Debug.Log("Hp" + currentHealth);
 
+        if (playerStateUI != null)
+            playerStateUI.UpdateHp();
         stop = true;
         if (currentHealth - damage <= 0)
         {

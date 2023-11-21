@@ -27,8 +27,15 @@ public class Skeleton : Boss
             appearEffects[i].SetActive(false);
         }
 
-        OnDead += () => GameManager.Instance.ViewEndingUI();
+        OnDead += () => StartCoroutine(ViewEndingUI_co());
     }
+
+    IEnumerator ViewEndingUI_co()
+    {
+        yield return new WaitForSeconds(2f);
+        GameManager.Instance.LoadEnding();
+    }
+
     void OnSpawn()
     {
         canFight = true;

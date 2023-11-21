@@ -10,6 +10,7 @@ TagManager:
   - Ground
   - StatusEffect
   - Stairs
+  - Camera
   layers:
   - Default
   - TransparentFX
