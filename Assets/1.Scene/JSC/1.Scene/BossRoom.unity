@@ -25156,7 +25156,6 @@ MonoBehaviour:
   tempAnimator: {fileID: 793383478}
   tempSword: {fileID: 1161523161}
   attack: {fileID: 793383477}
-  col: {fileID: 793383470}
   playerStateUI: {fileID: 1000597699}
   gameOver: {fileID: 917775145}
   playerData:
@@ -25282,6 +25281,7 @@ MonoBehaviour:
   skill_1E: {fileID: 1231635874}
   skill_2E: {fileID: 198662300712457694}
   skill_2E_Position: {fileID: 166431258}
+  slashEffect: {fileID: 0}
 --- !u!95 &793383478
 Animator:
   serializedVersion: 3
@@ -31028,7 +31028,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  sceneName: JSC_Test_Intro
+  sceneName: Intro
   images:
   - {fileID: 746346004}
   - {fileID: 112251332}
