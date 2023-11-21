@@ -8,9 +8,7 @@ class ParalyseEffect : StatusEffect
     {
         Animator animator = target.gameObject.GetComponentInChildren<Animator>();
         if (animator != null)
-        {
             animator.SetTrigger("Paralysed");
-        }
 
         if (target.TryGetComponent(out CameraController player))
             player.isParalysed = true;
@@ -20,9 +18,7 @@ class ParalyseEffect : StatusEffect
     {
         Animator animator = target.gameObject.GetComponentInChildren<Animator>();
         if (animator != null)
-        {
             animator.SetTrigger("Default");
-        }
 
         if (target.TryGetComponent(out CameraController player))
             player.isParalysed = false;

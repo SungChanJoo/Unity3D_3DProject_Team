@@ -33,5 +33,4 @@ public class PlayerStateUI : MonoBehaviour
     {
         manaSlider.value = player.CurrentMana;
     }
-
 }
