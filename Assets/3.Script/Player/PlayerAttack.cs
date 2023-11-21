@@ -85,47 +85,58 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            Debug.Log(chargingTimer);
-        }
-        if (attackEnabled&&!controller.isRolling&&!onDefence)
-        {
+        //if (Input.GetKeyDown(KeyCode.T))
+        //{
+        //    Debug.Log(chargingTimer);
+        //}
+        //if (attackEnabled&&!controller.isRolling&&!onDefence)
+        //{
 
-            if (Input.GetMouseButtonDown(0)&&!charging) // ���� ���콺 ��ư�� ������
-            {
-                tempAnimator.SetTrigger("Charge");      // ���� �ִϸ��̼�
-                performedChargeAttack = false;          // ������ ���� ������ �� �ְ� ��
-                charging = true;
-                skillEnabled = false;
-            }
-            else if (Input.GetMouseButton(0))           // ���� ���콺 ��ư�� (���) ������ �ִ� ���� ��
-            {
-                chargingTimer += Time.deltaTime;        // ����
-                hold = true;
-                skillEnabled = false;
-                if (CheckIfCharged()                    // ���� �� ������ �� �����̰�
-                    && !performedChargeAttack)          // �̹� �ش� ���콺 �������� ���� ���� ������ �� ���°� �ƴ϶��
-                    ChargeAttack();                     // ���� ����
-            }
-            else if (Input.GetMouseButtonUp(0))         // ���� ���콺 ��ư���� ���� ������ ��
-            {
-                skillEnabled = false;
-                if (!CheckIfCharged())                  // ������ �� �� �ƴ϶�� (���������� ���� �ʾҴٸ�) 
-                    Attack();                           // �Ϲ� ����
-            
-                ResetChargingTimer();                   // ���� Ÿ�̸� ����
-            }
+        //    if (Input.GetMouseButtonDown(0)&&!charging) // ���� ���콺 ��ư�� ������
+        //    {
+        //        tempAnimator.SetTrigger("Charge");      // ���� �ִϸ��̼�
+        //        performedChargeAttack = false;          // ������ ���� ������ �� �ְ� ��
+        //        charging = true;
+        //        skillEnabled = false;
+        //    }
+        //    else if (Input.GetMouseButton(0))           // ���� ���콺 ��ư�� (���) ������ �ִ� ���� ��
+        //    {
+        //        chargingTimer += Time.deltaTime;        // ����
+        //        hold = true;
+        //        skillEnabled = false;
+        //        if (CheckIfCharged()                    // ���� �� ������ �� �����̰�
+        //            && !performedChargeAttack)          // �̹� �ش� ���콺 �������� ���� ���� ������ �� ���°� �ƴ϶��
+        //            ChargeAttack();                     // ���� ����
+        //    }
+        //    else if (Input.GetMouseButtonUp(0))         // ���� ���콺 ��ư���� ���� ������ ��
+        //    {
+        //        skillEnabled = false;
+        //        if (!CheckIfCharged())                  // ������ �� �� �ƴ϶�� (���������� ���� �ʾҴٸ�) 
+        //            Attack();                           // �Ϲ� ����
 
-            if (skillEnabled)
-            {
-                if (Input.GetKeyDown(KeyCode.Alpha1))                   
-                    Skill1();
-    
-                else if (Input.GetKeyDown(KeyCode.Alpha2))
-                    Skill2();                        
-            }            
-        }
+        //        ResetChargingTimer();                   // ���� Ÿ�̸� ����
+        //    }
+
+        //    if (skillEnabled)
+        //    {
+        //        if (Input.GetKeyDown(KeyCode.Alpha1))                   
+        //            Skill1();
+
+        //        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        //            Skill2();                        
+        //    }            
+        //}
+
+        if (Input.GetMouseButtonDown(0))
+            Attack();
+        else if (Input.GetKeyDown(KeyCode.Alpha1))
+            ChargeAttack();
+        else if (Input.GetKeyDown(KeyCode.Alpha1))
+            ChargeAttack();
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) // skillEnabled을 사용 안 하는데 괜찮은지 확인 부탁 
+            Skill1();
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+            Skill2();
 
         if (shield&&!controller.isRolling)
         {
