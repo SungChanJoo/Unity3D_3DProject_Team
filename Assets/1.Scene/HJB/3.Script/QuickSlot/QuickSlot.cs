@@ -49,12 +49,14 @@ public class QuickSlot : MonoBehaviour
     [SerializeField] private GameObject health_E;
     [SerializeField] private GameObject MaxHealth_E;
     [SerializeField] private GameObject mana_E;
-    [SerializeField] private GameObject MaxMana_E;
-    
+    [SerializeField] private GameObject MaxMana_E;   
 
-
+    //UI 창 온오프 조건
     private bool on = false;
-    
+    private bool play_C = false;
+
+    [SerializeField] private GameObject[] hideUI_obj;
+
     private void Start()
     {
         player = FindObjectOfType<CameraController>();
@@ -138,23 +140,31 @@ public class QuickSlot : MonoBehaviour
     #endregion
 
     private void MoveSlotKey()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab))
+    {        
+        if (Input.GetKeyDown(KeyCode.Tab)&&!play_C)
         {
             on = !on;
             if (on)
             {
-                ui_obj.SetActive(true);
-                selectUI_obj.SetActive(true);
+                Vector3 selectUI_objY = selectUI_obj.transform.position + new Vector3(0, 500, 0);
+                Vector3 ui_objY = ui_obj.transform.position + new Vector3(0, 500, 0);
+                StartCoroutine(MoveUI(ui_obj, ui_objY, 0.5f));
+                StartCoroutine(MoveUI(selectUI_obj, selectUI_objY, 0.5f));
+                StartCoroutine(FadeUI(ui_obj, 0f, 1f, 0.5f)); // 투명도를 0에서 1로 변경 (나타나기)
+                StartCoroutine(FadeUI(selectUI_obj, 0f, 1f, 0.5f));
             }
             else
-            {
-                ui_obj.SetActive(false);
-                selectUI_obj.SetActive(false);
+            {                
+                Vector3 selectUI_objY = selectUI_obj.transform.position + new Vector3(0, -500, 0);
+                Vector3 ui_objY = ui_obj.transform.position + new Vector3(0, -500, 0);
+                StartCoroutine(MoveUI(ui_obj, ui_objY, 0.5f));
+                StartCoroutine(MoveUI(selectUI_obj, selectUI_objY, 0.5f));
+                StartCoroutine(FadeUI(ui_obj, 1f, 0f, 0.5f)); // 투명도를 1에서 0으로 변경 (사라지기)
+                StartCoroutine(FadeUI(selectUI_obj, 1f, 0f, 0.5f));
             }
         }
         //UI Object가 true인 경우
-        if (ui_obj.activeSelf)
+        if (on)
         {            
             if (Input.GetKeyDown(KeyCode.A))
             {
@@ -178,6 +188,7 @@ public class QuickSlot : MonoBehaviour
             }
 
         }
+
         //선택 아이템
         if (Input.GetKeyDown(KeyCode.Tab) && !on)
         {
@@ -344,6 +355,46 @@ public class QuickSlot : MonoBehaviour
         mana_E.SetActive(false);
         MaxMana_E.SetActive(false);
     }
+
+
+    //부드러운 UI 끄고 크기 
+    private IEnumerator MoveUI(GameObject uiObject, Vector3 targetPosition, float duration)
+    {
+        play_C = true;
+        float timeElapsed = 0f;
+        Vector3 initialPosition = uiObject.transform.position;
+
+        while (timeElapsed < duration)
+        {
+            uiObject.transform.position = Vector3.Lerp(initialPosition, targetPosition, timeElapsed / duration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        uiObject.transform.position = targetPosition;
+        play_C = false;
+    }
+    IEnumerator FadeUI(GameObject uiObject, float startAlpha, float targetAlpha, float duration)
+    {
+        CanvasGroup canvasGroup = uiObject.GetComponent<CanvasGroup>();
+
+        if (canvasGroup == null)
+        {
+            canvasGroup = uiObject.AddComponent<CanvasGroup>();
+        }
+
+        float timeElapsed = 0f;
+
+        while (timeElapsed < duration)
+        {
+            canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, timeElapsed / duration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        canvasGroup.alpha = targetAlpha; // 최종 투명도 보정
+    }
 }
+
 
 

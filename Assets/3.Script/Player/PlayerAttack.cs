@@ -86,65 +86,46 @@ public class PlayerAttack : MonoBehaviour
     
 
     void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.T))
-        //{
-        //    Debug.Log(chargingTimer);
-        //}
-        //if (attackEnabled&&!controller.isRolling&&!onDefence)
-        //{
+    {        
+        if (attackEnabled&&!controller.isRolling&&!onDefence)
+        {                        
+            if (Input.GetMouseButtonUp(0))
+            {
+                skillEnabled = false;                
+                Attack();                
+            }
 
-        //    if (Input.GetMouseButtonDown(0)&&!charging) // ���� ���콺 ��ư�� ������
-        //    {
-        //        tempAnimator.SetTrigger("Charge");      // ���� �ִϸ��̼�
-        //        performedChargeAttack = false;          // ������ ���� ������ �� �ְ� ��
-        //        charging = true;
-        //        skillEnabled = false;
-        //    }
-        //    else if (Input.GetMouseButton(0))           // ���� ���콺 ��ư�� (���) ������ �ִ� ���� ��
-        //    {
-        //        chargingTimer += Time.deltaTime;        // ����
-        //        hold = true;
-        //        skillEnabled = false;
-        //        if (CheckIfCharged()                    // ���� �� ������ �� �����̰�
-        //            && !performedChargeAttack)          // �̹� �ش� ���콺 �������� ���� ���� ������ �� ���°� �ƴ϶��
-        //            ChargeAttack();                     // ���� ����
-        //    }
-        //    else if (Input.GetMouseButtonUp(0))         // ���� ���콺 ��ư���� ���� ������ ��
-        //    {
-        //        skillEnabled = false;
-        //        if (!CheckIfCharged())                  // ������ �� �� �ƴ϶�� (���������� ���� �ʾҴٸ�) 
-        //            Attack();                           // �Ϲ� ����
+            if (skillEnabled)
+            {
+                if (Input.GetKeyDown(KeyCode.Alpha2))
+                    Skill1();
 
-        //        ResetChargingTimer();                   // ���� Ÿ�̸� ����
-        //    }
-
-        //    if (skillEnabled)
-        //    {
-        //        if (Input.GetKeyDown(KeyCode.Alpha1))
-        //            Skill1();
-
-        //        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        //            Skill2();                        
-        //    }
-        //}
-
-        if (Input.GetMouseButtonDown(0))
-            Attack();
-        else if (skillEnabled)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-                ChargeAttack();
-            else if (Input.GetKeyDown(KeyCode.Alpha2)) // skillEnabled을 사용 안 하는데 괜찮은지 확인 부탁 
-                Skill1();
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-                Skill2();
+                else if (Input.GetKeyDown(KeyCode.Alpha3))
+                    Skill2();                        
+                else if (Input.GetKeyDown(KeyCode.Alpha1))
+                {                           
+                    skillEnabled = false;                                   
+                    ChargeAttack(); 
+                }
+            }
         }
 
         if (shield&&!controller.isRolling)
         {
             Shield();
         }
+        //if (Input.GetMouseButtonDown(0))
+        //    Attack();
+        //else if (skillEnabled)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.Alpha1))
+        //        ChargeAttack();
+        //    else if (Input.GetKeyDown(KeyCode.Alpha2)) // skillEnabled을 사용 안 하는데 괜찮은지 확인 부탁 
+        //        Skill1();
+        //    else if (Input.GetKeyDown(KeyCode.Alpha3))
+        //        Skill2();
+        //}
+        //
         
     }
     
@@ -191,11 +172,7 @@ public class PlayerAttack : MonoBehaviour
             skillEnabled = true;
         }
         tempAnimator.SetBool("Hold", onDefence);
-
-        //���� ����� Ȧ�尡 Ʈ���̸� ������ �����ϰ�
-        //�ִϸ��̼� �̺�Ʈ �ɾ�� �����Ӻ��� �� 0.2�ʰ�
-        //perfectParrying�� false�� �ٲٰ� parry�� true�� �ٲپ�
-        //�ٸ� ����� �����ϰ� ������ ���� ���� ����
+        
     }
     public void ParryEvent()
     {

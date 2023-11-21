@@ -2,12 +2,12 @@
   "maxMana": 100.0,
   "currentMana": 100.0,
   "maxStamina": 100.0,
-  "currentStamina": 74.7192,
+  "currentStamina": 100.0,
   "maxHealth": 100.0,
-  "currentHealth": 5.0,
-  "PlayerPosition_x": 35.3732262,
-  "PlayerPosition_y": 0.030000031,
-  "PlayerPosition_z": -57.792923,
-  "Difficulty": 1,
+  "currentHealth": 3.0,
+  "PlayerPosition_x": -19.73997,
+  "PlayerPosition_y": 0.12429738,
+  "PlayerPosition_z": -0.600743532,
+  "Difficulty": 0,
   "SceneName": "MainGame"
 }
