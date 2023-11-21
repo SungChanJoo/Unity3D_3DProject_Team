@@ -11,8 +11,6 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     [SerializeField] private PlayerAttack attack;
 
-    [SerializeField] private Collider col;
-
     [SerializeField] private PlayerStateUI playerStateUI;
 
     [SerializeField] private GameOver gameOver;
@@ -124,8 +122,6 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     private bool isDead = false;
 
-    //무적조건
-    
     public bool IsDead
     {
         get => isDead;
@@ -229,13 +225,11 @@ public class PlayerData : MonoBehaviour, IDamageable
         {
             Die();
             this.gameObject.tag = "Enemy";
-            Debug.Log("플레이어 뒤짐");
+            Debug.Log("플레이어 죽음");
             return;
         }
         else
         {
-
-
             if (attack.onDefence)
             {
 

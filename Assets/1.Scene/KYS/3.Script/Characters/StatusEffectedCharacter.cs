@@ -21,9 +21,7 @@ public class StatusEffectedCharacter : MonoBehaviour
         statusEffects = new ObservableCollection<StatusEffect>();
         statusEffects.CollectionChanged += StatusEffects_CollectionChanged;
 
-        ParticleSystem ps = GetComponentInChildren<ParticleSystem>();
-        if (ps != null)
-            ps.Stop();
+        GetComponentInChildren<ParticleSystem>()?.Stop();
     }
 
     public void AddStatusEffect(StatusEffectType type)
@@ -39,22 +37,13 @@ public class StatusEffectedCharacter : MonoBehaviour
             }
         }
 
-        StatusEffect se;
-
-        switch (type)
+        StatusEffect se = type switch
         {
-            case StatusEffectType.Poisoned:
-                se = new PoisonEffect(this);
-                break;
-            case StatusEffectType.Paralysed:
-                se = new ParalyseEffect(this);
-                break;
-            case StatusEffectType.Dizzy:
-                se = new DizzyEffect(this);
-                break;
-            default:
-                throw new NotImplementedException();
-        }
+            StatusEffectType.Poisoned => new PoisonEffect(this),
+            StatusEffectType.Paralysed => new ParalyseEffect(this),
+            StatusEffectType.Dizzy => new DizzyEffect(this),
+            _ => throw new NotImplementedException()
+        };
 
         statusEffects.Add(se);
 
