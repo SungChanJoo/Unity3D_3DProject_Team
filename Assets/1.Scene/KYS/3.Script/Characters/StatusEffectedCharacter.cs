@@ -24,6 +24,8 @@ public class StatusEffectedCharacter : MonoBehaviour
         GetComponentInChildren<ParticleSystem>()?.Stop();
     }
 
+    public bool CheckIfTargetDead() => TargetData.IsDead;
+
     public void AddStatusEffect(StatusEffectType type)
     {
         // 이미 해당 상태이상을 겪던 중이라면 새로 상태이상을 부여하는 게 아니라 리셋 타이머에 0만 할당하고 리턴

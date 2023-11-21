@@ -36,6 +36,12 @@ public abstract class StatusEffect
         {
             remainingTime += checkTime;
 
+            if (target.CheckIfTargetDead())
+            {
+                EndEffect();
+                yield break;
+            }
+
             yield return new WaitForSeconds(checkTime); // 1초마다 타이머 다 끝났나 체크
         }
 
