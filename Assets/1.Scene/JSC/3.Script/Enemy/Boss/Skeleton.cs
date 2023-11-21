@@ -16,6 +16,8 @@ public class Skeleton : Boss
     [Header("등장 이펙트")]
     [SerializeField] private List<GameObject> appearEffects;
 
+
+
     protected override void Awake()
     {
         base.Awake();
@@ -24,8 +26,16 @@ public class Skeleton : Boss
         {
             appearEffects[i].SetActive(false);
         }
-        
+
+        OnDead += () => StartCoroutine(ViewEndingUI_co());
     }
+
+    IEnumerator ViewEndingUI_co()
+    {
+        yield return new WaitForSeconds(2f);
+        GameManager.Instance.LoadEnding();
+    }
+
     void OnSpawn()
     {
         canFight = true;
