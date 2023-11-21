@@ -119,24 +119,25 @@ public class PlayerAttack : MonoBehaviour
 
         //    if (skillEnabled)
         //    {
-        //        if (Input.GetKeyDown(KeyCode.Alpha1))                   
+        //        if (Input.GetKeyDown(KeyCode.Alpha1))
         //            Skill1();
 
         //        else if (Input.GetKeyDown(KeyCode.Alpha2))
         //            Skill2();                        
-        //    }            
+        //    }
         //}
 
         if (Input.GetMouseButtonDown(0))
             Attack();
-        else if (Input.GetKeyDown(KeyCode.Alpha1))
-            ChargeAttack();
-        else if (Input.GetKeyDown(KeyCode.Alpha1))
-            ChargeAttack();
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) // skillEnabled을 사용 안 하는데 괜찮은지 확인 부탁 
-            Skill1();
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-            Skill2();
+        else if (skillEnabled)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                ChargeAttack();
+            else if (Input.GetKeyDown(KeyCode.Alpha2)) // skillEnabled을 사용 안 하는데 괜찮은지 확인 부탁 
+                Skill1();
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+                Skill2();
+        }
 
         if (shield&&!controller.isRolling)
         {
