@@ -1,15 +1,15 @@
 {
   "maxMana": 100.0,
-  "currentMana": 9900.0,
+  "currentMana": 10.0,
   "maxStamina": 100.0,
-  "currentStamina": 100.0,
-  "maxHealth": 10000.0,
-  "currentHealth": 9900.0,
+  "currentStamina": 65.8169556,
+  "maxHealth": 10.0,
+  "currentHealth": 10.0,
   "walkSpeed": 0.0,
   "runSpeed": 0.0,
-  "PlayerPosition_x": -2.38762951,
-  "PlayerPosition_y": 1.8695259E-07,
-  "PlayerPosition_z": -0.842379868,
-  "Difficulty": 1,
-  "SceneName": "JSC_Test_Enemy"
+  "PlayerPosition_x": 5.05950928,
+  "PlayerPosition_y": -3.04622425E-08,
+  "PlayerPosition_z": -0.72373724,
+  "Difficulty": 0,
+  "SceneName": "JSC_Test_MainGame"
 }
