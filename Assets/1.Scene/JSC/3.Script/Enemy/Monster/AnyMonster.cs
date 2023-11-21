@@ -108,7 +108,7 @@ public class AnyMonster : Enemy
                     e.TakeDamage(damage, force, hitPoint, hitNormal);
                 }
         }
-        if(other.TryGetComponent(out StatusEffectedCharacter s))
+        if(other.TryGetComponent(out StatusEffectedCharacter s) && other.CompareTag("Player"))
         {
             float rand = UnityEngine.Random.Range(0,100);
             if(rand < 50)
