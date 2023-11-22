@@ -28,9 +28,6 @@ public class PlayerStateUI : MonoBehaviour
     {
         hpSlider.value = player.CurrentHealth;
         int rand = Random.Range(0,3);
-        ViewStateUI(StatusEffectType.Poisoned, 5f);
-        ViewStateUI(StatusEffectType.Paralysed, 10f);
-        ViewStateUI(StatusEffectType.Dizzy, 15f);
     }
     public void UpdateStamina()
     {
