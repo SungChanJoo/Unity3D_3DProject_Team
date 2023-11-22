@@ -26352,6 +26352,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dizzyness PostProcessing
       objectReference: {fileID: 0}
+    - target: {fileID: 4425128053331125858, guid: 0f46f96107be53f44b549141c2cc29f3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4425128053331125860, guid: 0f46f96107be53f44b549141c2cc29f3, type: 3}
       propertyPath: m_RootOrder
       value: 25
@@ -117678,7 +117682,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
