@@ -15709,9 +15709,20 @@ MonoBehaviour:
   tempAnimator: {fileID: 1209869961}
   tempSword: {fileID: 2401946350068605159}
   attack: {fileID: 1209869960}
-  col: {fileID: 1209869952}
   playerStateUI: {fileID: 1782860458168930236}
   gameOver: {fileID: 1782860458217702486}
+  playerData:
+    maxMana: 100
+    currentMana: 100
+    maxStamina: 100
+    currentStamina: 100
+    maxHealth: 100
+    currentHealth: 100
+    PlayerPosition_x: 20
+    PlayerPosition_y: 2
+    PlayerPosition_z: -121
+    Difficulty: 0
+    SceneName: 
   audioSource: {fileID: 1209869956}
   getHitClip: {fileID: 8300000, guid: cea9c2e889f07a34d828bf440fbdd47d, type: 3}
   stop: 0
@@ -17691,8 +17702,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 30, y: 30}
-  roomCount: 150
-  roomMaxSize: {x: 11, y: 11}
+  roomCount: 200
+  roomMaxSize: {x: 10, y: 10}
   cubePrefab: {fileID: 3923729281654318890, guid: 9f905119d682fab47b5012a056a23103, type: 3}
   parentPrefab: {fileID: 570422892093127112, guid: ca48ca253bd44d04d909d23f3510d0ed, type: 3}
   cornerTopRightPrefab: {fileID: 2987535764550962492, guid: 396e222ee28fcac44bc341d80083802b, type: 3}
@@ -143711,7 +143722,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7206078101289255557, guid: 47fcb1e4b006cb744b2ddc7720794db7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.18
+      value: -9.402
       objectReference: {fileID: 0}
     - target: {fileID: 7206078101289255557, guid: 47fcb1e4b006cb744b2ddc7720794db7, type: 3}
       propertyPath: m_LocalRotation.w

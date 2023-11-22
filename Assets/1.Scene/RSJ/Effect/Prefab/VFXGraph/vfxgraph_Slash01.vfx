@@ -3573,7 +3573,11 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
+<<<<<<< Updated upstream
       m_SerializableObject: '{"r":0.0784313753247261,"g":0.250980406999588,"b":0.250980406999588,"a":1.0}'
+=======
+      m_SerializableObject: '{"r":0.0,"g":11.941893577575684,"b":1023.9998779296875,"a":1.0}'
+>>>>>>> Stashed changes
     m_Space: 2147483647
   m_Property:
     name: SlashColor

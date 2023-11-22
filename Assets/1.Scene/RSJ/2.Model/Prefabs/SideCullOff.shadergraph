@@ -624,7 +624,7 @@
     "m_ActiveSubTarget": {
         "m_Id": "f58f5af3c10b495a8f8af41e22c2b470"
     },
-    "m_SurfaceType": 1,
+    "m_SurfaceType": 0,
     "m_AlphaMode": 0,
     "m_TwoSided": true,
     "m_AlphaClip": false,
@@ -1007,9 +1007,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 118.0,
-            "y": -13.999968528747559,
-            "width": 208.00001525878907,
+            "x": 71.0,
+            "y": -14.00000286102295,
+            "width": 208.0,
             "height": 302.0
         }
     },
@@ -1408,7 +1408,7 @@
     "m_ShaderOutputName": "True",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": 0.0,
+        "x": 1.0,
         "y": 1.0,
         "z": 1.0,
         "w": 1.0

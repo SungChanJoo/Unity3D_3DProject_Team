@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< Updated upstream:Assets/1.Scene/MainGame.unity.meta
 guid: 9fc0d4010bbf28b4594072e72b8655ab
 DefaultImporter:
+========
+guid: fbe173fba2e58084f8e6ecdf449bee95
+PrefabImporter:
+>>>>>>>> Stashed changes:Assets/1.Scene/RSJ/2.Model/Prefabs/FillGap.prefab.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
