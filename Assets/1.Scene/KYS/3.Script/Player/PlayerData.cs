@@ -218,9 +218,10 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)
     {
+        attack.isActing = false;
+
         audioSource.PlayOneShot(getHitClip);
         Debug.Log("Hp" + currentHealth);
-
         if (playerStateUI != null)
             playerStateUI.UpdateHp();
         stop = true;
