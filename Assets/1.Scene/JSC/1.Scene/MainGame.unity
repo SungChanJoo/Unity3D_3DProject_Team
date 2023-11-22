@@ -26216,7 +26216,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1145819007}
         m_TargetAssemblyTypeName: GameOver, Assembly-CSharp
-        m_MethodName: OnRestart
+        m_MethodName: OnGameExit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -117552,6 +117552,7 @@ MonoBehaviour:
   onDefence: 0
   hold: 0
   perfectParrying: 0
+  isActing: 0
   skill_1E: {fileID: 507685674}
   skill_2E: {fileID: 2101176283}
   skill_2E_Position: {fileID: 479385787}
@@ -118110,8 +118111,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1772209180}
-  m_LocalRotation: {x: 0.00023069193, y: 0.9713584, z: -0.23761712, w: 0.00094304874}
-  m_LocalPosition: {x: 20.764389, y: 2.6799998, z: -114.016846}
+  m_LocalRotation: {x: 0.043097727, y: 0.03703416, z: 0.0048203855, w: 0.9983726}
+  m_LocalPosition: {x: 20.4, y: 0.8269862, z: -124.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1452810621}
