@@ -113,7 +113,8 @@ public class PlayerData : MonoBehaviour, IDamageable
         private set
         {
             currentHealth = value;
-
+            if (playerStateUI != null)
+                playerStateUI.UpdateHp();
         }
     }
 

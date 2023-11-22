@@ -136,21 +136,31 @@ public class AnyMonster : Enemy
         isAttack = false;
         if (player != null && !player.IsDead)
         {
-            if (PlayerDetectRange(attackDistance))
-            {
-                state = MosterState.Idle;
-            }
-            else
-            {
-                state = MosterState.Chase;
-                //AI 활성화
-                agent.enabled = true;
-                agent.isStopped = false;
+            //가까이 있으면 멈추고 때림
+            /*            if (PlayerDetectRange(attackDistance))
+                        {
+                            state = MosterState.Idle;
+                        }
+                        else
+                        {
+                            state = MosterState.Chase;
+                            //AI 활성화
+                            agent.enabled = true;
+                            agent.isStopped = false;
 
-                //상태 초기화
-                enemyAni.SetBool("isMove", true);
-                agent.speed = enemyData.Speed;
-            }
+                            //상태 초기화
+                            enemyAni.SetBool("isMove", true);
+                            agent.speed = enemyData.Speed;
+                        }*/
+
+            state = MosterState.Chase;
+            //AI 활성화
+            agent.enabled = true;
+            agent.isStopped = false;
+
+            //상태 초기화
+            enemyAni.SetBool("isMove", true);
+            agent.speed = enemyData.Speed;
         }
         else
         {
