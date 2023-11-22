@@ -93,7 +93,9 @@ public class PlayerAttack : MonoBehaviour
     
 
     void Update()
-    {        
+    {
+        if (isActing) return;
+
         if (attackEnabled&&!controller.isRolling&&!onDefence)
         {                        
             if (Input.GetMouseButtonUp(0))
@@ -137,8 +139,6 @@ public class PlayerAttack : MonoBehaviour
     }
     
     private void ResetChargingTimer() => chargingTimer = 0;
-
-    private bool CheckIfCharged() => chargingTimer >= 1f;
 
     public void Attack()
     {
