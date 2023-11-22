@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerData player;
     [SerializeField] public PlayerDataJson playerData;
 
-    [SerializeField] private GameObject nonExistSaveDataUI;
+    public GameObject NonExistSaveDataUI;
 
     public Difficulty difficulty;
 
@@ -48,9 +48,8 @@ public class GameManager : MonoBehaviour
                 player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerData>();
             }
 
-
         }
-        catch(NullReferenceException e)
+        catch (NullReferenceException e)
         {
             player = null;
         }
@@ -163,7 +162,7 @@ public class GameManager : MonoBehaviour
 
         catch (FileNotFoundException e)
         {
-            GameObject.Find("NonExistSaveDataUI").SetActive(true);
+            NonExistSaveDataUI.SetActive(true);
             //todo 1120 나중에 버튼을 비활성화하든 텍스트를 띄워주든 해라
             Debug.Log("플레이어 데이터가 없습니다." + e);
         }

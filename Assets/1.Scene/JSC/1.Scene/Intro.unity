@@ -1081,7 +1081,7 @@ GameObject:
   - component: {fileID: 593245556}
   m_Layer: 5
   m_Name: NonExistSaveDataUI
-  m_TagString: Untagged
+  m_TagString: NonExistSaveDataUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5878,7 +5878,7 @@ MonoBehaviour:
     PlayerPosition_z: -164
     Difficulty: 0
     SceneName: 
-  nonExistSaveDataUI: {fileID: 593245555}
+  NonExistSaveDataUI: {fileID: 0}
   difficulty: 1
 --- !u!4 &2049656371
 Transform:
@@ -6369,6 +6369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 098afdbed799756418e5e9197652a8e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nonExistSaveDataUI: {fileID: 593245555}
 --- !u!114 &5310027935429420320
 MonoBehaviour:
   m_ObjectHideFlags: 0
