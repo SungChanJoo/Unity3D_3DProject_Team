@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerData player;
     [SerializeField] public PlayerDataJson playerData;
 
+    [SerializeField] private GameObject nonExistSaveDataUI;
+
     public Difficulty difficulty;
 
     private void Awake()
@@ -147,16 +149,24 @@ public class GameManager : MonoBehaviour
     //플레이어가 마지막에 종료한 시점의 씬을 불러옴
     public void LoadPlayerScene()
     {
-        PlayerDataJson playerData = Load();
-        if(playerData != null)
+        try
         {
+            PlayerDataJson playerData = Load();
 
-            SceneManager.LoadScene(playerData.SceneName);
+            if (playerData != null)
+            {
+
+                SceneManager.LoadScene(playerData.SceneName);
+            }
+            Debug.Log("플레이어 데이터가 없는데 왜 안뜨죠");
         }
-        else
+
+        catch (FileNotFoundException e)
         {
+            GameObject.Find("NonExistSaveDataUI").SetActive(true);
             //todo 1120 나중에 버튼을 비활성화하든 텍스트를 띄워주든 해라
-            Debug.Log("플레이어 데이터가 없습니다.");
+            Debug.Log("플레이어 데이터가 없습니다." + e);
         }
+
     }
 }

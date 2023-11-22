@@ -54,6 +54,8 @@ public class Enemy : MonoBehaviour, IDamageable
         TryGetComponent(out agent);
         TryGetComponent(out enemyAni);
         TryGetComponent(out enemyRigid);
+        hitEffect.Stop();
+
     }
 
 

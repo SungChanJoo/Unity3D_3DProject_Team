@@ -56,6 +56,8 @@ public class PlayerAttack : MonoBehaviour
             Debug.Log("null인디?");
 
         }
+        slashEffect.Stop();
+
     }
 
     public void OnAttackingAnimationCompleted()
