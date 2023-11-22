@@ -267,7 +267,8 @@ public class CameraController : MonoBehaviour
         animator.SetBool("lockOn", haveTarget);
         animator.SetBool("runing", isRun);
         //±¸¸£±â        
-        if (!state&&rolling &&move&& Input.GetKeyDown(KeyCode.Space)&& true==data.UseStamina(30f))
+        if (!state&&rolling && move && Input.GetKeyDown(KeyCode.Space)
+            &&attack.skillEnabled&& true==data.UseStamina(30f))
         {            
             StartCoroutine(Rolling());
         }

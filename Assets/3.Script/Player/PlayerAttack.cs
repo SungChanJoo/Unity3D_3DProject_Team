@@ -51,6 +51,11 @@ public class PlayerAttack : MonoBehaviour
         tempAnimator = GetComponent<Animator>();
         data = GetComponent<PlayerData>();
         controller = GetComponent<CameraController>();
+        if (data==null)
+        {
+            Debug.Log("null인디?");
+
+        }
     }
 
     public void OnAttackingAnimationCompleted()
