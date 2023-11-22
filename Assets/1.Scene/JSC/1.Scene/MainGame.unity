@@ -36873,6 +36873,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!2083052967 &466584963 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 8878322816615239903, guid: fb32a47d20130a54aba716088ec13ddf, type: 3}
+  m_PrefabInstance: {fileID: 1324960809}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &479385786
 GameObject:
   m_ObjectHideFlags: 0
@@ -94742,7 +94747,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8878322816615239872, guid: fb32a47d20130a54aba716088ec13ddf, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8878322816615239873, guid: fb32a47d20130a54aba716088ec13ddf, type: 3}
       propertyPath: m_Name
@@ -94750,7 +94755,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8878322816615239873, guid: fb32a47d20130a54aba716088ec13ddf, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8878322816615239902, guid: fb32a47d20130a54aba716088ec13ddf, type: 3}
       propertyPath: m_RootOrder
@@ -117556,7 +117561,7 @@ MonoBehaviour:
   skill_1E: {fileID: 507685674}
   skill_2E: {fileID: 2101176283}
   skill_2E_Position: {fileID: 479385787}
-  slashEffect: {fileID: 8878322816615239903, guid: fb32a47d20130a54aba716088ec13ddf, type: 3}
+  slashEffect: {fileID: 466584963}
 --- !u!95 &1727400259
 Animator:
   serializedVersion: 3

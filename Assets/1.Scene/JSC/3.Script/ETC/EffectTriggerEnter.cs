@@ -13,7 +13,9 @@ public class EffectTriggerEnter : MonoBehaviour
             
             if(other.TryGetComponent(out PlayerData player))
             {
-                player.TakeDamage(damage, 10, Vector3.zero, Vector3.zero);
+                Vector3 hitPoint = other.ClosestPoint(transform.position);
+                Vector3 hitNormal = transform.position - other.transform.position;
+                player.TakeDamage(damage, 10, hitPoint, hitNormal);
 
             }
             else

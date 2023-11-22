@@ -22,19 +22,21 @@ public abstract class WeaponBase : MonoBehaviour
         private set => canDamageEnemy = value;
     }
 
-    private GameObject hitEffect;
+/*    private GameObject hitEffect;
     private void Awake()
     {
         hitEffect = GameObject.Find("vfxgraph_Hit01");
         hitEffect.SetActive(false);
-    }
+    }*/
 
     private void OnTriggerEnter(Collider other)
     {
         if (CanDamageEnemy && other.TryGetComponent(out Enemy target))
         {
-            target.TakeDamage(currentDamage, 10, Vector3.zero, Vector3.zero);
-            StartCoroutine(HitEffect_co());
+            Vector3 hitPoint = other.ClosestPoint(transform.position);
+            Vector3 hitNormal = transform.position - other.transform.position;
+            target.TakeDamage(currentDamage, 10, hitPoint, hitNormal);
+            //StartCoroutine(HitEffect_co());
             DisableDamaging();
         }
     }
@@ -101,11 +103,11 @@ public abstract class WeaponBase : MonoBehaviour
     }
 
 
-    // Hit Effect
+/*    // Hit Effect
     private IEnumerator HitEffect_co()
     {
         hitEffect.SetActive(true);
         yield return new WaitForSeconds(1f);
         hitEffect.SetActive(false);
-    }
+    }*/
 }
