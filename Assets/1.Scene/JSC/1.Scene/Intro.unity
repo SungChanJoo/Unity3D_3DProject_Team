@@ -5362,8 +5362,8 @@ MonoBehaviour:
     maxHealth: 100
     currentHealth: 100
     PlayerPosition_x: 20
-    PlayerPosition_y: 2
-    PlayerPosition_z: -121
+    PlayerPosition_y: 0
+    PlayerPosition_z: -164
     Difficulty: 0
     SceneName: 
   difficulty: 1
