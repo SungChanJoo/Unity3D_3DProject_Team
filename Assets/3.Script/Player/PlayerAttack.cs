@@ -34,11 +34,10 @@ public class PlayerAttack : MonoBehaviour
     //������¸� ������ ��
     public bool onDefence = false;
     public bool hold = false;
-    public bool perfectParrying = false;    
-
+    public bool perfectParrying = false;
+    public bool isActing = false;
 
     private bool mana;
-    private bool performedChargeAttack = false;
     private float chargingTimer = 0;
 
     [SerializeField] private ParticleSystem skill_1E;
@@ -56,12 +55,15 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnAttackingAnimationCompleted()
     {
+        isActing = false;
         hold = false;                
         data.CurrentWeapon.DisableDamaging();        
     }
 
     public void OnPlayAttackSound(AttackSound soundType)
     {
+        audioSource.Stop();
+
         switch (soundType)
         {
             case AttackSound.Attack:
@@ -135,6 +137,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void Attack()
     {
+        isActing = true;
         shield = false;
         hold = true;
         tempAnimator.SetTrigger("Attack");
@@ -144,20 +147,20 @@ public class PlayerAttack : MonoBehaviour
 
     public void ChargeAttack()
     {
+        isActing = true;
         shield = false;
         hold = true;
         tempAnimator.SetTrigger("ChargeAttack");
         data.CurrentWeapon.ChargeAttack();
 
-        performedChargeAttack = true;
         ResetChargingTimer();
     }
 
     public void Shield()
     {
         if (Input.GetMouseButtonDown(1))
-        {   
-
+        {
+            isActing = true;
             tempAnimator.SetTrigger("Shield");
             hold = true;
             onDefence = true;
@@ -166,6 +169,7 @@ public class PlayerAttack : MonoBehaviour
         }        
         else if (Input.GetMouseButtonUp(1))
         {
+            isActing = false;
             hold = false;
             onDefence = false;
             attackEnabled = true;
@@ -190,6 +194,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void Skill1()
     {
+        isActing = true;
         shield = false;
         mana =data.UseMana(20);
         if (mana)
@@ -206,6 +211,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void Skill2()
     {
+        isActing = true;
         shield = false;
         mana = data.UseMana(20);
         if (mana)

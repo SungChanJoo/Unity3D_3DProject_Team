@@ -305,6 +305,12 @@ public class CameraController : MonoBehaviour
 
     private void PlayFootstepSound()
     {
+        if (isRolling || attack.isActing)
+        {
+            //audioSource.Stop();
+            return;
+        }
+
         footstepTimer += Time.deltaTime;
         float interval = isRun ? .35f : 0.5f;
 
