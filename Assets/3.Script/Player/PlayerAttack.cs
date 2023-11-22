@@ -96,6 +96,11 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
+        if (shield && !controller.isRolling)
+        {
+            Shield();
+        }
+
         if (isActing) return;
 
         if (attackEnabled&&!controller.isRolling&&!onDefence)
@@ -119,11 +124,6 @@ public class PlayerAttack : MonoBehaviour
                     ChargeAttack(); 
                 }
             }
-        }
-
-        if (shield&&!controller.isRolling)
-        {
-            Shield();
         }
         //if (Input.GetMouseButtonDown(0))
         //    Attack();
