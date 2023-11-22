@@ -99,7 +99,7 @@ public class AnyMonster : Enemy
 
     protected void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out PlayerData e) && other.CompareTag("Player") && IsDead)
+        if (other.TryGetComponent(out PlayerData e) && other.CompareTag("Player") && !IsDead)
         {
                 if (player.Equals(e))
                 {
@@ -112,7 +112,7 @@ public class AnyMonster : Enemy
                     e.TakeDamage(damage, force, hitPoint, hitNormal);
                 }
         }
-        if(other.TryGetComponent(out StatusEffectedCharacter s) && other.CompareTag("Player") && IsDead)
+        if(other.TryGetComponent(out StatusEffectedCharacter s) && other.CompareTag("Player") && !IsDead)
         {
             float rand = UnityEngine.Random.Range(0,100);
             if(rand < 50)
