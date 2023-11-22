@@ -56431,7 +56431,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 917775145}
         m_TargetAssemblyTypeName: GameOver, Assembly-CSharp
-        m_MethodName: OnRestart
+        m_MethodName: OnGameExit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
