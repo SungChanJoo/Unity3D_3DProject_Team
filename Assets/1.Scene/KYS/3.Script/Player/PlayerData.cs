@@ -207,6 +207,7 @@ public class PlayerData : MonoBehaviour, IDamageable
     {
         if (currentHealth - damage <= 0)
         {
+            currentHealth = 0;
             Die();
             return;
         }

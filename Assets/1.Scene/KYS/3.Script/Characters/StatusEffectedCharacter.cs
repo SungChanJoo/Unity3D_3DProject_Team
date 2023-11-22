@@ -24,6 +24,16 @@ public class StatusEffectedCharacter : MonoBehaviour
         GetComponentInChildren<ParticleSystem>()?.Stop();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+            AddStatusEffect(StatusEffectType.Paralysed);
+        if (Input.GetKeyDown(KeyCode.O))
+            AddStatusEffect(StatusEffectType.Dizzy);
+        if (Input.GetKeyDown(KeyCode.P))
+            AddStatusEffect(StatusEffectType.Poisoned);
+    }
+
     public bool CheckIfTargetDead() => TargetData.IsDead;
 
     public void AddStatusEffect(StatusEffectType type)
