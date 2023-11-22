@@ -1,16 +1,24 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.VFX;
 
 class PoisonEffect : StatusEffect
 {
-    private ParticleSystem particleSystem;
+    private VisualEffect particleSystem = null;
 
     private float damage = 5;
     private float effectTimer = 1;
 
     public PoisonEffect(StatusEffectedCharacter target) : base(StatusEffectType.Poisoned, target)
     {
-        particleSystem = target.gameObject.GetComponentInChildren<ParticleSystem>();
+        Transform container = target.gameObject.GetComponentsInChildren<Transform>(true).Where(x => x.CompareTag("StatusEffect")).FirstOrDefault();
+
+        if (container == null)
+            throw new System.Exception("Poison Particle System을 찾을 수 없음");
+
+        container.gameObject.SetActive(true);
+        particleSystem = container.gameObject.GetComponentInChildren<VisualEffect>();
         particleSystem?.Stop();
     }
 
