@@ -3222,6 +3222,11 @@ MonoBehaviour:
   wayPoint: []
   enemyData: {fileID: 11400000, guid: 0d0f9dab8d2bc2d4a9771431eb9a6aae, type: 2}
   nextBehaviorTimebet: 3
+  items:
+  - {fileID: 3205817378069689156, guid: 931f58ab8e2d49f4bb732ec950c98ce2, type: 3}
+  - {fileID: 5037361398413813224, guid: bdede93fac27bd14b8448cde6cd8712c, type: 3}
+  - {fileID: 123814109157273510, guid: c55df45822600904f9647925fd593c1e, type: 3}
+  - {fileID: 2017673735376941972, guid: 6f4a58bf804292146ae7c064d4b6ec9b, type: 3}
 --- !u!1 &6426251023689847762
 GameObject:
   m_ObjectHideFlags: 0
