@@ -100,7 +100,7 @@ public class AnyMonster : Enemy
         {
             transform.LookAt(transform.forward * -1f);
         }
-
+        isAttack = false;
         base.TakeDamage(damage, knockBack, hitposition, hitNomal);
     }
     
