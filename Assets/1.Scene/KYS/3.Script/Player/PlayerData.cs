@@ -197,8 +197,8 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     public void Die()
     {
-        IsDead = true;
-        
+        attack.state = States.Die;
+        IsDead = true;        
         tempAnimator.SetTrigger("Die");
         gameOver.LoadGameOver(); //gameover UI 호출
     }

@@ -11,6 +11,7 @@ public enum States
     Shield,
     Hit,
     Rolling,
+    Die,
 }
 
 public enum AttackSound
@@ -109,7 +110,7 @@ public class PlayerAttack : MonoBehaviour
 
         if (isActing) return;
 
-        if (state ==States.Idle)
+        if (state == States.Idle)
         {
             
             if (Input.GetMouseButtonUp(0))
