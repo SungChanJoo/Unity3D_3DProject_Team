@@ -45,11 +45,11 @@ public class QuickSlot : MonoBehaviour
     private List<IItem> mana_P = new List<IItem>();
     private List<IItem> maxMana_P = new List<IItem>();
 
-    [Header("포션 이펙트")]    
-    [SerializeField] private GameObject health_E;
-    [SerializeField] private GameObject MaxHealth_E;
-    [SerializeField] private GameObject mana_E;
-    [SerializeField] private GameObject MaxMana_E;   
+    [Header("포션 이펙트")]
+    [SerializeField] private ParticleSystem health_E;
+    [SerializeField] private ParticleSystem MaxHealth_E;
+    [SerializeField] private ParticleSystem mana_E;
+    [SerializeField] private ParticleSystem MaxMana_E;   
 
     //UI 창 온오프 조건
     private bool on = false;
@@ -57,11 +57,11 @@ public class QuickSlot : MonoBehaviour
     
 
     private void Start()
-    {
+    {        
         player = FindObjectOfType<CameraController>();
         data = FindObjectOfType<PlayerData>();
         ani =player.GetComponent<Animator>();
-        
+        playerAttack = player.GetComponent<PlayerAttack>();        
 
         if (data != null)
         {
@@ -145,20 +145,20 @@ public class QuickSlot : MonoBehaviour
             on = !on;
             if (on)
             {
-                Vector3 selectUI_objY = selectUI_obj.transform.position + new Vector3(0, 800, 0);
-                Vector3 ui_objY = ui_obj.transform.position + new Vector3(0, 800, 0);
-                StartCoroutine(MoveUI(ui_obj, ui_objY, 0.5f));
+                Vector3 selectUI_objY = selectUI_obj.transform.position + new Vector3(600, 0, 0);
+                Vector3 ui_objY = ui_obj.transform.position + new Vector3(600, 0, 0);
+                StartCoroutine(MoveUI(ui_obj, ui_objY, 0.5f));//위치조정
                 StartCoroutine(MoveUI(selectUI_obj, selectUI_objY, 0.5f));
-                StartCoroutine(FadeUI(ui_obj, 0f, 1f, 0.5f)); // 투명도를 0에서 1로 변경 (나타나기)
+                StartCoroutine(FadeUI(ui_obj, 0f, 1f, 0.5f)); //투명도를 0에서 1로 변경 (나타나기)
                 StartCoroutine(FadeUI(selectUI_obj, 0f, 1f, 0.5f));
             }
             else
             {                
-                Vector3 selectUI_objY = selectUI_obj.transform.position + new Vector3(0, -800, 0);
-                Vector3 ui_objY = ui_obj.transform.position + new Vector3(0, -800, 0);
-                StartCoroutine(MoveUI(ui_obj, ui_objY, 0.5f));
+                Vector3 selectUI_objY = selectUI_obj.transform.position + new Vector3(-600, 0, 0);
+                Vector3 ui_objY = ui_obj.transform.position + new Vector3(-600, 0, 0);
+                StartCoroutine(MoveUI(ui_obj, ui_objY, 0.5f));//위치조정
                 StartCoroutine(MoveUI(selectUI_obj, selectUI_objY, 0.5f));
-                StartCoroutine(FadeUI(ui_obj, 1f, 0f, 0.5f)); // 투명도를 1에서 0으로 변경 (사라지기)
+                StartCoroutine(FadeUI(ui_obj, 1f, 0f, 0.5f)); //투명도를 1에서 0으로 변경 (사라지기)
                 StartCoroutine(FadeUI(selectUI_obj, 1f, 0f, 0.5f));
             }
         }
@@ -336,23 +336,23 @@ public class QuickSlot : MonoBehaviour
         switch (type)
         {
             case 0 :
-                health_E.SetActive(true);
+                health_E.Play();                
                 break;
             case 1:
-                MaxHealth_E.SetActive(true);
+                MaxHealth_E.Play();
                 break;
             case 2:
-                mana_E.SetActive(true);
+                mana_E.Play();
                 break;
             case 3:
-                MaxMana_E.SetActive(true);
+                MaxMana_E.Play();
                 break;                
         }
         yield return new WaitForSeconds(3f);
-        health_E.SetActive(false);
-        MaxHealth_E.SetActive(false);
-        mana_E.SetActive(false);
-        MaxMana_E.SetActive(false);
+        health_E.Stop();
+        MaxHealth_E.Stop();
+        mana_E.Stop();
+        MaxMana_E.Stop();
     }
 
 
@@ -373,7 +373,7 @@ public class QuickSlot : MonoBehaviour
         uiObject.transform.position = targetPosition;
         play_C = false;
     }
-    IEnumerator FadeUI(GameObject uiObject, float startAlpha, float targetAlpha, float duration)
+    private IEnumerator FadeUI(GameObject uiObject, float startAlpha, float targetAlpha, float duration)
     {
         CanvasGroup canvasGroup = uiObject.GetComponent<CanvasGroup>();
 

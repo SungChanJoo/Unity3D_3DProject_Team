@@ -20,8 +20,8 @@ public class PlayerDataJson
     public float currentHealth = 100f;
 
     public float PlayerPosition_x = 20f;
-    public float PlayerPosition_y = 2f;
-    public float PlayerPosition_z = -121f;
+    public float PlayerPosition_y = 0f;
+    public float PlayerPosition_z = -164f;
 
     public Difficulty Difficulty;
     public string SceneName;
