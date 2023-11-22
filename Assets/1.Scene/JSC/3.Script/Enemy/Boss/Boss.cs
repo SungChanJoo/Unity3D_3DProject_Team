@@ -32,6 +32,9 @@ public class Boss : Enemy
 
     [SerializeField] protected GameObject enemyStrongEffect;
 
+    [SerializeField] protected Difficulty difficulty;
+    [SerializeField] protected float multipleDifficulty;
+
     public bool canFight = false;
 
 
@@ -61,14 +64,31 @@ public class Boss : Enemy
     }
     protected void SetUp()
     {
+        SetDifficulty();
         nameText.text = name;
-        MaxHealth = enemyData.MaxHealth;
+        MaxHealth = enemyData.MaxHealth * multipleDifficulty;
         damage = enemyData.Damage;
         force = enemyData.Force;
         speed = enemyData.Speed;
         attackDistance = enemyData.AttackDistance;
         timebetAttack = enemyData.TimegetAttack;
         detectRange = enemyData.DetectRange;
+    }
+    protected void SetDifficulty()
+    {
+        switch (GameManager.Instance.difficulty)
+        {
+            case Difficulty.Easy :
+                multipleDifficulty = 0.3f;
+                break;
+            case Difficulty.Normal:
+                multipleDifficulty = 1f;
+                break;
+            case Difficulty.Hard:
+                multipleDifficulty = 2f;
+                break;
+        }
+
     }
     protected override void Awake()
     {
@@ -153,7 +173,7 @@ public class Boss : Enemy
     }
     protected void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out PlayerData e) && other.CompareTag("Player"))
+        if (other.TryGetComponent(out PlayerData e) && other.CompareTag("Player") && IsDead)
 
         {
             if (player.Equals(e))

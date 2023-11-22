@@ -18,4 +18,5 @@ MonoBehaviour:
   Speed: 2
   AttackDistance: 2
   TimegetAttack: 2.267
-  DetectRange: 5
+  DetectRange: 8
+  StatusEffectType: 0

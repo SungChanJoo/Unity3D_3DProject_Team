@@ -30,6 +30,8 @@ public class AnyMonster : Enemy
     [SerializeField] protected float nextBehaviorTimebet = 3f;
     protected float lastBehaviorTime;
 
+
+
     private bool isTarget
     {
         get
@@ -65,6 +67,8 @@ public class AnyMonster : Enemy
         agent.avoidancePriority = UnityEngine.Random.Range(0, 100);
         weapon.GetComponent<BoxCollider>().enabled = false;
         state = MosterState.Idle;
+
+        OnDead += () => Destroy(gameObject,3f);
     }
 
 
@@ -95,7 +99,7 @@ public class AnyMonster : Enemy
 
     protected void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out PlayerData e) && other.CompareTag("Player"))
+        if (other.TryGetComponent(out PlayerData e) && other.CompareTag("Player") && IsDead)
         {
                 if (player.Equals(e))
                 {
@@ -108,7 +112,7 @@ public class AnyMonster : Enemy
                     e.TakeDamage(damage, force, hitPoint, hitNormal);
                 }
         }
-        if(other.TryGetComponent(out StatusEffectedCharacter s) && other.CompareTag("Player"))
+        if(other.TryGetComponent(out StatusEffectedCharacter s) && other.CompareTag("Player") && IsDead)
         {
             float rand = UnityEngine.Random.Range(0,100);
             if(rand < 50)
