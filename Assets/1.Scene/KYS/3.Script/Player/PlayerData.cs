@@ -11,7 +11,6 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     [SerializeField] private PlayerAttack attack;
 
-    [SerializeField] private PlayerStateUI playerStateUI;
 
     [SerializeField] private GameOver gameOver;
 
@@ -20,6 +19,8 @@ public class PlayerData : MonoBehaviour, IDamageable
     [SerializeField] private AudioSource audioSource;
 
     [SerializeField] private AudioClip getHitClip;
+
+    public PlayerStateUI playerStateUI;
 
     private List<IItem> items = new List<IItem>();
         

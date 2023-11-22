@@ -6,20 +6,16 @@ using UnityEngine;
 
 public class StatusEffectedCharacter : MonoBehaviour
 {
-    private ObservableCollection<StatusEffect> statusEffects;
+    private List<StatusEffect> statusEffects;
 
     // Player용. 일단 이거 씀
     // 몬스터 상태 이상을 구현할 경우 PlayerData를 에너미 관련 클래스로 바꾸면 됨
     [SerializeField] private PlayerData targetData;
     public PlayerData TargetData => targetData;
 
-    // UI에서 Subscribe 해야 함. 아이콘 보여주는 용
-    public Action<List<StatusEffect>> StatusEffectChangedEvent;
-
     private void Awake()
     {
-        statusEffects = new ObservableCollection<StatusEffect>();
-        statusEffects.CollectionChanged += StatusEffects_CollectionChanged;
+        statusEffects = new List<StatusEffect>();
 
         GetComponentInChildren<ParticleSystem>()?.Stop();
     }
@@ -43,7 +39,7 @@ public class StatusEffectedCharacter : MonoBehaviour
         {
             if (statusEffects[i].Type.Equals(type))
             {
-                Debug.Log("Rest SE Timer: " + type);
+                Debug.Log("Reset SE Timer: " + type);
                 statusEffects[i].ResetTimer();
                 return;
             }
@@ -65,10 +61,5 @@ public class StatusEffectedCharacter : MonoBehaviour
     public void RemoveStatusEffect(StatusEffect se)
     {
         statusEffects.Remove(se);
-    }
-
-    private void StatusEffects_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-        StatusEffectChangedEvent?.Invoke(new List<StatusEffect>(statusEffects)); // 복사본만 넘긴다.
     }
 }
