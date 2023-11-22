@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            InitSetting();
+          //  
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -54,10 +54,9 @@ public class GameManager : MonoBehaviour
         playerData.PlayerPosition_x = 20f;
         playerData.PlayerPosition_y = 0;
         playerData.PlayerPosition_z = -164f;
-
         playerData.Difficulty = Difficulty.Easy;
         playerData.SceneName = "";
-        playerData.Seed = 0;
+        playerData.Seed = UnityEngine.Random.Range(0, 10000);
     }
     private void Update()
     {
