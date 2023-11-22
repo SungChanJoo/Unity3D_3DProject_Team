@@ -375,20 +375,21 @@ public class CameraController : MonoBehaviour
     #region // 코루틴 구르기 제어
     private IEnumerator Rolling()
     {
-        float X = Input.GetAxis("Horizontal");
-        float Z = Input.GetAxis("Vertical");
-
         isRolling = true;
 
         float rollSpeed = 5f;
         float timer = 0f;
 
-        _percent = X;
-        percent = Z;
+        _percent = moveInputX;
+        percent = moveInputZ;
 
         animator.SetFloat("x", _percent);
         animator.SetFloat("y", percent);
         animator.SetTrigger("rolling");
+        
+        //구르기 방향조정
+        Quaternion rotation = Quaternion.LookRotation(moveDir);
+        transform.rotation = rotation;
 
         Vector3 directionRoll = moveDir;
         //다른 레이어 넣을 것.
