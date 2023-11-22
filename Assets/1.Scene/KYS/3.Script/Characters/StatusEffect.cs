@@ -50,6 +50,7 @@ public abstract class StatusEffect
 
     private void StartEffect()
     {
+        target.TargetData.playerStateUI.ViewStateUI(Type, removeTimer);
         IsOnGoing = true;
         CustomStartEffect();
     }
@@ -65,8 +66,10 @@ public abstract class StatusEffect
     public virtual void CustomEndEffect()  { }
     public virtual void ApplyEffect() { }
 
+    // 새로 공격 받을 시 갱신
     public void ResetTimer()
     {
+        target.TargetData.playerStateUI.ViewStateUI(Type, removeTimer);
         remainingTime = 0;
     }
 }
