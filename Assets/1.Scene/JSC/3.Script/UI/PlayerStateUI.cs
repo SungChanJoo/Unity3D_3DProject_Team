@@ -33,4 +33,15 @@ public class PlayerStateUI : MonoBehaviour
     {
         manaSlider.value = player.CurrentMana;
     }
+
+    public void IncreaseMaxHp(float value)
+    {
+        hpSlider.maxValue += value;
+        hpSlider.value += value;
+    }
+    public void IncreaseMaxMana(float value)
+    {
+        manaSlider.maxValue += value;
+        manaSlider.value += value;
+    }
 }
