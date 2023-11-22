@@ -100,7 +100,12 @@ public class AnyMonster : Enemy
         {
             transform.LookAt(transform.forward * -1f);
         }
+        if (isAttack == true)
+        {
+            isAttack = false;
+            state = MosterState.Chase;
 
+        }
         base.TakeDamage(damage, knockBack, hitposition, hitNomal);
     }
     
@@ -281,7 +286,7 @@ public class AnyMonster : Enemy
             isMiss = false;
         }*/
             
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        if (agent.remainingDistance <= agent.stoppingDistance && !IsDead)
         {
             StartCoroutine(PatrollDelay_co());
             //StartCoroutine(PatrollDelay_co());

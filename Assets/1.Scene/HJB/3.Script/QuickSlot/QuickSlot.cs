@@ -10,6 +10,9 @@ public class QuickSlot : MonoBehaviour
     [SerializeField] private GameObject ui_obj;
     [SerializeField] private GameObject selectUI_obj;
 
+    [Header("On/Off SettingUI")]
+    [SerializeField] private GameObject setting_obj;
+
     [Header("슬롯 인벤토리")]
     [SerializeField] private GameObject[] uiSlot_obj;
 
@@ -49,11 +52,12 @@ public class QuickSlot : MonoBehaviour
     [SerializeField] private ParticleSystem health_E;
     [SerializeField] private ParticleSystem MaxHealth_E;
     [SerializeField] private ParticleSystem mana_E;
-    [SerializeField] private ParticleSystem MaxMana_E;   
+    [SerializeField] private ParticleSystem MaxMana_E;
 
     //UI 창 온오프 조건
     private bool on = false;
     private bool play_C = false;
+    
     
 
     private void Start()
@@ -61,7 +65,8 @@ public class QuickSlot : MonoBehaviour
         player = FindObjectOfType<CameraController>();
         data = FindObjectOfType<PlayerData>();
         ani =player.GetComponent<Animator>();
-        playerAttack = player.GetComponent<PlayerAttack>();        
+        playerAttack = player.GetComponent<PlayerAttack>();
+        Time.timeScale = 1;
 
         if (data != null)
         {
@@ -77,8 +82,19 @@ public class QuickSlot : MonoBehaviour
     private void Update()
     {
         MoveSlotKey();
+        SettingUI();
     }
 
+    private void SettingUI()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)&&!setting_obj.activeSelf)
+        {
+            Time.timeScale = 0;
+            Cursor.lockState = CursorLockMode.None;
+
+            setting_obj.SetActive(true);
+        }
+    }
     #region // PlayerData로 받은 아이템 데이터를 분배
     private void OnItemAdded(List<IItem> allItems)
     {

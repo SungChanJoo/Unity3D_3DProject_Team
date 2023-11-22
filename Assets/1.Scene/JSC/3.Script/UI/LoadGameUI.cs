@@ -8,6 +8,7 @@ public class LoadGameUI : MonoBehaviour
     public void LoadSaveData()
     {
         GameManager.Instance.NonExistSaveDataUI = nonExistSaveDataUI;
+
         GameManager.Instance.LoadPlayerScene();
     }
 }
