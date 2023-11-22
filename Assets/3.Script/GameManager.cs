@@ -14,12 +14,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] string introSceneName;
     [SerializeField] string bossRoomSceneName;
     [SerializeField] string endingSceneName;
-    [SerializeField] string currentSceneName;
+    public string currentSceneName;
 
     [SerializeField] private PlayerData player;
     [SerializeField] public PlayerDataJson playerData;
 
     public GameObject NonExistSaveDataUI;
+
+    public int Seed;
 
     public Difficulty difficulty;
 
@@ -30,6 +32,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            InitSetting();
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -38,7 +41,24 @@ public class GameManager : MonoBehaviour
         }
 
     }
+    public void InitSetting()
+    {
+        playerData.maxMana = 100f;
+        playerData.currentMana = 100f;
+        playerData.maxStamina = 100f;
+        playerData.currentStamina = 100f;
+        playerData.maxHealth = 100f;
+        playerData.currentHealth = 100f;
 
+
+        playerData.PlayerPosition_x = 20f;
+        playerData.PlayerPosition_y = 0;
+        playerData.PlayerPosition_z = -164f;
+
+        playerData.Difficulty = Difficulty.Easy;
+        playerData.SceneName = "";
+        playerData.Seed = 0;
+    }
     private void Update()
     {
         try
@@ -105,6 +125,7 @@ public class GameManager : MonoBehaviour
 
         playerData.Difficulty = difficulty;
         playerData.SceneName = currentSceneName;
+        playerData.Seed = Seed;
         string fileName;
 
         fileName = Path.Combine("Player/", "PlayerData.json");
@@ -140,10 +161,8 @@ public class GameManager : MonoBehaviour
             return null;
         }
 
-
-
-
     }
+
 
     //플레이어가 마지막에 종료한 시점의 씬을 불러옴
     public void LoadPlayerScene()
@@ -154,7 +173,6 @@ public class GameManager : MonoBehaviour
 
             if (playerData != null)
             {
-
                 SceneManager.LoadScene(playerData.SceneName);
             }
             Debug.Log("플레이어 데이터가 없는데 왜 안뜨죠");

@@ -135,7 +135,7 @@ public class Generator2D : MonoBehaviour
 
     private void Generate()
     {
-        random = new Random(); // Random에 시드값을 넣는 이유는 맵이 계속 바뀌게 하지 않을려고
+        random = new Random(GameManager.Instance.Seed); // Random에 시드값을 넣는 이유는 맵이 계속 바뀌게 하지 않을려고
         grid = new Grid2D<CellType>(size, Vector2Int.zero);
         rooms = new List<Room>();
 

@@ -25,4 +25,6 @@ public class PlayerDataJson
 
     public Difficulty Difficulty;
     public string SceneName;
+
+    public int Seed;
 }
