@@ -57,10 +57,12 @@ public class QuickSlot : MonoBehaviour
     //UI 창 온오프 조건
     private bool on = false;
     private bool play_C = false;
-    
-    
 
-    private void Start()
+    //코루틴 새로 하기위한 변수
+    private Coroutine drinkingCoroutine;
+
+
+    private void Awake()
     {        
         player = FindObjectOfType<CameraController>();
         data = FindObjectOfType<PlayerData>();
@@ -79,6 +81,7 @@ public class QuickSlot : MonoBehaviour
         }
     }
 
+    
     private void Update()
     {
         MoveSlotKey();
@@ -211,15 +214,14 @@ public class QuickSlot : MonoBehaviour
         }
 
         //플레이어가 정지상태가 아니며 포션의 수량이 0보다 클 때 실행
-        if (Input.GetKeyDown(KeyCode.Q)&&!playerAttack.hold
-            &&playerAttack.attackEnabled&&!player.isRolling)
+        if (Input.GetKeyDown(KeyCode.Q)&& playerAttack.state == States.Idle)
         {
             List<IItem>[] potionLists = { health_P, maxHealth_P, mana_P, maxMana_P };
             if (potionLists[selcetHold].Count>0)
             {
                 //아이템 사용 메서드
                 ani.SetTrigger("Drinking");
-                StartCoroutine(Drinking());
+                StartDrinking();
             }
         }
         //아이템 갯수 출력
@@ -227,6 +229,18 @@ public class QuickSlot : MonoBehaviour
         ShowItemInfo();
     }
 
+    
+    void StartDrinking()
+    {
+        //이미 실행 중인 Drinking 코루틴이 있다면 중지
+        if (drinkingCoroutine != null)
+        {
+            StopCoroutine(drinkingCoroutine);
+        }
+
+        //Drinking 코루틴 시작
+        drinkingCoroutine = StartCoroutine(Drinking());
+    }
     #region // 퀵슬롯 커서 움직임 로직(selectIndex 반환)
     private int MoveSelectUI(int offset)
     {
@@ -332,18 +346,16 @@ public class QuickSlot : MonoBehaviour
     private IEnumerator Drinking()
     {
         player.rolling = false;
-        playerAttack.attackEnabled = false;
         shield.SetActive(false);
         yield return new WaitForSeconds(1.8f);
-        player.rolling = true;
-        playerAttack.attackEnabled= true;
+        player.rolling = true;        
         shield.SetActive(true);
         ani.SetTrigger("Default");
         //시전 중 맞을 시 반환
         if (data.stop)
         {
             data.stop = false;
-            yield return null;
+            yield break;
         }
         UseItemSet();
     }

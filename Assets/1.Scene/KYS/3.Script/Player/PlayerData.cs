@@ -30,6 +30,7 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     private Rigidbody rigid;
 
+    
     // 아이템 추가용
     private void OnTriggerEnter(Collider other)
     {
@@ -196,8 +197,8 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     public void Die()
     {
-        IsDead = true;
-        
+        attack.state = States.Die;
+        IsDead = true;        
         tempAnimator.SetTrigger("Die");
         gameOver.LoadGameOver(); //gameover UI 호출
     }
@@ -218,9 +219,10 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)
     {
+        attack.isActing = false;
+
         audioSource.PlayOneShot(getHitClip);
         Debug.Log("Hp" + currentHealth);
-
         if (playerStateUI != null)
             playerStateUI.UpdateHp();
         stop = true;
@@ -233,45 +235,32 @@ public class PlayerData : MonoBehaviour, IDamageable
         }
         else
         {
-            if (attack.onDefence)
+            if (attack.state== States.Shield)
             {
 
                 if (UseStamina(10f) && !attack.perfectParrying)
                 {
                     TakeDamage(damage * 0.3f);
-                    attack.hold = true;
+                    
                     rigid.AddForce(-transform.forward * 100f, ForceMode.Impulse);
                     Debug.Log("맞음");
                 }
                 else if (attack.perfectParrying)
                 {
-                    attack.hold = true;
+                    attack.state = States.Hit;
                     tempAnimator.SetTrigger("Parry");
                     StartCoroutine(Invincibility());
 
-                }
-                else
-                {
-
-                    TakeDamage(damage);
-                    tempAnimator.SetTrigger("Hit");
-                    attack.attackEnabled = false;
-                    attack.hold = true;
-                    attack.charging = false;
-                }
-
-
+                }                
             }
             else
             {
-
+                attack.state = States.Hit;
                 TakeDamage(damage);
-                tempAnimator.SetTrigger("Hit");
-                attack.attackEnabled = false;
-                attack.hold = true;
+                tempAnimator.SetTrigger("Hit");                
+                StartCoroutine(TakeDamgeAni());
             }
         }
-        StartCoroutine(TakeDamgeAni());
 
 
     }
@@ -342,14 +331,15 @@ public class PlayerData : MonoBehaviour, IDamageable
     private IEnumerator Invincibility()
     {        
         this.gameObject.tag = "Enemy";
+        attack.state = States.Idle;
         yield return new WaitForSeconds(2f);
-        attack.hold = false;
         this.gameObject.tag = "Player";        
     }
     private IEnumerator TakeDamgeAni()
     {
         
         yield return new WaitForSeconds(0.667f);
-        attack.attackEnabled = true;
+        attack.state = States.Idle;
+        stop = false;
     }
 }

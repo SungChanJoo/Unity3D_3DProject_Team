@@ -52672,29 +52672,8 @@ AnimationClip:
     floatParameter: 0
     intParameter: 1
     messageOptions: 0
-  - time: 1.1666666
-    functionName: SkillEnabled
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 1.2
-    functionName: AttackEabled
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
   - time: 1.2
     functionName: OnAttackingAnimationCompleted
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 1.2
-    functionName: ShieldTrue
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

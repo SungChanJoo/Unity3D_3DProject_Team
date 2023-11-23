@@ -93229,13 +93229,6 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: AttackEabledFalse
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0
     functionName: OnPlayAttackSound
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -93243,7 +93236,7 @@ AnimationClip:
     intParameter: 3
     messageOptions: 0
   - time: 0.93333334
-    functionName: MoveHold
+    functionName: SkillMove
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -93257,7 +93250,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 1.5666667
-    functionName: MoveHold
+    functionName: SkillIdle
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -93271,21 +93264,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 2.4666667
-    functionName: AttackEabled
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 2.4666667
     functionName: OnAttackingAnimationCompleted
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 2.4666667
-    functionName: ShieldTrue
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
