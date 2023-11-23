@@ -14,10 +14,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] string introSceneName;
     [SerializeField] string bossRoomSceneName;
     [SerializeField] string endingSceneName;
-    [SerializeField] string currentSceneName;
+    public string currentSceneName;
 
     [SerializeField] private PlayerData player;
     [SerializeField] public PlayerDataJson playerData;
+
+    public GameObject NonExistSaveDataUI;
+
+    public int Seed;
 
     public Difficulty difficulty;
 
@@ -28,6 +32,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+          //  
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -36,7 +41,23 @@ public class GameManager : MonoBehaviour
         }
 
     }
+    public void InitSetting()
+    {
+        playerData.maxMana = 100f;
+        playerData.currentMana = 100f;
+        playerData.maxStamina = 100f;
+        playerData.currentStamina = 100f;
+        playerData.maxHealth = 100f;
+        playerData.currentHealth = 100f;
 
+
+        playerData.PlayerPosition_x = 20f;
+        playerData.PlayerPosition_y = 0;
+        playerData.PlayerPosition_z = -164f;
+        playerData.Difficulty = (float)Difficulty.Easy;
+        playerData.SceneName = "";
+        playerData.Seed = UnityEngine.Random.Range(0, 10000);
+    }
     private void Update()
     {
         try
@@ -46,9 +67,8 @@ public class GameManager : MonoBehaviour
                 player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerData>();
             }
 
-
         }
-        catch(NullReferenceException e)
+        catch (NullReferenceException e)
         {
             player = null;
         }
@@ -102,11 +122,16 @@ public class GameManager : MonoBehaviour
         playerData.PlayerPosition_y = player.transform.position.y;
         playerData.PlayerPosition_z = player.transform.position.z;
 
-        playerData.Difficulty = difficulty;
+        playerData.Difficulty = (float)difficulty;
         playerData.SceneName = currentSceneName;
+        playerData.Seed = Seed;
         string fileName;
 
-        fileName = Path.Combine("Player/", "PlayerData.json");
+        fileName = Application.dataPath+"/PlayerData.json";// Path.Combine(Application.dataPath, "/PlayerData.json");
+        if(!File.Exists(fileName))
+        {
+            File.Create(fileName);
+        }
         string toJson = JsonConvert.SerializeObject(playerData, Formatting.Indented);
         Debug.Log(playerData.maxMana);
 
@@ -116,7 +141,7 @@ public class GameManager : MonoBehaviour
     public void DeleteSaveData()
     {
         string fileName;
-        fileName = Path.Combine("Player/", "PlayerData.json");
+        fileName = Application.dataPath + "/PlayerData.json";
         File.Delete(fileName);
     }
 
@@ -126,7 +151,7 @@ public class GameManager : MonoBehaviour
         string fileName;
         try
         {
-            fileName = Path.Combine("Player/", "PlayerData.json");
+            fileName = Application.dataPath + "/PlayerData.json"; //Path.Combine(Application.dataPath, "/PlayerData.json");
             string ReadData = File.ReadAllText(fileName);
             PlayerDataJson playerData = new PlayerDataJson();
             playerData = JsonConvert.DeserializeObject<PlayerDataJson>(ReadData);
@@ -139,24 +164,29 @@ public class GameManager : MonoBehaviour
             return null;
         }
 
-
-
-
     }
+
 
     //플레이어가 마지막에 종료한 시점의 씬을 불러옴
     public void LoadPlayerScene()
     {
-        PlayerDataJson playerData = Load();
-        if(playerData != null)
+        try
         {
+            PlayerDataJson playerData = Load();
 
-            SceneManager.LoadScene(playerData.SceneName);
+            if (playerData != null)
+            {
+                SceneManager.LoadScene(playerData.SceneName);
+            }
+            Debug.Log("플레이어 데이터가 없는데 왜 안뜨죠");
         }
-        else
+
+        catch (FileNotFoundException e)
         {
+            NonExistSaveDataUI.SetActive(true);
             //todo 1120 나중에 버튼을 비활성화하든 텍스트를 띄워주든 해라
-            Debug.Log("플레이어 데이터가 없습니다.");
+            Debug.Log("플레이어 데이터가 없습니다." + e);
         }
+
     }
 }

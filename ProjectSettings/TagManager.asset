@@ -11,6 +11,7 @@ TagManager:
   - StatusEffect
   - Stairs
   - Camera
+  - NonExistSaveDataUI
   layers:
   - Default
   - TransparentFX

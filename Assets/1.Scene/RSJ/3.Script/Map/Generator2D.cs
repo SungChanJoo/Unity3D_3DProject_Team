@@ -135,7 +135,7 @@ public class Generator2D : MonoBehaviour
 
     private void Generate()
     {
-        random = new Random(); // Random에 시드값을 넣는 이유는 맵이 계속 바뀌게 하지 않을려고
+        random = new Random(GameManager.Instance.Seed); // Random에 시드값을 넣는 이유는 맵이 계속 바뀌게 하지 않을려고
         grid = new Grid2D<CellType>(size, Vector2Int.zero);
         rooms = new List<Room>();
 
@@ -186,7 +186,7 @@ public class Generator2D : MonoBehaviour
             {
                 if(Room.Intersect(room, buffer))
                 {
-                    Debug.Log("Intersect가 들어와서 add가 안됨");
+                    //Debug.Log("Intersect가 들어와서 add가 안됨");
                     add = false;
                     break;
                 }
@@ -194,7 +194,7 @@ public class Generator2D : MonoBehaviour
 
             if(newRoom.bounds.xMin < 0 || newRoom.bounds.xMax >= size.x || newRoom.bounds.yMin < 0 || newRoom.bounds.yMax >= size.y)
             {
-                Debug.Log("그리드 범위 밖으로 나간 큐브가 있는지");
+                //Debug.Log("그리드 범위 밖으로 나간 큐브가 있는지");
                 add = false;
             }
 
@@ -202,7 +202,7 @@ public class Generator2D : MonoBehaviour
             {
                 if(newRoom.bounds.size.x > 3 && newRoom.bounds.size.y > 3)
                 {
-                    Debug.Log("방이 추가됨");
+                    //Debug.Log("방이 추가됨");
                     rooms.Add(newRoom);
                     PlaceRoom(newRoom.bounds.position, newRoom.bounds.size);
 
@@ -258,7 +258,7 @@ public class Generator2D : MonoBehaviour
             //Debug.Log(delaunay.Vertices[i].Position);
         }
 
-        Debug.Log("엣지가 없는건가?" + delaunay.Edges.Count);
+        //Debug.Log("엣지가 없는건가?" + delaunay.Edges.Count);
         for (int i = 0; i < delaunay.Edges.Count; i++)
         {
             //Debug.Log("여기로 들어옴" + i);
@@ -342,7 +342,7 @@ public class Generator2D : MonoBehaviour
             Debug.DrawRay(startpositon, Vector3.up*3f, Color.green, Mathf.Infinity);
             Debug.DrawRay(endpositon, Vector3.up*2f, Color.blue, Mathf.Infinity);
 
-            Debug.Log("selectedEdges의 개수 : " + selectedEdges.Count);
+            //Debug.Log("selectedEdges의 개수 : " + selectedEdges.Count);
 
             //복도 부모오브젝트 (하이어아키 정리)
             GameObject parent = Instantiate(parentPrefab, Vector3.zero, Quaternion.identity);
@@ -399,7 +399,7 @@ public class Generator2D : MonoBehaviour
                         if(grid[path[i-1]] == CellType.Room)
                         {
                             Debug.DrawRay(new Vector3(path[i-1].x, 0, path[i-1].y), Vector3.up * 4f, Color.black, Mathf.Infinity);
-                            Debug.Log("i-1번째(첫 통로방의 이전)는 방이다");
+                           // Debug.Log("i-1번째(첫 통로방의 이전)는 방이다");
 
                             Vector3 prevPos = new Vector3(path[i - 1].x, 2f, path[i - 1].y);
 
@@ -410,7 +410,7 @@ public class Generator2D : MonoBehaviour
                         if(grid[path[i+1]] == CellType.Room)
                         {
                             Debug.DrawRay(new Vector3(path[i + 1].x, 0, path[i + 1].y), Vector3.up * 6f, Color.white, Mathf.Infinity);
-                            Debug.Log("i+1번째(마지막 통로방의 다음)은 방이다");
+                           // Debug.Log("i+1번째(마지막 통로방의 다음)은 방이다");
 
                             Vector3 nextPos = new Vector3(path[i + 1].x, 2f, path[i + 1].y);
 
@@ -470,8 +470,8 @@ public class Generator2D : MonoBehaviour
 
         gridEntrance[endPos] = CellType.Room;
 
-        Debug.Log("얘는 무슨 값이지? Celltype을 갖고있나?" + gridEntrance[new Vector2Int(0, 0)]);
-        Debug.Log("얘는 endpos위치에 Room을 넣었으니 Room이 나오겠지?" + gridEntrance[endPos]);
+        //Debug.Log("얘는 무슨 값이지? Celltype을 갖고있나?" + gridEntrance[new Vector2Int(0, 0)]);
+       // Debug.Log("얘는 endpos위치에 Room을 넣었으니 Room이 나오겠지?" + gridEntrance[endPos]);
 
         Pathfinder2D aStar = new Pathfinder2D(sizeEntrance);
 
@@ -505,8 +505,8 @@ public class Generator2D : MonoBehaviour
 
         if (path != null)
         {
-            Debug.Log("새 그리드 path에 뭐가 담기나?");
-            Debug.Log("새 그리드 path 몇개? " + path.Count);
+            //Debug.Log("새 그리드 path에 뭐가 담기나?");
+           // Debug.Log("새 그리드 path 몇개? " + path.Count);
             for (int i = 0; i < path.Count; i++)
             {
                 var current = path[i];
@@ -619,13 +619,13 @@ public class Generator2D : MonoBehaviour
 
         if(Physics.Raycast(bossRoomPos, Vector3.up, out hit, 100f))
         {
-            Debug.Log("보스방에서 위로 쐈을때 맞은 녀석 이름 : " + hit.transform.gameObject.name);
+           // Debug.Log("보스방에서 위로 쐈을때 맞은 녀석 이름 : " + hit.transform.gameObject.name);
             Destroy(hit.transform.gameObject);
         }
 
         if (Physics.Raycast(bossRoomPos - Vector3.up*3, Vector3.back, out hit, 100f)) // z축
         {
-            Debug.Log("보스방 레이 맞은 녀석 이름 : " + hit.transform.gameObject.name + "위치 : " + hit.transform.position);
+            //Debug.Log("보스방 레이 맞은 녀석 이름 : " + hit.transform.gameObject.name + "위치 : " + hit.transform.position);
             if(!(hit.transform.gameObject.name == "Wall_01"))
             {
                 GameObject bossRoom = Instantiate(bossRoomPrefab, bossRoomPos + new Vector3(0,0,halfSize_z*3), Quaternion.identity);
@@ -633,7 +633,7 @@ public class Generator2D : MonoBehaviour
             }
             else if (Physics.Raycast(bossRoomPos - Vector3.up * 3, Vector3.left, out hit, 100f)) // x축
             {
-                Debug.Log("else if 보스방 레이 맞은 녀석 이름 : " + hit.transform.gameObject.name + "위치 : " + hit.transform.position);
+                //Debug.Log("else if 보스방 레이 맞은 녀석 이름 : " + hit.transform.gameObject.name + "위치 : " + hit.transform.position);
                 if (!(hit.transform.gameObject.name == "Wall_01"))
                 {
                     GameObject bossRoom = Instantiate(bossRoomPrefab, bossRoomPos + new Vector3(halfSize_x * 3, 0, 0), Quaternion.identity);
@@ -641,7 +641,7 @@ public class Generator2D : MonoBehaviour
                 }
                 else if (Physics.Raycast(bossRoomPos - Vector3.up * 3, Vector3.right, out hit, 100f)) // x축
                 {
-                    Debug.Log("else if의 else if 보스방 레이 맞은 녀석 이름 : " + hit.transform.gameObject.name + "위치 : " + hit.transform.position);
+                   // Debug.Log("else if의 else if 보스방 레이 맞은 녀석 이름 : " + hit.transform.gameObject.name + "위치 : " + hit.transform.position);
                     if (!(hit.transform.gameObject.name == "Wall_01"))
                     {
                         GameObject bossRoom = Instantiate(bossRoomPrefab, bossRoomPos - new Vector3(halfSize_x * 3, 0, 0), Quaternion.identity);
@@ -682,7 +682,7 @@ public class Generator2D : MonoBehaviour
             //방향표시
             CellDirection checkCellDirection;
 
-            Debug.Log("교차된 위치들을 알려줘 : " + crossPosition);
+            //Debug.Log("교차된 위치들을 알려줘 : " + crossPosition);
             if(!Physics.Raycast(crossPosition, Vector3.up, out hit, 10f))
             {
                 GameObject crossCeiling = Instantiate(hallwayCrossCeilingPrefab, crossPosition, Quaternion.identity);
@@ -690,17 +690,17 @@ public class Generator2D : MonoBehaviour
             }
             else
             {
-                Debug.Log("공중에 뭐가 있는거지? : " + hit.transform.gameObject.name);
+               // Debug.Log("공중에 뭐가 있는거지? : " + hit.transform.gameObject.name);
             }
 
             //forward
             if (!Physics.Raycast(crossPosition, Vector3.forward, 1.5f) )
             {
-                Debug.Log("forward에 없음");
+               // Debug.Log("forward에 없음");
                 if(Physics.Raycast(crossPosition + Vector3.forward * 3f, Vector3.down, out hit, 3f))
                 {
-                    Debug.Log("forward에 가서 밑에 레이 쏘니까 맞음");
-                    Debug.Log("그럼 부딪힌녀석 이름이 뭐야 : " + hit.transform.gameObject.name);
+                 //   Debug.Log("forward에 가서 밑에 레이 쏘니까 맞음");
+                //    Debug.Log("그럼 부딪힌녀석 이름이 뭐야 : " + hit.transform.gameObject.name);
                     if (hit.transform.gameObject.name == "Terrain")
                     {
                         checkCellDirection = CellDirection.forward;
@@ -1074,10 +1074,10 @@ public class Generator2D : MonoBehaviour
             {
                 RaycastHit hit;
 
-                Debug.Log("2개 이상 물체가 겹친데가 있다.");
-                Debug.Log("colliders의 개수 : " + colliders.Length);
+                //Debug.Log("2개 이상 물체가 겹친데가 있다.");
+               // Debug.Log("colliders의 개수 : " + colliders.Length);
                 DeleteCube(checkPos);
-                Debug.Log(checkPos);
+               // Debug.Log(checkPos);
 
                 crossPos_List.Add(checkPos);
             }
@@ -1092,9 +1092,9 @@ public class Generator2D : MonoBehaviour
 
         if (Physics.Raycast(Pos, Vector3.up, out hit, 10f))
         {
-            Debug.Log("첫 레이에 부딪힌 녀석 위치 : " + hit.transform.position + "레이에 부딪힌 녀석 이름 : " + hit.transform.name);
+          //  Debug.Log("첫 레이에 부딪힌 녀석 위치 : " + hit.transform.position + "레이에 부딪힌 녀석 이름 : " + hit.transform.name);
             Destroy(hit.transform.gameObject);
-            Debug.Log("y축 방향 위에 지웠다 : " + Pos);
+            //Debug.Log("y축 방향 위에 지웠다 : " + Pos);
             
         }
 
@@ -1102,7 +1102,7 @@ public class Generator2D : MonoBehaviour
         hits = Physics.RaycastAll(Pos, Vector3.up, 10f);
         foreach(var hit_up in hits)
         {
-            Debug.Log("hit_up 위치 : " + hit_up.transform.position + "hit_up 이름 : " + hit_up.transform.name);
+           // Debug.Log("hit_up 위치 : " + hit_up.transform.position + "hit_up 이름 : " + hit_up.transform.name);
             Destroy(hit_up.transform.gameObject);
         }
 
@@ -1198,7 +1198,7 @@ public class Generator2D : MonoBehaviour
         
         if(Physics.Raycast(currentPos, Vector3.forward, out hit, 5f))
         {
-            Debug.Log("DeleteFirstRoomWall if문 들어옴");
+           // Debug.Log("DeleteFirstRoomWall if문 들어옴");
             Destroy(hit.transform.gameObject);
         }
     }
@@ -1206,13 +1206,13 @@ public class Generator2D : MonoBehaviour
     //횃불제거
     private void DestroyTorch(RaycastHit hit)
     {
-        Debug.Log("맞은 녀석의 자식 개수 : " + hit.transform.childCount);
+       // Debug.Log("맞은 녀석의 자식 개수 : " + hit.transform.childCount);
         if(hit.transform.childCount > 0)
         {
-            Debug.Log("첫번째 자식 이름? " + hit.transform.GetChild(0));
+          //  Debug.Log("첫번째 자식 이름? " + hit.transform.GetChild(0));
             if (hit.transform.GetChild(hit.transform.childCount - 1).transform.name == "Torch_01")
             {
-                Debug.Log("지웠음, 위치는 ? " + hit.transform.GetChild(hit.transform.childCount -1).transform.position);
+            //    Debug.Log("지웠음, 위치는 ? " + hit.transform.GetChild(hit.transform.childCount -1).transform.position);
                 Destroy(hit.transform.GetChild(hit.transform.childCount - 1).transform.gameObject);
             }
         }
@@ -1244,8 +1244,8 @@ public class Generator2D : MonoBehaviour
             Vector3 checkEdgePosition_V = new Vector3(edges[i - 1].V.Position.x, 0, edges[i - 1].V.Position.y);
             Vector3 checkEdgePosition_V2 = new Vector3(edges[i].V.Position.x, 0, edges[i].V.Position.y);
 
-            Debug.Log("첫번째 U의 포지션 : " + checkEdgePosition_U);
-            Debug.Log("두번째 U의 포지션 : " + checkEdgePosition_U2);
+           // Debug.Log("첫번째 U의 포지션 : " + checkEdgePosition_U);
+           // Debug.Log("두번째 U의 포지션 : " + checkEdgePosition_U2);
 
             Debug.DrawLine(checkEdgePosition_U, checkEdgePosition_U2, Color.green, Mathf.Infinity);
             Debug.DrawLine(checkEdgePosition_V, checkEdgePosition_V2, Color.blue, Mathf.Infinity);

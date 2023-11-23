@@ -56,8 +56,8 @@ public class OrcSpawner : MonoBehaviour
         float randomWeight = 0;
         float randomHeight = 0;
 
-        randomWeight = Random.Range((weight / 2) * -1, weight / 2);
-        randomHeight = Random.Range((height / 2) * -1, height / 2);
+        randomWeight = Random.Range((weight * 0.5f) * -1, weight * 0.5f);
+        randomHeight = Random.Range((height * 0.5f) * -1, height * 0.5f);
         Vector3 randomPostion = new Vector3(randomWeight, 0f, randomHeight);
 
         Vector3 respawnPosition = originPosition + randomPostion;
@@ -70,16 +70,16 @@ public class OrcSpawner : MonoBehaviour
 
         float randomWeight = 0;
         float randomHeight = 0;
-        while (Mathf.Abs(randomWeight) < 4 && Mathf.Abs(randomHeight) < 4)
+        while (Mathf.Abs(randomWeight) < weight * 0.5f-1f && Mathf.Abs(randomHeight) < weight * 0.5f-1f)
         {
-            randomWeight = Random.Range((weight / 2) * -1, weight / 2);
-            randomHeight = Random.Range((height / 2) * -1, height / 2);
+            randomWeight = Random.Range((weight * 0.5f) * -1, weight * 0.5f);
+            randomHeight = Random.Range((height * 0.5f) * -1, height * 0.5f);
 
         }
         Vector3 randomPostion = new Vector3(randomWeight, 0f, randomHeight);
 
         Vector3 respawnPosition = originPosition + randomPostion;
-        Debug.Log(respawnPosition);
+        //Debug.Log(respawnPosition);
         return respawnPosition;
     }
 }

@@ -30,6 +30,7 @@ public class AnyMonster : Enemy
     [SerializeField] protected float nextBehaviorTimebet = 3f;
     protected float lastBehaviorTime;
 
+    [SerializeField] private List<GameObject> items;
 
 
     private bool isTarget
@@ -68,9 +69,21 @@ public class AnyMonster : Enemy
         weapon.GetComponent<BoxCollider>().enabled = false;
         state = MosterState.Idle;
 
-        OnDead += () => Destroy(gameObject,3f);
+        OnDead += () => {
+            DropItem(); 
+            Destroy(gameObject, 3f); };
     }
 
+    private void DropItem()
+    {
+
+        int randIndex = UnityEngine.Random.Range(0,items.Count);
+        float rand = UnityEngine.Random.Range(0, 100);
+        if (rand < 50)
+        {
+            Instantiate(items[randIndex], transform.position, Quaternion.identity);
+        }
+    }
 
 
     public override void TakeDamage(float damage, float knockBack, Vector3 hitposition, Vector3 hitNomal)
@@ -87,7 +100,12 @@ public class AnyMonster : Enemy
         {
             transform.LookAt(transform.forward * -1f);
         }
+        if (isAttack == true)
+        {
+            isAttack = false;
+            state = MosterState.Chase;
 
+        }
         base.TakeDamage(damage, knockBack, hitposition, hitNomal);
     }
     
@@ -268,7 +286,7 @@ public class AnyMonster : Enemy
             isMiss = false;
         }*/
             
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        if (agent.remainingDistance <= agent.stoppingDistance && !IsDead)
         {
             StartCoroutine(PatrollDelay_co());
             //StartCoroutine(PatrollDelay_co());

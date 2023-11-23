@@ -23,6 +23,8 @@ public class PlayerDataJson
     public float PlayerPosition_y = 0f;
     public float PlayerPosition_z = -164f;
 
-    public Difficulty Difficulty;
+    public float Difficulty = 0;
     public string SceneName;
+
+    public int Seed;
 }

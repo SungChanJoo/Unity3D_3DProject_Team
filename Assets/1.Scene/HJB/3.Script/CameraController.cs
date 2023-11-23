@@ -28,7 +28,7 @@ public class CameraController : MonoBehaviour
     //플레이어의 현재 상태
     private bool haveTarget = false;
     private bool isRun = false;
-    private bool state = false;
+    
     public bool rolling = true;
     public bool isRolling = false;
     public bool isParalysed = false;
@@ -88,35 +88,21 @@ public class CameraController : MonoBehaviour
     }
     private void Update()
     {        
-        StateCheck();
+        
         Debug.DrawRay(transform.position, EulerToVector(0) * detectionDistance, Color.green);
         Debug.DrawRay(transform.position, EulerToVector(detectionAngle*0.6f ) * detectionDistance, Color.green);
         Debug.DrawRay(transform.position, EulerToVector(-detectionAngle*0.6f ) * detectionDistance, Color.green);
         LockOnTargetCheck();
         TargetDetection();
         move();
-                
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Debug.Log(attack.state);
+        }
     }
 
     //여기서 모든 상태를 하나로 묶어서 관리를 해야하나
-    public void StateCheck()
-    {        
-        if (isRolling || attack.hold || isParalysed)  
-        {
-            
-            state = true;
-        }
-        else
-        {
-            state = false;
-            
-        }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            Debug.Log($"상태 : {state}");
-            Debug.Log($"타겟 : {haveTarget}");
-        }
-    }
+    
 
     #region // 락온 상태, 타겟 확인, 카메라 우선순위 총괄 메서드
     private void LockOnTargetCheck()
@@ -181,7 +167,7 @@ public class CameraController : MonoBehaviour
             isRun = false;
         }        
         finalSpeed = data.GetCurrentPlayerSpeed(isRun);
-        if (!state)
+        if (attack.state == States.Idle|| attack.state != States.Rolling)
         {
             moveInputX = Input.GetAxis("Horizontal");
             moveInputZ = Input.GetAxis("Vertical");
@@ -212,7 +198,7 @@ public class CameraController : MonoBehaviour
         moveDir = lookForward * moveInputZ + lookRight * moveInputX;
 
         //락온이 아닐 때 이동
-        if (!haveTarget && !state)
+        if ((!haveTarget && attack.state == States.Idle) || attack.state == States.Skillmove)
         {
 
             var playerGroundPos = new Vector3(transform.position.x, 0, transform.position.z);
@@ -237,7 +223,7 @@ public class CameraController : MonoBehaviour
         }
 
         //락온에 따른 이동
-        if (haveTarget&& !state)
+        if ((haveTarget&& attack.state == States.Idle)|| attack.state == States.Skillmove)
         {
             //플레이어 이동
             rigid.MovePosition(rigid.position + moveDir * finalSpeed * Time.deltaTime);
@@ -267,7 +253,8 @@ public class CameraController : MonoBehaviour
         animator.SetBool("lockOn", haveTarget);
         animator.SetBool("runing", isRun);
         //구르기        
-        if (!state&&rolling &&move&& Input.GetKeyDown(KeyCode.Space)&& true==data.UseStamina(30f))
+        if (rolling && move && Input.GetKeyDown(KeyCode.Space)&&
+            attack.state == States.Idle && true==data.UseStamina(30f))
         {            
             StartCoroutine(Rolling());
         }
@@ -374,20 +361,22 @@ public class CameraController : MonoBehaviour
     #region // 코루틴 구르기 제어
     private IEnumerator Rolling()
     {
-        float X = Input.GetAxis("Horizontal");
-        float Z = Input.GetAxis("Vertical");
-
+        attack.state = States.Rolling;
         isRolling = true;
 
         float rollSpeed = 5f;
         float timer = 0f;
 
-        _percent = X;
-        percent = Z;
+        _percent = moveInputX;
+        percent = moveInputZ;
 
         animator.SetFloat("x", _percent);
         animator.SetFloat("y", percent);
         animator.SetTrigger("rolling");
+        
+        //구르기 방향조정
+        Quaternion rotation = Quaternion.LookRotation(moveDir);
+        transform.rotation = rotation;
 
         Vector3 directionRoll = moveDir;
         //다른 레이어 넣을 것.
@@ -408,7 +397,8 @@ public class CameraController : MonoBehaviour
             yield return null;
         }
         animator.SetTrigger("Default");
-        isRolling = false;        
+        isRolling = false;
+        attack.state = States.Idle;
         yield return new WaitForSeconds(0.3f);
         this.gameObject.tag = "Player";
 

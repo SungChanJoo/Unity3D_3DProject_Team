@@ -19,7 +19,7 @@ public class SoundManagerBGM : MonoBehaviour
     private AudioSource source;
 
     [Header("인트로 - 마을 - 던전 - 보스12 - 엔딩")]
-    [SerializeField] private AudioClip[] bgmType;     
+    [SerializeField] private AudioClip[] bgmType;
 
     //BGM종류 확인
     private int _type = 0;
@@ -28,7 +28,10 @@ public class SoundManagerBGM : MonoBehaviour
     private string sceneName;
 
     private bool bgmChange = false;
-    
+
+    //보스검출
+    private Knight boss1;
+    private Skeleton boss2;
     
     private void Awake()
     {
@@ -36,12 +39,16 @@ public class SoundManagerBGM : MonoBehaviour
         if (sceneName != "Intro")
         {
             player = GameObject.Find("Player");
-        }
+        }        
         bgm = GameObject.Find("SoundManager");
         source = bgm.GetComponent<AudioSource>();
     }
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Debug.Log(boss1);
+        }
         if (!bgmChange)
         {   
             switch (sceneName)
@@ -53,6 +60,11 @@ public class SoundManagerBGM : MonoBehaviour
                     StartBGM_MainGame();
                     return;
                 case "BossRoom":
+                    if (sceneName == "BossRoom")
+                    {
+                        boss1 = FindObjectOfType<Knight>();
+                        boss2 = FindObjectOfType<Skeleton>();
+                    }
                     StartBGM_BossRoom();
                     return;
                 case "GameEnd":
@@ -72,8 +84,7 @@ public class SoundManagerBGM : MonoBehaviour
         }
         else
         {
-            StartCoroutine(PlayBGM(BGMtype.Intro));
-            
+            StartCoroutine(PlayBGM(BGMtype.Intro));            
         }
     }
     private void StartBGM_MainGame()
@@ -110,9 +121,9 @@ public class SoundManagerBGM : MonoBehaviour
     }
     private void StartBGM_BossRoom()
     {
-
+        
         //보스 1페
-        if (true)
+        if (boss1!=null)
         {
             _type = (int)BGMtype.Boss1;
             if (source.isPlaying && source.clip == bgmType[_type])
@@ -125,7 +136,7 @@ public class SoundManagerBGM : MonoBehaviour
             }
         }
         //보스 2페
-        else
+        else if(boss1==null&&boss2!=null)
         {
             _type = (int)BGMtype.Boss2;
             if (source.isPlaying && source.clip == bgmType[_type])
@@ -176,27 +187,27 @@ public class SoundManagerBGM : MonoBehaviour
         {
             case BGMtype.Intro:
                 source.clip = bgmType[_type];
-                _type = 0;
+                _type =(int)BGMtype.Intro;
                 break;
             case BGMtype.Town:
                 source.clip = bgmType[_type];
-                _type = 1;
+                _type = (int)BGMtype.Town;
                 break;
             case BGMtype.Dungeon:
                 source.clip = bgmType[_type];
-                _type = 2;
+                _type = (int)BGMtype.Dungeon;
                 break;
             case BGMtype.Boss1:
                 source.clip = bgmType[_type];
-                _type = 3;
+                _type = (int)BGMtype.Boss1;
                 break;
             case BGMtype.Boss2:
                 source.clip = bgmType[_type];
-                _type = 4;
+                _type = (int)BGMtype.Boss2;
                 break;
             case BGMtype.Ending:
                 source.clip = bgmType[_type];
-                _type = 5;
+                _type = (int)BGMtype.Ending;
                 break;
         }
         source.Play();

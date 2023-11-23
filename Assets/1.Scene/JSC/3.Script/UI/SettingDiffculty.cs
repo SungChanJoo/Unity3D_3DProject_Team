@@ -10,9 +10,12 @@ public class SettingDiffculty : MonoBehaviour
 
     public void OnSetDifficulty()
     {
-        GameManager.Instance.difficulty = difficulty;
-        GameManager.Instance.DeleteSaveData();        
-        LoadingSceneManager.LoadScene(SceneName);
+
+        GameManager.Instance.DeleteSaveData();
+
+        GameManager.Instance.InitSetting();
+        SceneManager.LoadScene(SceneName);
+        //LoadingSceneManager.LoadScene(SceneName);
     }
 
 }

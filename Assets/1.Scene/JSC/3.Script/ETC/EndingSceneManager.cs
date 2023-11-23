@@ -11,9 +11,11 @@ public class EndingSceneManager : MonoBehaviour
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        GameManager.Instance.DeleteSaveData();
     }
     public void Restart()
     {
+
         SceneManager.LoadScene(introSceneName);
     }
     public void GameExit()

@@ -29,6 +29,8 @@ public class LoadingSceneManager : MonoBehaviour
         while (!op.isDone)
         {
             yield return null;
+            Debug.Log("무한반복중...." + op.progress);
+
             timer += Time.deltaTime;
             if (op.progress < 0.9f)
             {
@@ -37,6 +39,8 @@ public class LoadingSceneManager : MonoBehaviour
                 {
                     timer = 0f;
                 }
+                Debug.Log("씬 불러오는중...");
+
             }
             else
             {
@@ -44,6 +48,7 @@ public class LoadingSceneManager : MonoBehaviour
                 if (progressBar.fillAmount == 1f)
                 {
                     op.allowSceneActivation = true;
+                    Debug.Log("씬 불러오기 완료");
                     yield break;
                 }
             }
