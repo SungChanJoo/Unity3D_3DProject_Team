@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
         playerData.PlayerPosition_x = 20f;
         playerData.PlayerPosition_y = 0;
         playerData.PlayerPosition_z = -164f;
-        playerData.Difficulty = Difficulty.Easy;
+        playerData.Difficulty = (float)Difficulty.Easy;
         playerData.SceneName = "";
         playerData.Seed = UnityEngine.Random.Range(0, 10000);
     }
@@ -122,12 +122,16 @@ public class GameManager : MonoBehaviour
         playerData.PlayerPosition_y = player.transform.position.y;
         playerData.PlayerPosition_z = player.transform.position.z;
 
-        playerData.Difficulty = difficulty;
+        playerData.Difficulty = (float)difficulty;
         playerData.SceneName = currentSceneName;
         playerData.Seed = Seed;
         string fileName;
 
-        fileName = Path.Combine("Player/", "PlayerData.json");
+        fileName = Application.dataPath+"/PlayerData.json";// Path.Combine(Application.dataPath, "/PlayerData.json");
+        if(!File.Exists(fileName))
+        {
+            File.Create(fileName);
+        }
         string toJson = JsonConvert.SerializeObject(playerData, Formatting.Indented);
         Debug.Log(playerData.maxMana);
 
@@ -137,7 +141,7 @@ public class GameManager : MonoBehaviour
     public void DeleteSaveData()
     {
         string fileName;
-        fileName = Path.Combine("Player/", "PlayerData.json");
+        fileName = Application.dataPath + "/PlayerData.json";
         File.Delete(fileName);
     }
 
@@ -147,7 +151,7 @@ public class GameManager : MonoBehaviour
         string fileName;
         try
         {
-            fileName = Path.Combine("Player/", "PlayerData.json");
+            fileName = Application.dataPath + "/PlayerData.json"; //Path.Combine(Application.dataPath, "/PlayerData.json");
             string ReadData = File.ReadAllText(fileName);
             PlayerDataJson playerData = new PlayerDataJson();
             playerData = JsonConvert.DeserializeObject<PlayerDataJson>(ReadData);
