@@ -197,6 +197,8 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     public void Die()
     {
+        if (playerStateUI != null)
+            playerStateUI.UpdateHp();
         attack.state = States.Die;
         IsDead = true;        
         tempAnimator.SetTrigger("Die");
@@ -215,6 +217,8 @@ public class PlayerData : MonoBehaviour, IDamageable
         }
 
         currentHealth -= damage;
+        if (playerStateUI != null)
+            playerStateUI.UpdateHp();
     }
 
     public void TakeDamage(float damage, float knockback, Vector3 hitPosition, Vector3 hitNomal)

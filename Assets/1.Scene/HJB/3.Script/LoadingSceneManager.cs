@@ -9,21 +9,22 @@ public class LoadingSceneManager : MonoBehaviour
     public static string nextScene;
     [SerializeField] Image progressBar;
 
-    private void Start()
-    {
-        StartCoroutine(LoadScene());
-    }
-
     public static void LoadScene(string sceneName)
     {
         nextScene = sceneName;
         SceneManager.LoadScene("LoadingScene");
     }
 
+    private void Awake()
+    {
+        StartCoroutine(LoadScene());        
+    }
+
     IEnumerator LoadScene()
     {
         yield return null;
         AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
+        Debug.Log("불러올 씬 이름은? "+nextScene);
         op.allowSceneActivation = false;
         float timer = 0.0f;
         while (!op.isDone)
@@ -45,12 +46,10 @@ public class LoadingSceneManager : MonoBehaviour
             else
             {
                 progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1f, timer);
-                if (progressBar.fillAmount == 1f)
-                {
-                    op.allowSceneActivation = true;
-                    Debug.Log("씬 불러오기 완료");
-                    yield break;
-                }
+                op.allowSceneActivation = true;
+                Debug.Log("씬 불러오기 완료");
+                yield break;
+
             }
         }
     }

@@ -176,7 +176,9 @@ public class GameManager : MonoBehaviour
 
             if (playerData != null)
             {
-                SceneManager.LoadScene(playerData.SceneName);
+                LoadingSceneManager.LoadScene(playerData.SceneName);
+
+                //SceneManager.LoadScene(playerData.SceneName);
             }
             Debug.Log("플레이어 데이터가 없는데 왜 안뜨죠");
         }

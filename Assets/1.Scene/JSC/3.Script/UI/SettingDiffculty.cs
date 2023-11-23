@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class SettingDiffculty : MonoBehaviour
 {
     [SerializeField] string SceneName;
-    [SerializeField] Difficulty difficulty;
 
     public void OnSetDifficulty()
     {
@@ -14,8 +13,8 @@ public class SettingDiffculty : MonoBehaviour
         GameManager.Instance.DeleteSaveData();
 
         GameManager.Instance.InitSetting();
-        SceneManager.LoadScene(SceneName);
-        //LoadingSceneManager.LoadScene(SceneName);
+        //SceneManager.LoadScene(SceneName);
+        LoadingSceneManager.LoadScene(SceneName);
     }
 
 }

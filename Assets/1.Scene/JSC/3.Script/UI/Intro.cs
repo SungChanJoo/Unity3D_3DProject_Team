@@ -11,15 +11,15 @@ public class Intro : MonoBehaviour
     [SerializeField] private string sceneName;
     [SerializeField] private GameObject difficultyUI;
 
-    [SerializeField] Image[] images = null;
-    [SerializeField] TextMeshProUGUI[] texts = null;
+    //[SerializeField] Image[] images = null;
+    //[SerializeField] TextMeshProUGUI[] texts = null;
 
-    private void Start()
-    {
-        StartCoroutine(FadeTextToFullAlpha(1.5f, images, texts));
-    }
+    //private void Start()
+    //{
+    //    StartCoroutine(FadeTextToFullAlpha(1.5f, images, texts));
+    //}
 
-    public IEnumerator FadeTextToFullAlpha(float t, Image[] images, TextMeshProUGUI[] texts)
+/*    public IEnumerator FadeTextToFullAlpha(float t, Image[] images, TextMeshProUGUI[] texts)
     {
         float elapsedTime = 0f;
         Color[] imageStartColors = new Color[images.Length];
@@ -62,8 +62,8 @@ public class Intro : MonoBehaviour
         for (int i = 0; i < texts.Length; i++)
         {
             texts[i].color = textStartColors[i];
-        }
-    }
+        }*/
+    //}
 
 
     public void OnNewGame()

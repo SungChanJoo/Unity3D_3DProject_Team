@@ -97,7 +97,7 @@ public class CameraController : MonoBehaviour
         move();
         if (Input.GetKeyDown(KeyCode.T))
         {
-            Debug.Log(attack.state);
+            attack.state = States.Idle;
         }
     }
 
