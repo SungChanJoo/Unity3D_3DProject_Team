@@ -593,7 +593,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 20
+      m_SerializableObject: 1
     m_Space: 2147483647
   m_Property:
     name: Count
@@ -3573,7 +3573,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":1024.0,"g":0.0,"b":132.5176544189453,"a":1.0}'
+      m_SerializableObject: '{"r":118.85225677490235,"g":175.70779418945313,"b":1007.8673095703125,"a":1.0}'
     m_Space: 2147483647
   m_Property:
     name: SlashColor
