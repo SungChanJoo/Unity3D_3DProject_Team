@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 54d617af1e3f4a978bd4b7743e90e340, type: 2}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.5
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.12291386, g: 0.19310817, b: 0.25194958, a: 0.5}
+  m_IndirectSpecularColor: {r: 0.3207595, g: 0.3580928, b: 0.41682976, a: 0.5}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -566,6 +566,10 @@ PrefabInstance:
     - target: {fileID: 5637087138276647560, guid: a17b893de5ba56e46a270acef12d563c, type: 3}
       propertyPath: m_Name
       value: Corner_BL
+      objectReference: {fileID: 0}
+    - target: {fileID: 5637087138276647560, guid: a17b893de5ba56e46a270acef12d563c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5637087138276647561, guid: a17b893de5ba56e46a270acef12d563c, type: 3}
       propertyPath: m_RootOrder
@@ -1275,7 +1279,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &205041007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1555,6 +1559,10 @@ PrefabInstance:
     - target: {fileID: 1556837062840079120, guid: eda2150bceca5c948a05daf471b34c96, type: 3}
       propertyPath: m_Name
       value: Wall_B
+      objectReference: {fileID: 0}
+    - target: {fileID: 1556837062840079120, guid: eda2150bceca5c948a05daf471b34c96, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7939863276795329200, guid: eda2150bceca5c948a05daf471b34c96, type: 3}
       propertyPath: m_RootOrder
@@ -1884,6 +1892,10 @@ PrefabInstance:
     - target: {fileID: 144004, guid: b89b2bb843094d8a95d44316af93ec75, type: 3}
       propertyPath: m_Name
       value: Floor_Detailed_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 144004, guid: b89b2bb843094d8a95d44316af93ec75, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 402236, guid: b89b2bb843094d8a95d44316af93ec75, type: 3}
       propertyPath: m_RootOrder
@@ -3092,6 +3104,10 @@ PrefabInstance:
     - target: {fileID: 183400, guid: af29e6331554495db5d9af38d3302391, type: 3}
       propertyPath: m_Name
       value: Floor_Detailed_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 183400, guid: af29e6331554495db5d9af38d3302391, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 430166, guid: af29e6331554495db5d9af38d3302391, type: 3}
       propertyPath: m_RootOrder
@@ -8819,6 +8835,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TD_Tile_Exit_01
       objectReference: {fileID: 0}
+    - target: {fileID: 4655139129437618983, guid: 05fe80661c9d44945a33b7c83686cf58, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05fe80661c9d44945a33b7c83686cf58, type: 3}
 --- !u!1 &765118028
@@ -14043,8 +14063,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f52ff6ac2053bd4cabd523f45f67958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAttack: {fileID: 1209869960}
-  childrenCollider: {fileID: 1687938127}
 --- !u!65 &850604891
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14254,6 +14272,10 @@ PrefabInstance:
     - target: {fileID: 111510083928078563, guid: f2144b098842d0b45b43ed5f7625e201, type: 3}
       propertyPath: m_Name
       value: Corner_TR
+      objectReference: {fileID: 0}
+    - target: {fileID: 111510083928078563, guid: f2144b098842d0b45b43ed5f7625e201, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2144b098842d0b45b43ed5f7625e201, type: 3}
@@ -15650,7 +15672,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!136 &1209869952
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -15709,11 +15731,23 @@ MonoBehaviour:
   tempAnimator: {fileID: 1209869961}
   tempSword: {fileID: 2401946350068605159}
   attack: {fileID: 1209869960}
-  col: {fileID: 1209869952}
-  playerStateUI: {fileID: 1782860458168930236}
   gameOver: {fileID: 1782860458217702486}
+  playerData:
+    maxMana: 100
+    currentMana: 100
+    maxStamina: 100
+    currentStamina: 100
+    maxHealth: 100
+    currentHealth: 100
+    PlayerPosition_x: 20
+    PlayerPosition_y: 0
+    PlayerPosition_z: -164
+    Difficulty: 0
+    SceneName: 
+    Seed: 0
   audioSource: {fileID: 1209869956}
   getHitClip: {fileID: 8300000, guid: cea9c2e889f07a34d828bf440fbdd47d, type: 3}
+  playerStateUI: {fileID: 1782860458168930236}
   stop: 0
 --- !u!82 &1209869956
 AudioSource:
@@ -15909,17 +15943,14 @@ MonoBehaviour:
   skill2Clip: {fileID: 8300000, guid: d5a92d47178b1c245b5d8d71385b3589, type: 3}
   skill2AdditionalClip: {fileID: 8300000, guid: a4276b31db27f594da0f86d68470d512, type: 3}
   shieldClip: {fileID: 8300000, guid: 4805257a605c922459bec988102b1156, type: 3}
-  skillEnabled: 1
-  attackEnabled: 1
-  shield: 0
-  charging: 0
   onDefence: 0
-  hold: 0
   perfectParrying: 0
+  isActing: 0
   skill_1E: {fileID: 198415560007003095}
   skill_2E: {fileID: 198662300712457694}
   skill_2E_Position: {fileID: 166431258}
   slashEffect: {fileID: 1244056067762361948}
+  state: 0
 --- !u!95 &1209869961
 Animator:
   serializedVersion: 3
@@ -16425,7 +16456,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1242906604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16525,6 +16556,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ui_obj: {fileID: 794746524}
   selectUI_obj: {fileID: 616671479}
+  setting_obj: {fileID: 0}
   uiSlot_obj:
   - {fileID: 269738320}
   - {fileID: 1644588910}
@@ -17156,6 +17188,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Corner_TL
       objectReference: {fileID: 0}
+    - target: {fileID: 3894055382197444917, guid: 30298a4ca1f36d645b67ada8aacd19d7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3894055382197444918, guid: 30298a4ca1f36d645b67ada8aacd19d7, type: 3}
       propertyPath: m_RootOrder
       value: 15
@@ -17727,7 +17763,7 @@ MonoBehaviour:
   roomCeilingPrefab: {fileID: 7206078101289255556, guid: 47fcb1e4b006cb744b2ddc7720794db7, type: 3}
   dungeonEntrancePrefab: {fileID: 970013450191654914, guid: 874fe3d6cc2880246b654ab1769c011b, type: 3}
   bossRoomPrefab: {fileID: 4655139129437618983, guid: 05fe80661c9d44945a33b7c83686cf58, type: 3}
-  monsterSpawnerPrefab: {fileID: 3316835495851551228, guid: 80af59f1ee0a2d94bafbba6104066bbe, type: 3}
+  monsterSpawnerPrefab: {fileID: 0}
 --- !u!4 &1441533592
 Transform:
   m_ObjectHideFlags: 0
@@ -17990,6 +18026,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor_Detailed_02
       objectReference: {fileID: 0}
+    - target: {fileID: 128368, guid: c1be12d107fe40609b629d9652f4f610, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 419858, guid: c1be12d107fe40609b629d9652f4f610, type: 3}
       propertyPath: m_RootOrder
       value: 26
@@ -18090,6 +18130,10 @@ PrefabInstance:
     - target: {fileID: 2528913403933968145, guid: e1469ab6cd9741340a8e0ccc28949f03, type: 3}
       propertyPath: m_Name
       value: HallwayCorner_BL
+      objectReference: {fileID: 0}
+    - target: {fileID: 2528913403933968145, guid: e1469ab6cd9741340a8e0ccc28949f03, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1469ab6cd9741340a8e0ccc28949f03, type: 3}
@@ -18308,6 +18352,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Column_02
       objectReference: {fileID: 0}
+    - target: {fileID: 127550, guid: 9749931a9f9f45b4b599a4a4ef218d58, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 427550, guid: 9749931a9f9f45b4b599a4a4ef218d58, type: 3}
       propertyPath: m_RootOrder
       value: 37
@@ -18447,7 +18495,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1629647330
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -18874,6 +18922,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Corner_BR
       objectReference: {fileID: 0}
+    - target: {fileID: 9033013660308795712, guid: 516433871c150e647b266d063615f2c6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9033013660308795713, guid: 516433871c150e647b266d063615f2c6, type: 3}
       propertyPath: m_RootOrder
       value: 14
@@ -19129,6 +19181,10 @@ PrefabInstance:
     - target: {fileID: 9089875389743370386, guid: a3f77426fb4ed5f46ae7f25cfd74e670, type: 3}
       propertyPath: m_Name
       value: Wall_T
+      objectReference: {fileID: 0}
+    - target: {fileID: 9089875389743370386, guid: a3f77426fb4ed5f46ae7f25cfd74e670, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9089875389743370387, guid: a3f77426fb4ed5f46ae7f25cfd74e670, type: 3}
       propertyPath: m_RootOrder
@@ -20121,7 +20177,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &2041451189
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -21257,7 +21313,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 123
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1789147984017913
 GameObject:
   m_ObjectHideFlags: 0
@@ -142935,6 +142991,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall_L_Torch
       objectReference: {fileID: 0}
+    - target: {fileID: 271227024629978270, guid: b779b4675fd94264db4bffa642c8cf76, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 271227024629978271, guid: b779b4675fd94264db4bffa642c8cf76, type: 3}
       propertyPath: m_RootOrder
       value: 56
@@ -142991,6 +143051,10 @@ PrefabInstance:
     - target: {fileID: 2081169943625119733, guid: 5c9d457af523e4749a94b72135bdb0cd, type: 3}
       propertyPath: m_Name
       value: Wall_B
+      objectReference: {fileID: 0}
+    - target: {fileID: 2081169943625119733, guid: 5c9d457af523e4749a94b72135bdb0cd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2081169943625119734, guid: 5c9d457af523e4749a94b72135bdb0cd, type: 3}
       propertyPath: m_RootOrder
@@ -143093,6 +143157,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HallwayCrossWall
       objectReference: {fileID: 0}
+    - target: {fileID: 8575113918125335119, guid: 4566a0d4d854ac044b9ad35e80aaf03a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4566a0d4d854ac044b9ad35e80aaf03a, type: 3}
 --- !u!1001 &504035339134394283
@@ -143105,6 +143173,10 @@ PrefabInstance:
     - target: {fileID: 504035337889268644, guid: a13d5eb22c49c694ba5406865508cbdc, type: 3}
       propertyPath: m_Name
       value: Cube
+      objectReference: {fileID: 0}
+    - target: {fileID: 504035337889268644, guid: a13d5eb22c49c694ba5406865508cbdc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 504035337889268664, guid: a13d5eb22c49c694ba5406865508cbdc, type: 3}
       propertyPath: m_RootOrder
@@ -143207,6 +143279,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hallway_X
       objectReference: {fileID: 0}
+    - target: {fileID: 5697255855835569911, guid: f4143711eaca501438208da8f611155b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4143711eaca501438208da8f611155b, type: 3}
 --- !u!1001 &570422892611394749
@@ -143219,6 +143295,10 @@ PrefabInstance:
     - target: {fileID: 570422892093127112, guid: ca48ca253bd44d04d909d23f3510d0ed, type: 3}
       propertyPath: m_Name
       value: Parent
+      objectReference: {fileID: 0}
+    - target: {fileID: 570422892093127112, guid: ca48ca253bd44d04d909d23f3510d0ed, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 570422892093127115, guid: ca48ca253bd44d04d909d23f3510d0ed, type: 3}
       propertyPath: m_RootOrder
@@ -143276,6 +143356,10 @@ PrefabInstance:
     - target: {fileID: 2987535764550962492, guid: 396e222ee28fcac44bc341d80083802b, type: 3}
       propertyPath: m_Name
       value: Corner_TR
+      objectReference: {fileID: 0}
+    - target: {fileID: 2987535764550962492, guid: 396e222ee28fcac44bc341d80083802b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2987535764550962493, guid: 396e222ee28fcac44bc341d80083802b, type: 3}
       propertyPath: m_RootOrder
@@ -143378,6 +143462,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ceiling_Curved_01
       objectReference: {fileID: 0}
+    - target: {fileID: 615754766485931085, guid: 7b9b2ee223ccf60489c1fb783f2b3826, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b9b2ee223ccf60489c1fb783f2b3826, type: 3}
 --- !u!1001 &834082193209683843
@@ -143390,6 +143478,10 @@ PrefabInstance:
     - target: {fileID: 834082193287458786, guid: 6dce3c25b869eb148b361d103b2474c3, type: 3}
       propertyPath: m_Name
       value: Ceiling_Cross_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 834082193287458786, guid: 6dce3c25b869eb148b361d103b2474c3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 834082193287689400, guid: 6dce3c25b869eb148b361d103b2474c3, type: 3}
       propertyPath: m_RootOrder
@@ -143447,6 +143539,10 @@ PrefabInstance:
     - target: {fileID: 970013450191654914, guid: 874fe3d6cc2880246b654ab1769c011b, type: 3}
       propertyPath: m_Name
       value: DungeonEntrance
+      objectReference: {fileID: 0}
+    - target: {fileID: 970013450191654914, guid: 874fe3d6cc2880246b654ab1769c011b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 970013450191654915, guid: 874fe3d6cc2880246b654ab1769c011b, type: 3}
       propertyPath: m_RootOrder
@@ -143535,7 +143631,7 @@ VFXRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1244056067762361922}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -143672,6 +143768,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hallway_Y_Torch
       objectReference: {fileID: 0}
+    - target: {fileID: 1951708151606024246, guid: 01693aa4a6ed5c040acf535f9af6cc5b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01693aa4a6ed5c040acf535f9af6cc5b, type: 3}
 --- !u!1001 &1288462102712441396
@@ -143696,6 +143796,10 @@ PrefabInstance:
     - target: {fileID: 7206078101289255556, guid: 47fcb1e4b006cb744b2ddc7720794db7, type: 3}
       propertyPath: m_Name
       value: RoomCeiling
+      objectReference: {fileID: 0}
+    - target: {fileID: 7206078101289255556, guid: 47fcb1e4b006cb744b2ddc7720794db7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7206078101289255557, guid: 47fcb1e4b006cb744b2ddc7720794db7, type: 3}
       propertyPath: m_RootOrder
@@ -143798,6 +143902,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor_01
       objectReference: {fileID: 0}
+    - target: {fileID: 1347449249378844552, guid: 3d6b145c2fc274e4eb04d71a2a0f4b55, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d6b145c2fc274e4eb04d71a2a0f4b55, type: 3}
 --- !u!1001 &1607576268105936488
@@ -143855,6 +143963,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HallwayCorner_TR
       objectReference: {fileID: 0}
+    - target: {fileID: 5491639073068325435, guid: 19a14cc6f23ab2f4d9c6fabbe0dc2653, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19a14cc6f23ab2f4d9c6fabbe0dc2653, type: 3}
 --- !u!1001 &1696425573191066610
@@ -143867,6 +143979,10 @@ PrefabInstance:
     - target: {fileID: 2720278918991337926, guid: 23c276793119a06448dc1b1614df4b36, type: 3}
       propertyPath: m_Name
       value: BridgeWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 2720278918991337926, guid: 23c276793119a06448dc1b1614df4b36, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2720278918991337927, guid: 23c276793119a06448dc1b1614df4b36, type: 3}
       propertyPath: m_RootOrder
@@ -143981,6 +144097,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HallwayCross
       objectReference: {fileID: 0}
+    - target: {fileID: 8344916142839896017, guid: 7f2e1d007c202cb48b866dcb009fbb46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f2e1d007c202cb48b866dcb009fbb46, type: 3}
 --- !u!114 &1782860458168930236
@@ -143999,6 +144119,7 @@ MonoBehaviour:
   hpSlider: {fileID: 1782860459856176935}
   staminaSlider: {fileID: 1782860460104351338}
   manaSlider: {fileID: 1782860458745260009}
+  stateList: []
 --- !u!224 &1782860458168930237
 RectTransform:
   m_ObjectHideFlags: 0
@@ -144869,7 +144990,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1782860459625799071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145123,7 +145244,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -145198,7 +145319,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -145309,7 +145430,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -145840,6 +145961,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall_L
       objectReference: {fileID: 0}
+    - target: {fileID: 1194913084931040574, guid: 0a5f9d65b6ff0e44bb06fea61a40cfb7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6941060718486019382, guid: 0a5f9d65b6ff0e44bb06fea61a40cfb7, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -145941,6 +146066,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall_L
       objectReference: {fileID: 0}
+    - target: {fileID: 3093606404551999091, guid: 4dcc017246a44e649a22ec50e31bf4bb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4dcc017246a44e649a22ec50e31bf4bb, type: 3}
 --- !u!33 &2868908003760370603
@@ -146005,6 +146134,10 @@ PrefabInstance:
     - target: {fileID: 3084657310620776189, guid: 4671296f5c54c124e96a97df5231b222, type: 3}
       propertyPath: m_Name
       value: Terrain
+      objectReference: {fileID: 0}
+    - target: {fileID: 3084657310620776189, guid: 4671296f5c54c124e96a97df5231b222, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4671296f5c54c124e96a97df5231b222, type: 3}
@@ -146128,6 +146261,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hallway_Curved_01
       objectReference: {fileID: 0}
+    - target: {fileID: 3343267996018414439, guid: 63b921afd40cd9c4eb91659228fd9583, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63b921afd40cd9c4eb91659228fd9583, type: 3}
 --- !u!1001 &4102983842101599630
@@ -146140,6 +146277,10 @@ PrefabInstance:
     - target: {fileID: 7017710860981707381, guid: 3da0521ac368ff947ac6bc3132ff5507, type: 3}
       propertyPath: m_Name
       value: Hallway_Y
+      objectReference: {fileID: 0}
+    - target: {fileID: 7017710860981707381, guid: 3da0521ac368ff947ac6bc3132ff5507, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7017710860981707386, guid: 3da0521ac368ff947ac6bc3132ff5507, type: 3}
       propertyPath: m_RootOrder
@@ -146202,6 +146343,10 @@ PrefabInstance:
     - target: {fileID: 4836912770829115881, guid: f4eccf9d43dc11c4ba8dc7c05daf9d70, type: 3}
       propertyPath: m_Name
       value: Wall_R
+      objectReference: {fileID: 0}
+    - target: {fileID: 4836912770829115881, guid: f4eccf9d43dc11c4ba8dc7c05daf9d70, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4836912770829115882, guid: f4eccf9d43dc11c4ba8dc7c05daf9d70, type: 3}
       propertyPath: m_RootOrder
@@ -146304,6 +146449,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Corner_BR
       objectReference: {fileID: 0}
+    - target: {fileID: 8468221292946274893, guid: 0ac8c5592cc9f4746b015b90fcf46329, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ac8c5592cc9f4746b015b90fcf46329, type: 3}
 --- !u!1001 &5035629223846198477
@@ -146365,6 +146514,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hallway_X
       objectReference: {fileID: 0}
+    - target: {fileID: 2444128067205982232, guid: 285f7fc9c23234f4f9d5705153ce00dc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 285f7fc9c23234f4f9d5705153ce00dc, type: 3}
 --- !u!1001 &5485748843413922588
@@ -146421,6 +146574,10 @@ PrefabInstance:
     - target: {fileID: 3967029518409313181, guid: 423b3d0ff0f4f3f488fb9d0a2a835b58, type: 3}
       propertyPath: m_Name
       value: Wall_T_Torch
+      objectReference: {fileID: 0}
+    - target: {fileID: 3967029518409313181, guid: 423b3d0ff0f4f3f488fb9d0a2a835b58, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 423b3d0ff0f4f3f488fb9d0a2a835b58, type: 3}
@@ -146484,6 +146641,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hallway_X_Torch
       objectReference: {fileID: 0}
+    - target: {fileID: 202193830935028797, guid: 0933c04d3434f0a4e9e8420702082162, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0933c04d3434f0a4e9e8420702082162, type: 3}
 --- !u!1001 &5851887604907025222
@@ -146496,6 +146657,10 @@ PrefabInstance:
     - target: {fileID: 5851887605235366720, guid: 877879d5b1b675544825edea1e03a7bc, type: 3}
       propertyPath: m_Name
       value: Town
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851887605235366720, guid: 877879d5b1b675544825edea1e03a7bc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5851887605235366721, guid: 877879d5b1b675544825edea1e03a7bc, type: 3}
       propertyPath: m_RootOrder
@@ -146556,7 +146721,7 @@ VFXRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6002902804677567543}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -146711,6 +146876,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall_R
       objectReference: {fileID: 0}
+    - target: {fileID: 6158305060532783337, guid: fa0ab11e888047249902a7558f3fa67a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa0ab11e888047249902a7558f3fa67a, type: 3}
 --- !u!1001 &6335457597863319483
@@ -146767,6 +146936,10 @@ PrefabInstance:
     - target: {fileID: 2479578458434117831, guid: a61c84f6eb865b74389239dc8f31c314, type: 3}
       propertyPath: m_Name
       value: Corner_BL
+      objectReference: {fileID: 0}
+    - target: {fileID: 2479578458434117831, guid: a61c84f6eb865b74389239dc8f31c314, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a61c84f6eb865b74389239dc8f31c314, type: 3}
@@ -146846,6 +147019,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hallway_Y
       objectReference: {fileID: 0}
+    - target: {fileID: 1757072568127107684, guid: 863626bb6505b7241b5a2be97cdc597b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1757072568127107687, guid: 863626bb6505b7241b5a2be97cdc597b, type: 3}
       propertyPath: m_RootOrder
       value: 39
@@ -146906,6 +147083,10 @@ PrefabInstance:
     - target: {fileID: 6710109906870606388, guid: c899d02541ebd47468367d82f263857f, type: 3}
       propertyPath: m_Name
       value: Ceiling_Curved_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6710109906870606388, guid: c899d02541ebd47468367d82f263857f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6710109906870781262, guid: c899d02541ebd47468367d82f263857f, type: 3}
       propertyPath: m_RootOrder
@@ -147013,6 +147194,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Room
       objectReference: {fileID: 0}
+    - target: {fileID: 6830368025310983887, guid: efeedfba2fb7d4a459d382c8e009c669, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efeedfba2fb7d4a459d382c8e009c669, type: 3}
 --- !u!1001 &7166363345840198022
@@ -147041,6 +147226,10 @@ PrefabInstance:
     - target: {fileID: 3923729281654318890, guid: 9f905119d682fab47b5012a056a23103, type: 3}
       propertyPath: m_Name
       value: Room
+      objectReference: {fileID: 0}
+    - target: {fileID: 3923729281654318890, guid: 9f905119d682fab47b5012a056a23103, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3923729281654318890, guid: 9f905119d682fab47b5012a056a23103, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -147162,7 +147351,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7417459543590009561, guid: d0eb6a963a95e8145ba605e0386b96f5, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0eb6a963a95e8145ba605e0386b96f5, type: 3}
@@ -147176,6 +147365,10 @@ PrefabInstance:
     - target: {fileID: 8381539043189338604, guid: 8a5b815cfcd9f7547b6d26036f3b4a47, type: 3}
       propertyPath: m_Name
       value: Wall_R_Torch
+      objectReference: {fileID: 0}
+    - target: {fileID: 8381539043189338604, guid: 8a5b815cfcd9f7547b6d26036f3b4a47, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8381539043189338605, guid: 8a5b815cfcd9f7547b6d26036f3b4a47, type: 3}
       propertyPath: m_RootOrder
@@ -147278,6 +147471,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HallwayCorner_TL
       objectReference: {fileID: 0}
+    - target: {fileID: 4407355120475137455, guid: 4b2e779333c9d2445aa3388586c1c730, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b2e779333c9d2445aa3388586c1c730, type: 3}
 --- !u!1001 &8334464184438108181
@@ -147290,6 +147487,10 @@ PrefabInstance:
     - target: {fileID: 3636853447853869256, guid: 6a23960588768ea4d9a84a9610928cb4, type: 3}
       propertyPath: m_Name
       value: HallwayCorner_BR
+      objectReference: {fileID: 0}
+    - target: {fileID: 3636853447853869256, guid: 6a23960588768ea4d9a84a9610928cb4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3636853447853869257, guid: 6a23960588768ea4d9a84a9610928cb4, type: 3}
       propertyPath: m_RootOrder
@@ -147348,6 +147549,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall_B_Torch
       objectReference: {fileID: 0}
+    - target: {fileID: 8363453003893239127, guid: 526b828732a4405439c5c81f075ad0f2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8363453003893239128, guid: 526b828732a4405439c5c81f075ad0f2, type: 3}
       propertyPath: m_RootOrder
       value: 55
@@ -147404,6 +147609,10 @@ PrefabInstance:
     - target: {fileID: 469146415723162953, guid: b28e0a1af7c864f46b0ab8cc16568294, type: 3}
       propertyPath: m_Name
       value: Ceiling_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 469146415723162953, guid: b28e0a1af7c864f46b0ab8cc16568294, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 469146415723196777, guid: b28e0a1af7c864f46b0ab8cc16568294, type: 3}
       propertyPath: m_RootOrder
@@ -147466,6 +147675,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Corner_TL
       objectReference: {fileID: 0}
+    - target: {fileID: 8206978557829546786, guid: 8b001212048640341a527c8ede30cc95, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8206978557829546787, guid: 8b001212048640341a527c8ede30cc95, type: 3}
       propertyPath: m_RootOrder
       value: 34
@@ -147522,6 +147735,10 @@ PrefabInstance:
     - target: {fileID: 8875737067876087602, guid: f38cbb3e1cfe4d34daa12c1536624a46, type: 3}
       propertyPath: m_Name
       value: Wall_T
+      objectReference: {fileID: 0}
+    - target: {fileID: 8875737067876087602, guid: f38cbb3e1cfe4d34daa12c1536624a46, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8875737067876087603, guid: f38cbb3e1cfe4d34daa12c1536624a46, type: 3}
       propertyPath: m_RootOrder
