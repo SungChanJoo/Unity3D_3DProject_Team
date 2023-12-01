@@ -186,8 +186,8 @@ public class PlayerData : MonoBehaviour, IDamageable
 
     private void RestoreAsTimePass()
     {
-        RestoreMana(0.01f);
-        RestoreStamina(0.01f);
+        RestoreMana(0.001f);
+        RestoreStamina(0.001f);
     }
 
     public float GetCurrentPlayerSpeed(bool isRunning = false)
