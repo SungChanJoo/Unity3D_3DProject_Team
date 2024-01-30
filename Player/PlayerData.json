@@ -1,0 +1,17 @@
+{
+  "maxMana": 100.0,
+  "currentMana": 100.0,
+  "maxStamina": 100.0,
+  "currentStamina": 100.0,
+
+  "maxHealth": 120.0,
+  "currentHealth": 1.0,
+  "PlayerPosition_x": 24.73552,
+  "PlayerPosition_y": 0.0,
+
+  "PlayerPosition_z": -164.0,
+  "Difficulty": 1.0,
+
+  "SceneName": "MainGame",
+  "Seed": 0
+}

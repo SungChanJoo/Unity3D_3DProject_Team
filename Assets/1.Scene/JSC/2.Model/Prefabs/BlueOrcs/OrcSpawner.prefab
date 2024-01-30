@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3316835495851551228
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3316835495851551230}
+  - component: {fileID: 3316835495851551231}
+  m_Layer: 0
+  m_Name: OrcSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3316835495851551230
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3316835495851551228}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3316835495851551231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3316835495851551228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f293a3f61c4a0ee41962e3ec2edef3db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Orcs:
+  - {fileID: 6426250335487100956, guid: 3e34c95647cfbbf48a9825b2871c1b90, type: 3}
+  - {fileID: 1375914386424654, guid: f8c1c20c46ccd4242acc3ee8eff73b92, type: 3}
+  - {fileID: 4481565716627130837, guid: 746f78302250d5a4693f09820d95cc53, type: 3}
+  wayPointCount: 3
+  wayPoint: {fileID: 7700401123767923986, guid: ae491001f753dcc409bf0e51eaec122d, type: 3}
+  weight: 10
+  height: 10

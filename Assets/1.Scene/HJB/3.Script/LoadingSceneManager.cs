@@ -1,0 +1,57 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+public class LoadingSceneManager : MonoBehaviour
+{
+    public static string nextScene;
+    [SerializeField] Image progressBar;
+
+    public static void LoadScene(string sceneName)
+    {
+        nextScene = sceneName;
+        SceneManager.LoadScene("LoadingScene");
+    }
+
+    private void Awake()
+    {
+        StartCoroutine(LoadScene());        
+    }
+
+    IEnumerator LoadScene()
+    {
+        yield return null;
+        AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
+        Debug.Log("불러올 씬 이름은? "+nextScene);
+        op.allowSceneActivation = false;
+        float timer = 0.0f;
+        while (!op.isDone)
+        {
+            yield return null;
+            Debug.Log("무한반복중...." + op.progress);
+
+            timer += Time.deltaTime;
+            if (op.progress < 0.9f)
+            {
+                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, op.progress, timer);
+                if (progressBar.fillAmount >= op.progress)
+                {
+                    timer = 0f;
+                }
+                Debug.Log("씬 불러오는중...");
+
+            }
+            else
+            {
+                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1f, timer);
+                op.allowSceneActivation = true;
+                Debug.Log("씬 불러오기 완료");
+                yield break;
+
+            }
+        }
+    }
+    
+}
